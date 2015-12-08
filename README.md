@@ -211,7 +211,7 @@ Apache 2.0, see [LICENSE](LICENSE).
 [`ReactStormpath.Router`]: https://github.com/stormpath/stormpath-sdk-react/blob/master/docs/api.md#router
 [`RegistrationForm`]: https://github.com/stormpath/stormpath-sdk-react/blob/master/docs/api.md#registrationform
 [API Documentation]: https://github.com/stormpath/stormpath-sdk-react/blob/master/docs/api.md
-[example app]: https://github.com/stormpath/express-stormpath-react-sample-project
+[example app]: https://github.com/stormpath/express-stormpath-react-example
 [express-stormpath]: https://github.com/stormpath/express-stormpath
 [ReactRouter]: https://github.com/rackt/react-router
 [Stormpath SPA Development Server]: https://github.com/stormpath/stormpath-spa-dev-server
