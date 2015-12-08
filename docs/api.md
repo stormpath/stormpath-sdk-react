@@ -26,7 +26,7 @@ ReactStormpath.init({
     forgotPassword: '/forgot',
     changePassword: '/change',
     logout: '/logout'
-  };
+  }
 });
 ```
 
