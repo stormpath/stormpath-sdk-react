@@ -1,6 +1,6 @@
 # Stormpath React SDK
 
-[![Bower Version](https://img.shields.io/bower/stormpath/stormpath-sdk-react.svg?style=flat)](https://bower.io)
+[![Bower Version](https://img.shields.io/bower/v/react-stormpath.svg?style=flat)](https://bower.io)
 [![Build Status](https://img.shields.io/travis/stormpath/stormpath-sdk-react.svg?style=flat)](https://travis-ci.org/stormpath/stormpath-sdk-react)
 
 This module provides routes and components for React that will allow you to solve common user management tasks using [Stormpath](https://stormpath.com/), such as *login* and *signup*.
