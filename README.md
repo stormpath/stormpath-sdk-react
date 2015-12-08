@@ -1,6 +1,8 @@
 # Stormpath React SDK
 
-[![Bower Version](https://img.shields.io/bower/stormpath/stormpath-sdk-react.svg?style=flat)](https://bower.io)
+### IMPORTANT: WORK IN PROGRESS.
+
+[![Bower Version](https://img.shields.io/bower/v/react-stormpath.svg?style=flat)](https://bower.io)
 [![Build Status](https://img.shields.io/travis/stormpath/stormpath-sdk-react.svg?style=flat)](https://travis-ci.org/stormpath/stormpath-sdk-react)
 
 This module provides routes and components for React that will allow you to solve common user management tasks using [Stormpath](https://stormpath.com/), such as *login* and *signup*.
@@ -76,8 +78,8 @@ Stormpath already integrated!*
   
   ```javascript
   ReactStormpath.init({
-      // Optional: Set if you want to use your own Flux dispatcher.
-      dispatcher: instanceOfYourFluxDispatcher
+    // Optional: Set if you want to use your own Flux dispatcher.
+    dispatcher: instanceOfYourFluxDispatcher
   });
   ```
 
@@ -89,10 +91,10 @@ Stormpath already integrated!*
   import { Router } from 'react-stormpath';
   
   ReactDOM.render(
-	  <Router history={browserHistory}>
-         <Route path='/' component={MainPage} />
-	  </Router>,
-	  document.getElexmentById('app-container')
+    <Router history={browserHistory}>
+      <Route path='/' component={MainPage} />
+    </Router>,
+    document.getElexmentById('app-container')
   );
   ```
 
@@ -142,7 +144,7 @@ Stormpath already integrated!*
 
   ```html
   <Authenticated>
-      <LogoutLink>Logout</LogoutLink>
+    <LogoutLink>Logout</LogoutLink>
   </Authenticated>
   ```
 
@@ -152,7 +154,7 @@ Stormpath already integrated!*
 
   ```html
   <NotAuthenticated>
-      <LoginLink>Login</LoginLink>
+    <LoginLink>Login</LoginLink>
   </NotAuthenticated>
   ```
 
@@ -209,7 +211,7 @@ Apache 2.0, see [LICENSE](LICENSE).
 [`ReactStormpath.Router`]: https://github.com/stormpath/stormpath-sdk-react/blob/master/docs/api.md#router
 [`RegistrationForm`]: https://github.com/stormpath/stormpath-sdk-react/blob/master/docs/api.md#registrationform
 [API Documentation]: https://github.com/stormpath/stormpath-sdk-react/blob/master/docs/api.md
-[example app]: https://github.com/stormpath/express-stormpath-react-sample-project
+[example app]: https://github.com/stormpath/express-stormpath-react-example
 [express-stormpath]: https://github.com/stormpath/express-stormpath
 [ReactRouter]: https://github.com/rackt/react-router
 [Stormpath SPA Development Server]: https://github.com/stormpath/stormpath-spa-dev-server
