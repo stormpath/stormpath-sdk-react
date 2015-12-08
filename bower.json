@@ -1,0 +1,28 @@
+{
+  "name": "react-stormpath",
+  "version": "0.1.0",
+  "main": [
+    "dist/stormpath-sdk-react.min.js"
+  ],
+  "keywords": [
+    "stormpath",
+    "jwt",
+    "token",
+    "user",
+    "react",
+    "token based authentication",
+    "login",
+    "password",
+    "registration",
+    "user management"
+  ],
+  "ignore": [
+    ".tmp",
+    "build",
+    "docs",
+    "example",
+    "src"
+  ],
+  "dependencies": {
+  }
+}

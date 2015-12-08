@@ -1,0 +1,10 @@
+bower_components
+build
+.tmp
+.idea
+es6
+lib
+umd
+node_modules
+npm-debug.log
+coverage
