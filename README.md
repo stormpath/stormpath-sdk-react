@@ -78,8 +78,8 @@ Stormpath already integrated!*
   
   ```javascript
   ReactStormpath.init({
-      // Optional: Set if you want to use your own Flux dispatcher.
-      dispatcher: instanceOfYourFluxDispatcher
+    // Optional: Set if you want to use your own Flux dispatcher.
+    dispatcher: instanceOfYourFluxDispatcher
   });
   ```
 
@@ -91,10 +91,10 @@ Stormpath already integrated!*
   import { Router } from 'react-stormpath';
   
   ReactDOM.render(
-	  <Router history={browserHistory}>
-         <Route path='/' component={MainPage} />
-	  </Router>,
-	  document.getElexmentById('app-container')
+    <Router history={browserHistory}>
+      <Route path='/' component={MainPage} />
+    </Router>,
+    document.getElexmentById('app-container')
   );
   ```
 
@@ -144,7 +144,7 @@ Stormpath already integrated!*
 
   ```html
   <Authenticated>
-      <LogoutLink>Logout</LogoutLink>
+    <LogoutLink>Logout</LogoutLink>
   </Authenticated>
   ```
 
@@ -154,7 +154,7 @@ Stormpath already integrated!*
 
   ```html
   <NotAuthenticated>
-      <LoginLink>Login</LoginLink>
+    <LoginLink>Login</LoginLink>
   </NotAuthenticated>
   ```
 
