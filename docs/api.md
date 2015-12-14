@@ -116,7 +116,7 @@ Renders a password reset form.
 
 #### VerifyEmailView
 
-Renders a email verification view.
+Renders an email verification view. The parameter `spToken` is required in order for the token to be validated.
 
 ```html
 <EmailVerificationView spToken={this.props.location.query.sptoken} />

@@ -1,6 +1,4 @@
-import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
-
+import React from 'react';
 import UserStore from '../stores/UserStore';
 
 export default class UserComponent extends React.Component {

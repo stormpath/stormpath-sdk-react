@@ -1,6 +1,6 @@
 {
   "name": "react-stormpath",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Stormpath SDK for React.",
   "author": "Stormpath, Inc.",
   "license": "Apache-2.0",
@@ -38,7 +38,7 @@
     "warning": "^2.1.0"
   },
   "peerDependencies": {
-    "history": "1.15.x"
+    "history": "1.13.1"
   },
   "devDependencies": {
     "babel": "^6.3.13",
@@ -51,7 +51,7 @@
     "eslint": "^1.10.3",
     "eslint-plugin-react": "^3.11.3",
     "gzip-size": "^3.0.0",
-    "history": "1.15.x",
+    "history": "1.13.1",
     "isparta-loader": "^2.0.0",
     "pretty-bytes": "^2.0.1",
     "qs": "^6.0.1",

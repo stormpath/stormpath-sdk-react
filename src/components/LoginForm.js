@@ -19,10 +19,7 @@ export default class LoginForm extends React.Component {
 
     var self = this;
 
-    var router = Context.getInstance().getRouter();
-
-    var homeRoute = router.getHomeRoute();
-    var redirectTo = this.props.redirectTo || (homeRoute ? homeRoute.path : '/');
+    var redirectTo = this.props.redirectTo || '/';
 
     self.setState({ isProcessing: true });
 

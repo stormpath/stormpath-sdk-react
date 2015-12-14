@@ -2,18 +2,11 @@ import ReactRouter from 'react-router';
 
 import Context from './../Context';
 
-import HomeRoute from './HomeRoute';
 import LoginRoute from './LoginRoute';
 import LogoutRoute from './LogoutRoute';
 
 export default class Router extends ReactRouter {
   markedRoutes = {
-    home: {
-      type: HomeRoute,
-      authenticated: null,
-      notAuthenticated: null,
-      props: null
-    },
     login: {
       type: LoginRoute,
       props: null
@@ -55,10 +48,6 @@ export default class Router extends ReactRouter {
     }
 
     walk(this);
-  }
-
-  getHomeRoute() {
-    return this.markedRoutes.home.props;
   }
 
   getLoginRoute() {

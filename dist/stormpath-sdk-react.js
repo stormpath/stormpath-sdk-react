@@ -77,97 +77,91 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.Router = _componentsRouter2['default'];
 
-	var _actionsUserActions = __webpack_require__(60);
+	var _actionsUserActions = __webpack_require__(59);
 
 	var _actionsUserActions2 = _interopRequireDefault(_actionsUserActions);
 
 	exports.actions = _actionsUserActions2['default'];
 
-	var _constantsUserConstants = __webpack_require__(61);
+	var _constantsUserConstants = __webpack_require__(60);
 
 	var _constantsUserConstants2 = _interopRequireDefault(_constantsUserConstants);
 
 	exports.constants = _constantsUserConstants2['default'];
 
-	var _componentsHomeRoute = __webpack_require__(57);
-
-	var _componentsHomeRoute2 = _interopRequireDefault(_componentsHomeRoute);
-
-	exports.HomeRoute = _componentsHomeRoute2['default'];
-
-	var _componentsLoginRoute = __webpack_require__(58);
+	var _componentsLoginRoute = __webpack_require__(57);
 
 	var _componentsLoginRoute2 = _interopRequireDefault(_componentsLoginRoute);
 
 	exports.LoginRoute = _componentsLoginRoute2['default'];
 
-	var _componentsLogoutRoute = __webpack_require__(59);
+	var _componentsLogoutRoute = __webpack_require__(58);
 
 	var _componentsLogoutRoute2 = _interopRequireDefault(_componentsLogoutRoute);
 
 	exports.LogoutRoute = _componentsLogoutRoute2['default'];
 
-	var _componentsAuthenticatedRoute = __webpack_require__(63);
+	var _componentsAuthenticatedRoute = __webpack_require__(62);
 
 	var _componentsAuthenticatedRoute2 = _interopRequireDefault(_componentsAuthenticatedRoute);
 
 	exports.AuthenticatedRoute = _componentsAuthenticatedRoute2['default'];
 
-	var _componentsAuthenticated = __webpack_require__(67);
+	var _componentsAuthenticated = __webpack_require__(66);
 
 	var _componentsAuthenticated2 = _interopRequireDefault(_componentsAuthenticated);
 
 	exports.Authenticated = _componentsAuthenticated2['default'];
 
-	var _componentsNotAuthenticated = __webpack_require__(68);
+	var _componentsNotAuthenticated = __webpack_require__(67);
 
 	var _componentsNotAuthenticated2 = _interopRequireDefault(_componentsNotAuthenticated);
 
 	exports.NotAuthenticated = _componentsNotAuthenticated2['default'];
 
-	var _componentsHomeLink = __webpack_require__(69);
-
-	var _componentsHomeLink2 = _interopRequireDefault(_componentsHomeLink);
-
-	exports.HomeLink = _componentsHomeLink2['default'];
-
-	var _componentsLoginLink = __webpack_require__(70);
+	var _componentsLoginLink = __webpack_require__(68);
 
 	var _componentsLoginLink2 = _interopRequireDefault(_componentsLoginLink);
 
 	exports.LoginLink = _componentsLoginLink2['default'];
 
-	var _componentsLogoutLink = __webpack_require__(71);
+	var _componentsLogoutLink = __webpack_require__(69);
 
 	var _componentsLogoutLink2 = _interopRequireDefault(_componentsLogoutLink);
 
 	exports.LogoutLink = _componentsLogoutLink2['default'];
 
-	var _componentsLoginForm = __webpack_require__(72);
+	var _componentsLoginForm = __webpack_require__(70);
 
 	var _componentsLoginForm2 = _interopRequireDefault(_componentsLoginForm);
 
 	exports.LoginForm = _componentsLoginForm2['default'];
 
-	var _componentsRegistrationForm = __webpack_require__(76);
+	var _componentsRegistrationForm = __webpack_require__(74);
 
 	var _componentsRegistrationForm2 = _interopRequireDefault(_componentsRegistrationForm);
 
 	exports.RegistrationForm = _componentsRegistrationForm2['default'];
 
-	var _componentsResetPasswordForm = __webpack_require__(77);
+	var _componentsResetPasswordForm = __webpack_require__(75);
 
 	var _componentsResetPasswordForm2 = _interopRequireDefault(_componentsResetPasswordForm);
 
 	exports.ResetPasswordForm = _componentsResetPasswordForm2['default'];
 
-	var _componentsVerifyEmailView = __webpack_require__(78);
+	var _componentsVerifyEmailView = __webpack_require__(76);
 
 	var _componentsVerifyEmailView2 = _interopRequireDefault(_componentsVerifyEmailView);
 
 	exports.VerifyEmailView = _componentsVerifyEmailView2['default'];
 
-	var _componentsUserComponent = __webpack_require__(79);
+	var _componentsUserField = __webpack_require__(77);
+
+	var _componentsUserField2 = _interopRequireDefault(_componentsUserField);
+
+	exports.UserField = _componentsUserField2['default'];
+
+	var _componentsUserComponent = __webpack_require__(78);
 
 	var _componentsUserComponent2 = _interopRequireDefault(_componentsUserComponent);
 
@@ -219,9 +213,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  App.prototype.init = function init(options) {
 	    options = options || {};
 
-	    // If we don't specify a dispatcher, then just create a new one.
+	    // If there's no specified dispatcher, then just create our own one.
 	    this.context.setDispatcher(options.dispatcher || new _flux.Dispatcher());
 
+	    // If there are any endpoints specified, then set these.
 	    if (options.endpoints) {
 	      this.context.setEndpoints(options.endpoints);
 	    }
@@ -1030,15 +1025,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _Context2 = _interopRequireDefault(_Context);
 
-	var _HomeRoute = __webpack_require__(57);
-
-	var _HomeRoute2 = _interopRequireDefault(_HomeRoute);
-
-	var _LoginRoute = __webpack_require__(58);
+	var _LoginRoute = __webpack_require__(57);
 
 	var _LoginRoute2 = _interopRequireDefault(_LoginRoute);
 
-	var _LogoutRoute = __webpack_require__(59);
+	var _LogoutRoute = __webpack_require__(58);
 
 	var _LogoutRoute2 = _interopRequireDefault(_LogoutRoute);
 
@@ -1050,12 +1041,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    _ReactRouter.apply(this, arguments);
 	    this.markedRoutes = {
-	      home: {
-	        type: _HomeRoute2['default'],
-	        authenticated: null,
-	        notAuthenticated: null,
-	        props: null
-	      },
 	      login: {
 	        type: _LoginRoute2['default'],
 	        props: null
@@ -1094,10 +1079,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    walk(this);
-	  };
-
-	  Router.prototype.getHomeRoute = function getHomeRoute() {
-	    return this.markedRoutes.home.props;
 	  };
 
 	  Router.prototype.getLoginRoute = function getLoginRoute() {
@@ -5416,35 +5397,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _reactRouter = __webpack_require__(9);
 
-	var HomeRoute = (function (_Route) {
-	  _inherits(HomeRoute, _Route);
-
-	  function HomeRoute() {
-	    _classCallCheck(this, HomeRoute);
-
-	    _Route.apply(this, arguments);
-	  }
-
-	  return HomeRoute;
-	})(_reactRouter.Route);
-
-	exports['default'] = HomeRoute;
-	module.exports = exports['default'];
-
-/***/ },
-/* 58 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var _reactRouter = __webpack_require__(9);
-
 	var LoginRoute = (function (_Route) {
 	  _inherits(LoginRoute, _Route);
 
@@ -5461,7 +5413,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 59 */
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5488,7 +5440,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _Context2 = _interopRequireDefault(_Context);
 
-	var _actionsUserActions = __webpack_require__(60);
+	var _actionsUserActions = __webpack_require__(59);
 
 	var _actionsUserActions2 = _interopRequireDefault(_actionsUserActions);
 
@@ -5526,7 +5478,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 60 */
+/* 59 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5541,7 +5493,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _Context2 = _interopRequireDefault(_Context);
 
-	var _constantsUserConstants = __webpack_require__(61);
+	var _constantsUserConstants = __webpack_require__(60);
 
 	var _constantsUserConstants2 = _interopRequireDefault(_constantsUserConstants);
 
@@ -5615,7 +5567,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 61 */
+/* 60 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5624,7 +5576,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _keymirror = __webpack_require__(62);
+	var _keymirror = __webpack_require__(61);
 
 	var _keymirror2 = _interopRequireDefault(_keymirror);
 
@@ -5640,7 +5592,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 62 */
+/* 61 */
 /***/ function(module, exports) {
 
 	/**
@@ -5699,7 +5651,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 63 */
+/* 62 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5720,7 +5672,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _Context2 = _interopRequireDefault(_Context);
 
-	var _storesUserStore = __webpack_require__(64);
+	var _storesUserStore = __webpack_require__(63);
 
 	var _storesUserStore2 = _interopRequireDefault(_storesUserStore);
 
@@ -5760,7 +5712,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 64 */
+/* 63 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5775,9 +5727,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _app2 = _interopRequireDefault(_app);
 
-	var BaseStore = __webpack_require__(65);
-	var UserService = __webpack_require__(66);
-	var UserConstants = __webpack_require__(61);
+	var BaseStore = __webpack_require__(64);
+	var UserService = __webpack_require__(65);
+	var UserConstants = __webpack_require__(60);
 
 	var _session = false;
 	var _sessionError = null;
@@ -5920,7 +5872,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = userStore;
 
 /***/ },
-/* 65 */
+/* 64 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5961,7 +5913,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 66 */
+/* 65 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -6121,7 +6073,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 67 */
+/* 66 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6138,7 +6090,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _storesUserStore = __webpack_require__(64);
+	var _storesUserStore = __webpack_require__(63);
 
 	var _storesUserStore2 = _interopRequireDefault(_storesUserStore);
 
@@ -6186,7 +6138,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 68 */
+/* 67 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6203,7 +6155,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Authenticated2 = __webpack_require__(67);
+	var _Authenticated2 = __webpack_require__(66);
 
 	var _Authenticated3 = _interopRequireDefault(_Authenticated2);
 
@@ -6227,59 +6179,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 69 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var _react = __webpack_require__(12);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactRouter = __webpack_require__(9);
-
-	var _Context = __webpack_require__(7);
-
-	var _Context2 = _interopRequireDefault(_Context);
-
-	var HomeLink = (function (_React$Component) {
-	  _inherits(HomeLink, _React$Component);
-
-	  function HomeLink() {
-	    _classCallCheck(this, HomeLink);
-
-	    _React$Component.apply(this, arguments);
-	  }
-
-	  HomeLink.prototype.render = function render() {
-	    var router = _Context2['default'].getInstance().getRouter();
-
-	    var homeRoute = router.getHomeRoute();
-	    var targetPath = homeRoute ? homeRoute.path : '/';
-
-	    return _react2['default'].createElement(
-	      _reactRouter.Link,
-	      { to: targetPath, className: this.props.className },
-	      this.props.children ? this.props.children : 'Home'
-	    );
-	  };
-
-	  return HomeLink;
-	})(_react2['default'].Component);
-
-	exports['default'] = HomeLink;
-	module.exports = exports['default'];
-
-/***/ },
-/* 70 */
+/* 68 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6331,7 +6231,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 71 */
+/* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6383,7 +6283,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 72 */
+/* 70 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6400,7 +6300,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactMixin = __webpack_require__(73);
+	var _reactMixin = __webpack_require__(71);
 
 	var _reactMixin2 = _interopRequireDefault(_reactMixin);
 
@@ -6410,7 +6310,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _Context2 = _interopRequireDefault(_Context);
 
-	var _actionsUserActions = __webpack_require__(60);
+	var _actionsUserActions = __webpack_require__(59);
 
 	var _actionsUserActions2 = _interopRequireDefault(_actionsUserActions);
 
@@ -6435,10 +6335,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    var self = this;
 
-	    var router = _Context2['default'].getInstance().getRouter();
-
-	    var homeRoute = router.getHomeRoute();
-	    var redirectTo = this.props.redirectTo || (homeRoute ? homeRoute.path : '/');
+	    var redirectTo = this.props.redirectTo || '/';
 
 	    self.setState({ isProcessing: true });
 
@@ -6543,11 +6440,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 73 */
+/* 71 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var mixin = __webpack_require__(74);
-	var assign = __webpack_require__(75);
+	var mixin = __webpack_require__(72);
+	var assign = __webpack_require__(73);
 
 	var mixinProto = mixin({
 	  // lifecycle stuff is as you'd expect
@@ -6700,7 +6597,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 74 */
+/* 72 */
 /***/ function(module, exports) {
 
 	var objToStr = function(x){ return Object.prototype.toString.call(x); };
@@ -6883,7 +6780,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 75 */
+/* 73 */
 /***/ function(module, exports) {
 
 	/* eslint-disable no-unused-vars */
@@ -6928,7 +6825,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 76 */
+/* 74 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6945,17 +6842,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactMixin = __webpack_require__(73);
+	var _reactMixin = __webpack_require__(71);
 
 	var _reactMixin2 = _interopRequireDefault(_reactMixin);
 
 	var _reactRouter = __webpack_require__(9);
 
-	var _componentsLoginLink = __webpack_require__(70);
+	var _componentsLoginLink = __webpack_require__(68);
 
 	var _componentsLoginLink2 = _interopRequireDefault(_componentsLoginLink);
 
-	var _actionsUserActions = __webpack_require__(60);
+	var _actionsUserActions = __webpack_require__(59);
 
 	var _actionsUserActions2 = _interopRequireDefault(_actionsUserActions);
 
@@ -7180,7 +7077,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 77 */
+/* 75 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7197,11 +7094,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _LoginLink = __webpack_require__(70);
+	var _LoginLink = __webpack_require__(68);
 
 	var _LoginLink2 = _interopRequireDefault(_LoginLink);
 
-	var _actionsUserActions = __webpack_require__(60);
+	var _actionsUserActions = __webpack_require__(59);
 
 	var _actionsUserActions2 = _interopRequireDefault(_actionsUserActions);
 
@@ -7318,7 +7215,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 78 */
+/* 76 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7335,11 +7232,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _componentsLoginLink = __webpack_require__(70);
+	var _componentsLoginLink = __webpack_require__(68);
 
 	var _componentsLoginLink2 = _interopRequireDefault(_componentsLoginLink);
 
-	var _actionsUserActions = __webpack_require__(60);
+	var _actionsUserActions = __webpack_require__(59);
 
 	var _actionsUserActions2 = _interopRequireDefault(_actionsUserActions);
 
@@ -7412,7 +7309,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 79 */
+/* 77 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7429,9 +7326,80 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRouter = __webpack_require__(9);
+	var _UserComponent2 = __webpack_require__(78);
 
-	var _storesUserStore = __webpack_require__(64);
+	var _UserComponent3 = _interopRequireDefault(_UserComponent2);
+
+	var UserField = (function (_UserComponent) {
+	  _inherits(UserField, _UserComponent);
+
+	  function UserField() {
+	    _classCallCheck(this, UserField);
+
+	    _UserComponent.apply(this, arguments);
+	  }
+
+	  UserField.prototype._resolveFieldValue = function _resolveFieldValue(name) {
+	    var value = this.state.user;
+	    var keys = name.split('.');
+
+	    while (keys.length) {
+	      var key = keys.shift();
+
+	      if (!(key in value)) {
+	        throw new Error('Field does not exist');
+	      }
+
+	      value = value[key];
+	    }
+
+	    return value;
+	  };
+
+	  UserField.prototype.render = function render() {
+	    var fieldName = this.props.fieldName;
+	    var fieldValue = null;
+
+	    try {
+	      fieldValue = this._resolveFieldValue(fieldName);
+	    } catch (e) {
+	      if ('default' in this.props) {
+	        fieldValue = this.props['default'];
+	      }
+	    }
+
+	    return _react2['default'].createElement(
+	      'span',
+	      { className: this.props.className },
+	      fieldValue
+	    );
+	  };
+
+	  return UserField;
+	})(_UserComponent3['default']);
+
+	exports['default'] = UserField;
+	module.exports = exports['default'];
+
+/***/ },
+/* 78 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var _react = __webpack_require__(12);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _storesUserStore = __webpack_require__(63);
 
 	var _storesUserStore2 = _interopRequireDefault(_storesUserStore);
 
