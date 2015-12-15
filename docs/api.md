@@ -95,7 +95,7 @@ Renders any child components if there isn't an established user session.
 Renders a username and password login form.
 
 ```html
-<LoginForm proceedTo='/home' />
+<LoginForm redirectTo='/home' />
 ```
 
 #### RegistrationForm
