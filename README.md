@@ -1,7 +1,5 @@
 # Stormpath React SDK
 
-### IMPORTANT: WORK IN PROGRESS.
-
 [![Bower Version](https://img.shields.io/bower/v/react-stormpath.svg?style=flat)](https://bower.io)
 [![Build Status](https://img.shields.io/travis/stormpath/stormpath-sdk-react.svg?style=flat)](https://travis-ci.org/stormpath/stormpath-sdk-react)
 
