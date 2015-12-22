@@ -21,9 +21,9 @@ Follow these steps to add Stormpath user authentication to your React app.
 *Don't have an app? Use our [example app][] as a boilerplate - it has
 Stormpath already integrated!*
 
-1. **Install React-Router**
+1. **Install React Router**
 
-  The Stormpath module is only compatible with [ReactRouter][], so ensure that your application is using it.
+  The Stormpath module is only compatible with [React Router][], so ensure that your application is using it.
   
 2. **Integrate Your Back-End**
 
@@ -83,7 +83,7 @@ Stormpath already integrated!*
 
 5. **Configure the Router**
 
-  In the file where you setup your [ReactRouter][] routes, change your [`ReactRouter.Router`][] to [`ReactStormpath.Router`][] as shown below:
+  In the file where you setup your [React Router][] routes, change your [`ReactRouter.Router`][] to [`ReactStormpath.Router`][] as shown below:
   
   ```html
   import { Router } from 'react-stormpath';
@@ -211,7 +211,7 @@ Apache 2.0, see [LICENSE](LICENSE).
 [API Documentation]: https://github.com/stormpath/stormpath-sdk-react/blob/master/docs/api.md
 [example app]: https://github.com/stormpath/stormpath-express-react-example
 [express-stormpath]: https://github.com/stormpath/express-stormpath
-[ReactRouter]: https://github.com/rackt/react-router
+[React Router]: https://github.com/rackt/react-router
 [Stormpath SPA Development Server]: https://github.com/stormpath/stormpath-spa-dev-server
 [stormpath-sdk-react.min.js]: https://raw.githubusercontent.com/stormpath/stormpath-sdk-react/master/dist/stormpath-sdk-react.min.js
 [support center]: https://support.stormpath.com
