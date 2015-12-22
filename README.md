@@ -21,7 +21,7 @@ Follow these steps to add Stormpath user authentication to your React app.
 *Don't have an app? Use our [example app][] as a boilerplate - it has
 Stormpath already integrated!*
 
-1. **Install React-Router**
+1. **Install React Router**
 
   The Stormpath module is only compatible with [React Router][], so ensure that your application is using it.
   
