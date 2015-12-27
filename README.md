@@ -56,7 +56,7 @@ Stormpath already integrated!*
 
   ```javascript
   // Using an ES6 transpiler, like Babel.
-  import ReactStormpath, { Router, AuthenticatedRoute, LoginLink } from 'react-stormpath'
+  import ReactStormpath, { Router, AuthenticatedRoute, LoginLink } from 'react-stormpath';
 
   // Or not using an ES6 transpiler.
   var ReactStormpath = require('react-stormpath').default;
@@ -92,7 +92,7 @@ Stormpath already integrated!*
     <Router history={browserHistory}>
       <Route path='/' component={MainPage} />
     </Router>,
-    document.getElexmentById('app-container')
+    document.getElementById('app-container')
   );
   ```
 
