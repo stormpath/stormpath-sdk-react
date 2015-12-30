@@ -104,13 +104,13 @@ Stormpath already integrated!*
   <Route path='/register' component={RegistrationPage} />
   ```
 
-  Now when we have our registration done. Lets add a [`LoginRoute`][] so that our users can login. This route is special, since it tells the router where to go when you access a [`AuthenticatedRoute`][] without being authenticated. Once you've added the route, create a view for your route called `LoginPage` and add the [`LoginForm`][] component to it. The [`LoginForm`][] component will render a username and password login form so that your users can login.
+  Now when we have our registration done, let's add a [`LoginRoute`][] so that our users can log in. This route is special, since it tells the router where to go when you access a [`AuthenticatedRoute`][] without being authenticated. Once you've added the route, create a view for your route called `LoginPage` and add the [`LoginForm`][] component to it. The [`LoginForm`][] component will render a username and password login form so that your users can log in.
   
   ```html
   <LoginRoute path='/login' component={LoginPage} />
   ```
 
-  Once you've added a [`LoginRoute`][] now let's add a [`LogoutRoute`][]. The [`LogoutRoute`][] is merely a route handler that ends your session, so you don't need to add any view for it.
+  Once you've added a [`LoginRoute`][], let's add a [`LogoutRoute`][]. The [`LogoutRoute`][] is merely a route handler that ends your session, so you don't need to add any view for it.
     
   ```html
   <LogoutRoute path='/logout' />
@@ -124,7 +124,7 @@ Stormpath already integrated!*
 
 7. **Add Login and Logout Links**
 
-  Use the [`LoginLink`][] component create a link that will navigate your users to the [`LoginRoute`][] route:
+  Use the [`LoginLink`][] component to create a link that will navigate your users to the [`LoginRoute`][] route:
 
   ```html
   <LoginLink>Login</LoginLink>
