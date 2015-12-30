@@ -1,6 +1,6 @@
 {
   "name": "react-stormpath",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Stormpath SDK for React.",
   "author": "Stormpath, Inc.",
   "license": "Apache-2.0",
@@ -21,8 +21,8 @@
   "bugs": "https://github.com/stormpath/stormpath-sdk-react/issues",
   "scripts": {
     "build": "npm run build-cjs && npm run build-es6 && npm run build-umd && npm run build-min",
-    "build-cjs": "rimraf lib && node ./node_modules/babel-core ./src -d lib",
-    "build-es6": "rimraf es6 && node ./node_modules/babel-core ./src -d es6",
+    "build-cjs": "rimraf lib && node ./node_modules/babel-cli/lib/babel ./src -d lib",
+    "build-es6": "rimraf es6 && node ./node_modules/babel-cli/lib/babel ./src -d es6",
     "build-umd": "NODE_ENV=production webpack src/index.js umd/stormpath-sdk-react.js",
     "build-min": "NODE_ENV=production webpack -p src/index.js umd/stormpath-sdk-react.min.js",
     "build-dist": "NODE_ENV=production webpack src/index.js dist/stormpath-sdk-react.js && NODE_ENV=production webpack -p src/index.js dist/stormpath-sdk-react.min.js",
@@ -38,7 +38,7 @@
     "warning": "^2.1.0"
   },
   "devDependencies": {
-    "babel": "^6.3.13",
+    "babel-cli": "^6.3.17",
     "babel-core": "^6.3.15",
     "babel-eslint": "^5.0.0-beta4",
     "babel-loader": "^6.2.0",
