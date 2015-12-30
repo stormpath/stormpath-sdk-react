@@ -1,8 +1,8 @@
 import app from '../app';
 
-var BaseStore = require('../stores/BaseStore');
-var UserService = require('../services/UserService');
-var UserConstants = require('../constants/UserConstants');
+import BaseStore from '../stores/BaseStore';
+import UserService from '../services/UserService';
+import UserConstants from '../constants/UserConstants';
 
 var _session = false;
 var _sessionError = null;

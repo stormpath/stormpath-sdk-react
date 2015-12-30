@@ -5806,6 +5806,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _app2 = _interopRequireDefault(_app);
 
+	var _BaseStore2 = __webpack_require__(64);
+
+	var _BaseStore3 = _interopRequireDefault(_BaseStore2);
+
+	var _UserService = __webpack_require__(65);
+
+	var _UserService2 = _interopRequireDefault(_UserService);
+
+	var _UserConstants = __webpack_require__(60);
+
+	var _UserConstants2 = _interopRequireDefault(_UserConstants);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -5813,10 +5825,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var BaseStore = __webpack_require__(64);
-	var UserService = __webpack_require__(65);
-	var UserConstants = __webpack_require__(60);
 
 	var _session = false;
 	var _sessionError = null;
@@ -5837,7 +5845,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _createClass(UserStore, [{
 	    key: 'init',
 	    value: function init(context) {
-	      this.service = new UserService(context.getEndpoints());
+	      this.service = new _UserService2.default(context.getEndpoints());
 	      this.resolveSession();
 	    }
 	  }, {
@@ -5940,7 +5948,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }]);
 
 	  return UserStore;
-	})(BaseStore);
+	})(_BaseStore3.default);
 
 	var userStore = new UserStore();
 
@@ -5948,22 +5956,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	  userStore.init(context);
 	  context.getDispatcher().register(function (payload) {
 	    switch (payload.actionType) {
-	      case UserConstants.USER_LOGIN:
+	      case _UserConstants2.default.USER_LOGIN:
 	        userStore.login(payload.options, payload.callback);
 	        break;
-	      case UserConstants.USER_LOGOUT:
+	      case _UserConstants2.default.USER_LOGOUT:
 	        userStore.logout(payload.callback);
 	        break;
-	      case UserConstants.USER_REGISTER:
+	      case _UserConstants2.default.USER_REGISTER:
 	        userStore.register(payload.options, payload.callback);
 	        break;
-	      case UserConstants.USER_FORGOT_PASSWORD:
+	      case _UserConstants2.default.USER_FORGOT_PASSWORD:
 	        userStore.forgotPassword(payload.options, payload.callback);
 	        break;
-	      case UserConstants.USER_CHANGE_PASSWORD:
+	      case _UserConstants2.default.USER_CHANGE_PASSWORD:
 	        userStore.changePassword(payload.options, payload.callback);
 	        break;
-	      case UserConstants.USER_VERIFY_EMAIL:
+	      case _UserConstants2.default.USER_VERIFY_EMAIL:
 	        userStore.verifyEmail(payload.options.spToken, payload.callback);
 	        break;
 	    }
