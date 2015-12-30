@@ -1,7 +1,13 @@
 {
-  "stage": 0,
-  "loose": "all",
+  "presets": [
+    "es2015",
+    "react",
+    "stage-0"
+  ],
   "plugins": [
-    "dev-expression"
+    [
+      "transform-decorators-legacy",
+      "dev-expression"
+    ]
   ]
 }
