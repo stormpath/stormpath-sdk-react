@@ -106,6 +106,67 @@ Renders a registration form.
 <RegistrationForm />
 ```
 
+Customize the form by providing your own markup.
+
+```html
+<RegistrationForm>
+  <div showWhen="account.created">
+    <span showWhen="account.enabled">Your account has been created. Please proceed to <LoginLink />.</span>
+    <span showWhen="!account.enabled">To verify your account, click the verification link that we sent to your email then proceed to login by going to <LoginLink />.</span>
+  </div>
+  <div showWhen="!account.created">
+    <p>
+      <label for="firstName">First name</label><br />
+      <input id="firstName" type="text" name="givenName" />
+    </p>
+    <p>
+      <label for="lastName">Last name</label><br />
+      <input id="lastName" type="text" name="surname" />
+    </p>
+    <p>
+      <label for="email">Email</label><br />
+      <input id="email" type="text" name="email" />
+    </p>
+    <p>
+      <label for="password">Password</label><br />
+      <input id="password" type="password" name="password" />
+    </p>
+    <p showWhen="form.error">
+      <strong>Error:</strong><br />
+      <span replaceWith="form.errorMessage" />
+    </p>
+    <p>
+      <input type="submit" value="Register" />
+    </p>
+  </div>
+</RegistrationForm>
+```
+
+If you want to handle the form `onSubmit()` event, then simply provide a callback for it.
+
+```javascript
+class RegistrationPage extends React.Component {
+  onFormSubmit(e, next) {
+    // e.data will contain the data mapped from your form.
+    console.log("Form submitted", e.data);
+
+    // To return an error message, call next() as:
+    // next(new Error('Something in the form is wrong.'));
+
+    // Or if you want to change the data being sent, call it as:
+    // next(null, { myNewData: '123' });
+
+    // If you call next without any arguments,
+    // it will simply proceed processing the form.
+    next();
+  }
+
+  render() {
+    return <RegistrationForm onSubmit={this.onFormSubmit.bind(this)} />;
+  }
+}
+```
+
 #### ResetPasswordForm
 
 Renders a password reset form.
