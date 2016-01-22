@@ -17,5 +17,5 @@ export default class LogoutRoute extends Route {
         callback();
       });
     }
-  }
+  };
 }

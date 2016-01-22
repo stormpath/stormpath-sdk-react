@@ -6,7 +6,7 @@ import UserActions from '../actions/UserActions';
 export default class VerifyEmailView extends React.Component {
   state = {
     status: 'VERIFYING'
-  }
+  };
 
   constructor() {
     super(...arguments);
