@@ -18,5 +18,5 @@ export default class AuthenticatedRoute extends Route {
         callback();
       });
     }
-  }
+  };
 }

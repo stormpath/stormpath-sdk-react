@@ -12,7 +12,7 @@ export default class LoginForm extends React.Component {
     password: '',
     isProcessing: false,
     errorMessage: null
-  }
+  };
 
   onFormSubmit(e) {
     e.preventDefault();

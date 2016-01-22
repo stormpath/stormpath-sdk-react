@@ -18,7 +18,7 @@ export default class RegistrationForm extends React.Component {
     isAccountCreated: false,
     isAccountEnabled: false,
     errorMessage: null
-  }
+  };
 
   onFormSubmit(e) {
     e.preventDefault();
