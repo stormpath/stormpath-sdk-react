@@ -1,7 +1,7 @@
 import React from 'react';
 
 class Utils {
-  nopElement = <span />
+  nopElement = <span />;
 
   forEachChild(children, handler) {
     React.Children.forEach(children, (child) => {
