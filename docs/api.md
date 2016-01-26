@@ -116,19 +116,19 @@ Customize the form by providing your own markup.
   </div>
   <div showWhen="!account.created">
     <p>
-      <label for="firstName">First name</label><br />
+      <label htmlFor="firstName">First name</label><br />
       <input id="firstName" type="text" name="givenName" />
     </p>
     <p>
-      <label for="lastName">Last name</label><br />
+      <label htmlFor="lastName">Last name</label><br />
       <input id="lastName" type="text" name="surname" />
     </p>
     <p>
-      <label for="email">Email</label><br />
+      <label htmlFor="email">Email</label><br />
       <input id="email" type="text" name="email" />
     </p>
     <p>
-      <label for="password">Password</label><br />
+      <label htmlFor="password">Password</label><br />
       <input id="password" type="password" name="password" />
     </p>
     <p showWhen="form.error">
