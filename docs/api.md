@@ -110,11 +110,11 @@ Customize the form by providing your own markup.
 
 ```html
 <RegistrationForm>
-  <div showWhen="account.created">
-    <span showWhen="account.enabled">Your account has been created. Please proceed to <LoginLink />.</span>
-    <span showWhen="!account.enabled">To verify your account, click the verification link that we sent to your email then proceed to login by going to <LoginLink />.</span>
+  <div spIf="account.created">
+    <span spIf="account.enabled">Your account has been created. Please proceed to <LoginLink />.</span>
+    <span spIf="!account.enabled">To verify your account, click the verification link that we sent to your email then proceed to login by going to <LoginLink />.</span>
   </div>
-  <div showWhen="!account.created">
+  <div spIf="!account.created">
     <p>
       <label for="firstName">First name</label><br />
       <input id="firstName" type="text" name="givenName" />
@@ -131,9 +131,9 @@ Customize the form by providing your own markup.
       <label for="password">Password</label><br />
       <input id="password" type="password" name="password" />
     </p>
-    <p showWhen="form.error">
+    <p spIf="form.error">
       <strong>Error:</strong><br />
-      <span replaceWith="form.errorMessage" />
+      <span spBind="form.errorMessage" />
     </p>
     <p>
       <input type="submit" value="Register" />

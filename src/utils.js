@@ -84,7 +84,7 @@ class Utils {
     };
   }
 
-  makeForm(source, fieldMapFn, showWhenFn, replaceWithFn) {
+  makeForm(source, fieldMapFn, spIf, spBindFn) {
     var root = React.cloneElement(<div />, {}, source.props.children);
 
     var fieldMap = this.getFormFieldMap(root, fieldMapFn);
@@ -98,18 +98,18 @@ class Utils {
 
     var elementFactory = (element, parent) => {
       if (element.props) {
-        var showWhen = element.props.showWhen;
+        var spIf = element.props.spIf;
 
-        if (showWhen) {
+        if (spIf) {
           var test = null;
           var inverted = false;
 
-          if (showWhen[0] === '!') {
+          if (spIf[0] === '!') {
             inverted = true;
-            showWhen = showWhen.substr(1);
+            spIf = spIf.substr(1);
           }
 
-          test = showWhenFn(showWhen, element);
+          test = spIf(spIf, element);
 
           if (test !== null) {
             if (inverted) {
@@ -122,10 +122,10 @@ class Utils {
           }
         }
 
-        var replaceWith = element.props.replaceWith;
+        var spBind = element.props.spBind;
 
-        if (replaceWith) {
-          var newElement = replaceWithFn(replaceWith, element);
+        if (spBind) {
+          var newElement = spBindFn(spBind, element);
           if (newElement !== false) {
             element = newElement;
           }
