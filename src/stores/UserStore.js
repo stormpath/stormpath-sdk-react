@@ -24,22 +24,20 @@ class UserStore extends BaseStore {
   }
 
   isAuthenticated(callback) {
-    this.resolveSession(function (err, result) {
+    this.resolveSession((err, result) => {
       callback(err, !err && _session !== false);
     });
   }
 
   login(options, callback) {
-    var self = this;
-
     this.reset();
 
-    this.service.login(options, function (err, result) {
+    this.service.login(options, (err, result) => {
       if (err) {
         return callback(err);
       }
 
-      self.resolveSession(callback);
+      this.resolveSession(callback);
     });
   }
 
@@ -60,29 +58,25 @@ class UserStore extends BaseStore {
   }
 
   logout(callback) {
-    var self = this;
-
-    this.service.logout(function (err) {
+    this.service.logout((err) => {
       if (err) {
         return callback(err);
       }
 
-      self.reset();
-      self.emitChange();
+      this.reset();
+      this.emitChange();
 
       callback();
     });
   }
 
   resolveSession(callback) {
-    var self = this;
-
     if (_sessionResolved) {
       return callback && callback(_sessionError, _session);
     }
 
-    this.service.me(function (err, result) {
-      self.reset();
+    this.service.me((err, result) => {
+      this.reset();
 
       _sessionResolved = true;
 
@@ -96,7 +90,7 @@ class UserStore extends BaseStore {
         callback(_sessionError, _session);
       }
 
-      self.emitChange();
+      this.emitChange();
     });
   }
 
@@ -109,9 +103,9 @@ class UserStore extends BaseStore {
 
 var userStore = new UserStore();
 
-app.on('ready', function (context) {
+app.on('ready', (context) => {
   userStore.init(context);
-  context.getDispatcher().register(function (payload) {
+  context.getDispatcher().register((payload) => {
     switch(payload.actionType) {
       case UserConstants.USER_LOGIN:
         userStore.login(payload.options, payload.callback);

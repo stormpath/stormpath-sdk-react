@@ -13,10 +13,9 @@ export default class Authenticated extends React.Component {
   }
 
   onChange() {
-    var self = this;
-    UserStore.isAuthenticated(function (err, authenticated) {
-      if (self.onChangeListener !== null) {
-        self.setState({ authenticated: authenticated === true });
+    UserStore.isAuthenticated((err, authenticated) => {
+      if (this.onChangeListener !== null) {
+        this.setState({ authenticated: authenticated === true });
       }
     });
   }
