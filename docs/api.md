@@ -19,6 +19,7 @@ ReactStormpath.init({
   // Optional: Set if you want to to use another API endpoint.
   // Values shown below are the defaults.
   endpoints: {
+    baseUri: null,
     me: '/me',
     login: '/login',
     register: '/register',
