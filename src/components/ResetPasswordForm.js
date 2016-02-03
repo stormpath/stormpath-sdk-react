@@ -12,7 +12,7 @@ class DefaultResetPasswordForm extends React.Component {
       <ResetPasswordForm {...this.props}>
         <div className='sp-reset-password-form'>
           <div className="row">
-            <div className="col-sm-offset-4 col-xs-12 col-sm-4" showWhen="form.sent">
+            <div className="col-sm-offset-4 col-xs-12 col-sm-4" spIf="form.sent">
               <p className="alert alert-success">
                 We have sent a password reset link to the email address of the account that you specified.
                 Please check your email for this message, then click on the link.
@@ -21,7 +21,7 @@ class DefaultResetPasswordForm extends React.Component {
                 <LoginLink>Back to Login</LoginLink>
               </p>
             </div>
-            <div className="col-xs-12" showWhen="!form.sent">
+            <div className="col-xs-12" spIf="!form.sent">
               <div className="form-horizontal">
                 <div className="form-group">
                   <label htmlFor="spEmail" className="col-xs-12 col-sm-4 control-label">Email or Username</label>
@@ -31,7 +31,7 @@ class DefaultResetPasswordForm extends React.Component {
                 </div>
                 <div className="form-group">
                   <div className="col-sm-offset-4 col-xs-12">
-                    <p showWhen="form.error"><span replaceWith="form.errorMessage" /></p>
+                    <p spIf="form.error"><span spBind="form.errorMessage" /></p>
                     <button type="submit" className="btn btn-primary">Request Password Reset</button>
                   </div>
                 </div>
@@ -73,11 +73,14 @@ export default class ResetPasswordForm extends React.Component {
       UserActions.forgotPassword(this.state.fields, (err) => {
         if (err) {
           this.setState({
+            isFormProcessing: false,
             errorMessage: err.message
           });
         } else {
           this.setState({
-            isFormSent: true
+            isFormSent: true,
+            isFormProcessing: false,
+            errorMessage: null
           });
         }
       });
@@ -96,7 +99,7 @@ export default class ResetPasswordForm extends React.Component {
   }
 
   _mapFormFieldHandler(element, tryMapField) {
-    if (['input', 'textarea'].indexOf(element.type) > -1) {
+    if (element.type === 'input' || element.type === 'textarea') {
       if (element.props.type !== 'submit') {
         switch(element.props.name) {
           case 'email':
@@ -107,7 +110,7 @@ export default class ResetPasswordForm extends React.Component {
     }
   }
 
-  _showWhenHandler(action, element) {
+  _spIfHandler(action, element) {
     var test = null;
 
     switch (action) {
@@ -118,19 +121,19 @@ export default class ResetPasswordForm extends React.Component {
         test = this.state.isFormSent;
         break;
       case 'form.error':
-        test = !!this.state.errorMessage;
+        test = this.state.errorMessage !== null;
         break;
     }
 
     return test;
   }
 
-  _replaceWithHandler(action, element) {
+  _spBindHandler(action, element) {
     var element = false;
 
     switch (action) {
       case 'form.errorMessage':
-        var className = element.props ? element.props.className : undefined;
+        let className = element.props ? element.props.className : undefined;
         element = <span className={className}>{this.state.errorMessage}</span>;
         break;
     }
@@ -142,7 +145,7 @@ export default class ResetPasswordForm extends React.Component {
     if (this.props.children) {
       return (
         <form onSubmit={this.onFormSubmit.bind(this)}>
-          {Utils.makeForm(this, this._mapFormFieldHandler.bind(this), this._showWhenHandler.bind(this), this._replaceWithHandler.bind(this))}
+          {Utils.makeForm(this, this._mapFormFieldHandler.bind(this), this._spIfHandler.bind(this), this._spBindHandler.bind(this))}
         </form>
       );
     } else {

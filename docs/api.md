@@ -179,18 +179,18 @@ Customize the form by providing your own markup.
 
 ```html
 <ResetPasswordForm>
-  <div showWhen="form.sent">
+  <div spIf="form.sent">
     <p>We have sent a password reset link to the email address of the account that you specified.<br />
     Please check your email for this message, then click on the link.</p>
   </div>
-  <div showWhen="!form.sent">
+  <div spIf="!form.sent">
     <p>
       <label htmlFor="email">Email</label><br />
       <input id="email" type="text" name="email" />
     </p>
-    <p showWhen="form.error">
+    <p spIf="form.error">
       <strong>Error:</strong><br />
-      <span replaceWith="form.errorMessage" />
+      <span spBind="form.errorMessage" />
     </p>
     <p>
       <input type="submit" value="Request Password reset" />
