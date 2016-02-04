@@ -8,7 +8,7 @@ export default class LogoutLink extends React.Component {
     var router = Context.getInstance().getRouter();
 
     var logoutRoute = router.getLogoutRoute();
-    var targetPath = logoutRoute ? logoutRoute.path : '/logout';
+    var targetPath = (logoutRoute || {}).path || '/logout';
 
   	return (
       <Link to={targetPath} className={this.props.className}>

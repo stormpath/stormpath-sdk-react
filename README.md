@@ -122,6 +122,20 @@ Stormpath already integrated!*
   <AuthenticatedRoute path='/protected' component={ProtectedPage} />
   ```
 
+  Now we have most of our routes setup, let's add the route to redirect to when logging out.
+
+  ```html
+  <HomeRoute path='/' component={HomePage} />
+  ```
+
+  Add an additional `HomeRoute` and wrap it inside an `AuthenticatedRoute` to specify the route to redirect to when signing up or logging in. If this is left out then the first unauthenticated `HomeRoute` is used.
+
+  ```html
+  <AuthenticatedRoute>
+    <HomeRoute path='/profile' component={ProfilePage} />
+  </AuthenticatedRoute>
+  ```
+
 7. **Add Login and Logout Links**
 
   Use the [`LoginLink`][] component to create a link that will navigate your users to the [`LoginRoute`][] route:

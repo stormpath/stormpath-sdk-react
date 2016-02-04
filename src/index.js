@@ -6,6 +6,7 @@ export Router from './components/Router';
 export actions from './actions/UserActions';
 export constants from './constants/UserConstants';
 
+export HomeRoute from './components/HomeRoute';
 export LoginRoute from './components/LoginRoute';
 export LogoutRoute from './components/LogoutRoute';
 export AuthenticatedRoute from './components/AuthenticatedRoute';

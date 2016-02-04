@@ -2,7 +2,7 @@ import React from 'react';
 import ReactMixin from 'react-mixin';
 import { History, Link } from 'react-router';
 
-import Utils from '../utils';
+import utils from '../utils';
 import LoginLink from '../components/LoginLink';
 import UserActions from '../actions/UserActions';
 
@@ -145,7 +145,7 @@ export default class ResetPasswordForm extends React.Component {
     if (this.props.children) {
       return (
         <form onSubmit={this.onFormSubmit.bind(this)}>
-          {Utils.makeForm(this, this._mapFormFieldHandler.bind(this), this._spIfHandler.bind(this), this._spBindHandler.bind(this))}
+          {utils.makeForm(this, this._mapFormFieldHandler.bind(this), this._spIfHandler.bind(this), this._spBindHandler.bind(this))}
         </form>
       );
     } else {

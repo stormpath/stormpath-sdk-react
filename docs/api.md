@@ -44,9 +44,25 @@ Router that extends `ReactRouter` with Stormpath routing functionality.
 </Router>
 ```
 
+#### HomeRoute
+
+Route to redirect to when logging out.
+
+```html
+<HomeRoute path='/' component={MainPage} />
+```
+
+Wrap the `HomeRoute` in an `AuthenticatedRoute` to specify the route you want to redirect to when you register or login.
+
+```html
+<AuthenticatedRoute>
+  <HomeRoute path='/profile' component={ProfilePage} />
+</AuthenticatedRoute>
+```
+
 #### AuthenticatedRoute
 
-Route that when used, requires that a session is established before continuing. Else redirects the user to the login route.
+Route that when used, requires that a session is established before continuing. Else redirects the user to the `LoginRoute` path.
 
 ```html
 <AuthenticatedRoute path='/home/protected' component={RegisterPage} />
@@ -66,6 +82,12 @@ Route that when accessed, ends the user session.
 
 ```html
 <LogoutRoute path='/logout' />
+```
+
+Specify `redirectTo` to set the path to redirect to after logging out. If this isn't specified, then it falls back to the unauthenticated `HomeRoute` path.
+
+```html
+<LogoutRoute redirectTo='/pathToRedirectTo' />
 ```
 
 ## Components
@@ -95,7 +117,13 @@ Renders any child components if there isn't an established user session.
 Renders a username and password login form.
 
 ```html
-<LoginForm redirectTo="/home" />
+<LoginForm />
+```
+
+Specify `redirectTo` to set the path to redirect to after logging in. If this isn't specified, then it falls back to the authenticated `HomeRoute` path.
+
+```html
+<LoginForm redirectTo='/pathToRedirectTo' />
 ```
 
 Customize the form by providing your own markup.
@@ -153,12 +181,17 @@ Renders a registration form.
 <RegistrationForm />
 ```
 
+Specify `redirectTo` to set the path to redirect to after registering.  If this isn't specified, then it falls back to the authenticated `HomeRoute` path.
+
+```html
+<RegistrationForm redirectTo='/pathToRedirectTo' />
+```
+
 Customize the form by providing your own markup.
 
 ```html
 <RegistrationForm>
   <div spIf="account.created">
-    <span spIf="account.enabled">Your account has been created. Please proceed to <LoginLink />.</span>
     <span spIf="!account.enabled">To verify your account, click the verification link that we sent to your email then proceed to login by going to <LoginLink />.</span>
   </div>
   <div spIf="!account.created">
