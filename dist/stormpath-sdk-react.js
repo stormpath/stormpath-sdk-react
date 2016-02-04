@@ -114,23 +114,23 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _LoginForm3 = _interopRequireDefault(_LoginForm2);
 
-	var _RegistrationForm2 = __webpack_require__(74);
+	var _RegistrationForm2 = __webpack_require__(75);
 
 	var _RegistrationForm3 = _interopRequireDefault(_RegistrationForm2);
 
-	var _ResetPasswordForm2 = __webpack_require__(75);
+	var _ResetPasswordForm2 = __webpack_require__(76);
 
 	var _ResetPasswordForm3 = _interopRequireDefault(_ResetPasswordForm2);
 
-	var _VerifyEmailView2 = __webpack_require__(76);
+	var _VerifyEmailView2 = __webpack_require__(77);
 
 	var _VerifyEmailView3 = _interopRequireDefault(_VerifyEmailView2);
 
-	var _UserField2 = __webpack_require__(77);
+	var _UserField2 = __webpack_require__(78);
 
 	var _UserField3 = _interopRequireDefault(_UserField2);
 
-	var _UserComponent2 = __webpack_require__(78);
+	var _UserComponent2 = __webpack_require__(79);
 
 	var _UserComponent3 = _interopRequireDefault(_UserComponent2);
 
@@ -200,13 +200,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(App).call(this));
 
 	    _this.context = context;
+	    _this.initialized = false;
 	    return _this;
 	  }
 
 	  _createClass(App, [{
+	    key: 'isInitialized',
+	    value: function isInitialized() {
+	      return this.initialized;
+	    }
+	  }, {
 	    key: 'init',
 	    value: function init(options) {
 	      options = options || {};
+
+	      if (this.isInitialized()) {
+	        throw new Error('React Stormpath already initialized.');
+	      }
+
+	      this.initialized = true;
 
 	      // If there's no specified dispatcher, then just create our own one.
 	      this.context.setDispatcher(options.dispatcher || new _flux.Dispatcher());
@@ -6465,9 +6477,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
 	var _dec, _class;
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -6484,9 +6496,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _reactRouter = __webpack_require__(9);
 
-	var _Context = __webpack_require__(7);
+	var _utils = __webpack_require__(74);
 
-	var _Context2 = _interopRequireDefault(_Context);
+	var _utils2 = _interopRequireDefault(_utils);
 
 	var _UserActions = __webpack_require__(59);
 
@@ -6500,125 +6512,82 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var LoginForm = (_dec = _reactMixin2.default.decorate(_reactRouter.History), _dec(_class = (function (_React$Component) {
-	  _inherits(LoginForm, _React$Component);
+	var DefaultLoginForm = (function (_React$Component) {
+	  _inherits(DefaultLoginForm, _React$Component);
 
-	  function LoginForm() {
-	    var _Object$getPrototypeO;
+	  function DefaultLoginForm() {
+	    _classCallCheck(this, DefaultLoginForm);
 
-	    var _temp, _this, _ret;
-
-	    _classCallCheck(this, LoginForm);
-
-	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-	      args[_key] = arguments[_key];
-	    }
-
-	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(LoginForm)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.state = {
-	      username: '',
-	      password: '',
-	      isProcessing: false,
-	      errorMessage: null
-	    }, _temp), _possibleConstructorReturn(_this, _ret);
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(DefaultLoginForm).apply(this, arguments));
 	  }
 
-	  _createClass(LoginForm, [{
-	    key: 'onFormSubmit',
-	    value: function onFormSubmit(e) {
-	      e.preventDefault();
-
-	      var self = this;
-
-	      var redirectTo = this.props.redirectTo || '/';
-
-	      self.setState({ isProcessing: true });
-
-	      _UserActions2.default.login({
-	        username: this.state.username,
-	        password: this.state.password
-	      }, function (err, result) {
-	        self.setState({ isProcessing: false });
-
-	        if (err) {
-	          self.setState({ errorMessage: err.message });
-	        } else {
-	          self.history.pushState(null, redirectTo);
-	        }
-	      });
-	    }
-	  }, {
-	    key: 'onUsernameChanged',
-	    value: function onUsernameChanged(e) {
-	      this.setState({ username: e.target.value });
-	    }
-	  }, {
-	    key: 'onPasswordChanged',
-	    value: function onPasswordChanged(e) {
-	      this.setState({ password: e.target.value });
-	    }
-	  }, {
+	  _createClass(DefaultLoginForm, [{
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
-	        'div',
-	        { className: 'login' },
+	        LoginForm,
+	        this.props,
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'row' },
+	          { className: 'sp-login-form' },
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'col-xs-12' },
+	            { className: 'row' },
 	            _react2.default.createElement(
-	              'form',
-	              { className: 'form-horizontal', onSubmit: this.onFormSubmit.bind(this) },
+	              'div',
+	              { className: 'col-xs-12' },
 	              _react2.default.createElement(
 	                'div',
-	                { className: 'form-group' },
+	                { className: 'form-horizontal' },
 	                _react2.default.createElement(
-	                  'label',
-	                  { htmlFor: 'spEmail', className: 'col-xs-12 col-sm-4 control-label' },
-	                  'Email'
+	                  'div',
+	                  { className: 'form-group' },
+	                  _react2.default.createElement(
+	                    'label',
+	                    { htmlFor: 'spEmail', className: 'col-xs-12 col-sm-4 control-label' },
+	                    'Email'
+	                  ),
+	                  _react2.default.createElement(
+	                    'div',
+	                    { className: 'col-xs-12 col-sm-4' },
+	                    _react2.default.createElement('input', { className: 'form-control', id: 'spUsername', name: 'username', placeholder: 'Username or Email' })
+	                  )
 	                ),
 	                _react2.default.createElement(
 	                  'div',
-	                  { className: 'col-xs-12 col-sm-4' },
-	                  _react2.default.createElement('input', { className: 'form-control', id: 'spUsername', placeholder: 'Username or Email', onChange: this.onUsernameChanged.bind(this) })
-	                )
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'form-group' },
-	                _react2.default.createElement(
-	                  'label',
-	                  { htmlFor: 'spPassword', className: 'col-xs-12 col-sm-4 control-label' },
-	                  'Password'
+	                  { className: 'form-group' },
+	                  _react2.default.createElement(
+	                    'label',
+	                    { htmlFor: 'spPassword', className: 'col-xs-12 col-sm-4 control-label' },
+	                    'Password'
+	                  ),
+	                  _react2.default.createElement(
+	                    'div',
+	                    { className: 'col-xs-12 col-sm-4' },
+	                    _react2.default.createElement('input', { type: 'password', className: 'form-control', id: 'spPassword', name: 'password', placeholder: 'Password' })
+	                  )
 	                ),
 	                _react2.default.createElement(
 	                  'div',
-	                  { className: 'col-xs-12 col-sm-4' },
-	                  _react2.default.createElement('input', { type: 'password', className: 'form-control', id: 'spPassword', placeholder: 'Password', onChange: this.onPasswordChanged.bind(this) })
-	                )
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'form-group' },
-	                _react2.default.createElement(
-	                  'div',
-	                  { className: 'col-sm-offset-4 col-sm-4' },
-	                  this.state.errorMessage === null ? null : _react2.default.createElement(
-	                    'p',
-	                    { className: 'text-danger' },
-	                    this.state.errorMessage
-	                  ),
+	                  { className: 'form-group' },
 	                  _react2.default.createElement(
-	                    'button',
-	                    { type: 'submit', className: 'btn btn-primary', disabled: this.state.isProcessing },
-	                    'Login'
-	                  ),
-	                  _react2.default.createElement(
-	                    _reactRouter.Link,
-	                    { to: '/forgot', className: 'pull-right' },
-	                    'Forgot Password'
+	                    'div',
+	                    { className: 'col-sm-offset-4 col-sm-4' },
+	                    _react2.default.createElement(
+	                      'p',
+	                      { className: 'alert alert-danger', spIf: 'form.error' },
+	                      _react2.default.createElement('span', { spBind: 'form.errorMessage' })
+	                    ),
+	                    _react2.default.createElement(
+	                      'button',
+	                      { type: 'submit', className: 'btn btn-primary' },
+	                      'Login'
+	                    ),
+	                    _react2.default.createElement(
+	                      _reactRouter.Link,
+	                      { to: '/forgot', className: 'pull-right' },
+	                      'Forgot Password'
+	                    )
 	                  )
 	                )
 	              )
@@ -6626,6 +6595,143 @@ return /******/ (function(modules) { // webpackBootstrap
 	          )
 	        )
 	      );
+	    }
+	  }]);
+
+	  return DefaultLoginForm;
+	})(_react2.default.Component);
+
+	var LoginForm = (_dec = _reactMixin2.default.decorate(_reactRouter.History), _dec(_class = (function (_React$Component2) {
+	  _inherits(LoginForm, _React$Component2);
+
+	  function LoginForm() {
+	    var _Object$getPrototypeO;
+
+	    var _temp, _this2, _ret;
+
+	    _classCallCheck(this, LoginForm);
+
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+
+	    return _ret = (_temp = (_this2 = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(LoginForm)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this2), _this2.state = {
+	      fields: {
+	        username: '',
+	        password: ''
+	      },
+	      errorMessage: null,
+	      isFormProcessing: false
+	    }, _temp), _possibleConstructorReturn(_this2, _ret);
+	  }
+
+	  _createClass(LoginForm, [{
+	    key: 'onFormSubmit',
+	    value: function onFormSubmit(e) {
+	      var _this3 = this;
+
+	      e.preventDefault();
+
+	      var next = function next(err, data) {
+	        if (err) {
+	          return _this3.setState({
+	            isFormProcessing: false,
+	            errorMessage: err.message
+	          });
+	        }
+
+	        // If the user didn't specify any data,
+	        // then simply default to what we have in state.
+	        data = data || _this3.state.fields;
+
+	        _UserActions2.default.login({
+	          username: data.username,
+	          password: data.password
+	        }, function (err, result) {
+	          _this3.setState({ isFormProcessing: false });
+
+	          if (err) {
+	            _this3.setState({ errorMessage: err.message });
+	          } else {
+	            _this3.history.pushState(null, _this3.props.redirectTo || '/');
+	          }
+	        });
+	      };
+
+	      this.setState({
+	        isFormProcessing: true
+	      });
+
+	      if (this.props.onSubmit) {
+	        e.data = this.state.fields;
+	        this.props.onSubmit(e, next);
+	      } else {
+	        next(null, this.state.fields);
+	      }
+	    }
+	  }, {
+	    key: '_mapFormFieldHandler',
+	    value: function _mapFormFieldHandler(element, tryMapField) {
+	      if (element.type === 'input' || element.type === 'textarea') {
+	        if (element.props.type !== 'submit') {
+	          switch (element.props.name) {
+	            case 'login':
+	            case 'username':
+	              tryMapField('username');
+	              break;
+	            case 'password':
+	              tryMapField('password');
+	              break;
+	          }
+	        }
+	      }
+	    }
+	  }, {
+	    key: '_spIfHandler',
+	    value: function _spIfHandler(action, element) {
+	      var test = null;
+
+	      switch (action) {
+	        case 'form.processing':
+	          test = this.state.isFormProcessing;
+	          break;
+	        case 'form.error':
+	          test = this.state.errorMessage !== null;
+	          break;
+	      }
+
+	      return test;
+	    }
+	  }, {
+	    key: '_spBindHandler',
+	    value: function _spBindHandler(action, element) {
+	      var element = false;
+
+	      switch (action) {
+	        case 'form.errorMessage':
+	          var className = element.props ? element.props.className : undefined;
+	          element = _react2.default.createElement(
+	            'span',
+	            { className: className },
+	            this.state.errorMessage
+	          );
+	          break;
+	      }
+
+	      return element;
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      if (this.props.children) {
+	        return _react2.default.createElement(
+	          'form',
+	          { onSubmit: this.onFormSubmit.bind(this) },
+	          _utils2.default.makeForm(this, this._mapFormFieldHandler.bind(this), this._spIfHandler.bind(this), this._spBindHandler.bind(this))
+	        );
+	      } else {
+	        return _react2.default.createElement(DefaultLoginForm, this.props);
+	      }
 	    }
 	  }]);
 
@@ -7026,7 +7132,207 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(12);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var Utils = (function () {
+	  function Utils() {
+	    _classCallCheck(this, Utils);
+
+	    this.nopElement = _react2.default.createElement('span', null);
+	  }
+
+	  _createClass(Utils, [{
+	    key: 'forEachChild',
+	    value: function forEachChild(children, handler) {
+	      var _this = this;
+
+	      _react2.default.Children.forEach(children, function (child) {
+	        handler(child);
+
+	        if (child.props && child.props.children) {
+	          _this.forEachChild(child.props.children, handler);
+	        }
+	      });
+	    }
+	  }, {
+	    key: 'buildElementTree',
+	    value: function buildElementTree(element, optionsFactory, elementFactory, parent) {
+	      var _this2 = this;
+
+	      var newChildren = undefined;
+
+	      var newElement = elementFactory && elementFactory(element, parent) || element;
+	      var newOptions = optionsFactory && optionsFactory(element, parent) || {};
+
+	      if (newElement !== this.nopElement && newElement.props && newElement.props.children) {
+	        newChildren = _react2.default.Children.map(newElement.props.children, function (childElement) {
+	          if (!_react2.default.isValidElement(childElement)) {
+	            return elementFactory(childElement, parent);
+	          }
+	          return _this2.buildElementTree(childElement, optionsFactory, elementFactory, newElement);
+	        });
+	      }
+
+	      return _react2.default.cloneElement(newElement, newOptions, newChildren);
+	    }
+	  }, {
+	    key: 'getFormFieldMap',
+	    value: function getFormFieldMap(root, handler) {
+	      var fields = {};
+
+	      var tryMapField = function tryMapField(field, name) {
+	        if (field.props.ignore) {
+	          return;
+	        }
+
+	        if (field.props.fieldName) {
+	          name = elements.props.fieldName;
+	        }
+
+	        if (!('name' in fields)) {
+	          fields[name] = field;
+	        }
+	      };
+
+	      this.forEachChild(root, function (child) {
+	        if (!child.props) {
+	          return;
+	        }
+
+	        handler(child, tryMapField.bind(null, child));
+	      });
+
+	      var inverseMap = {};
+	      var defaultValues = {};
+
+	      for (var key in fields) {
+	        var field = fields[key];
+
+	        if (!(field.type in inverseMap)) {
+	          inverseMap[field.type] = {};
+	        }
+
+	        var defaultValue = field.props.value || '';
+	        defaultValues[key] = defaultValue;
+
+	        inverseMap[field.type][field.props.name] = {
+	          fieldName: key,
+	          field: field
+	        };
+	      }
+
+	      return {
+	        defaultValues: defaultValues,
+	        inverse: inverseMap
+	      };
+	    }
+	  }, {
+	    key: 'makeForm',
+	    value: function makeForm(source, fieldMapFn, spIfFn, spBindFn) {
+	      var _this3 = this;
+
+	      var root = _react2.default.cloneElement(_react2.default.createElement('div', null), {}, source.props.children);
+
+	      var fieldMap = this.getFormFieldMap(root, fieldMapFn);
+
+	      source.state.fields = source.state.fields || {};
+	      for (var key in fieldMap.defaultValues) {
+	        if (!(key in source.state.fields)) {
+	          source.state.fields[key] = fieldMap.defaultValues[key];
+	        }
+	      }
+
+	      var elementFactory = function elementFactory(element, parent) {
+	        if (element.props) {
+	          var spIf = element.props.spIf;
+
+	          if (spIf) {
+	            var test = null;
+	            var inverted = false;
+
+	            if (spIf[0] === '!') {
+	              inverted = true;
+	              spIf = spIf.substr(1);
+	            }
+
+	            test = spIfFn(spIf, element);
+
+	            if (test !== null) {
+	              if (inverted) {
+	                test = !test;
+	              }
+
+	              if (!test) {
+	                return _this3.nopElement;
+	              }
+	            }
+	          }
+
+	          var spBind = element.props.spBind;
+
+	          if (spBind) {
+	            var newElement = spBindFn(spBind, element);
+	            if (newElement !== false) {
+	              element = newElement;
+	            }
+	          }
+	        }
+	        return element;
+	      };
+
+	      var optionsFactory = function optionsFactory(element, parent) {
+	        var options = {};
+
+	        if (element.props) {
+	          var elementType = element.type;
+	          var elementAttributeName = element.props.name;
+
+	          if (elementType in fieldMap.inverse && elementAttributeName in fieldMap.inverse[elementType]) {
+	            var mappedField = fieldMap.inverse[elementType][elementAttributeName];
+	            options.onChange = function (e) {
+	              disabled: source.state.isFormProcessing;
+	              source.state.fields[mappedField.fieldName] = e.target.value;
+	            };
+	          }
+
+	          var elementAttributeType = element.props.type;
+
+	          if ((elementType === 'input' || elementType === 'button') && elementAttributeType === 'submit') {
+	            options.disabled = source.state.isFormProcessing;
+	          }
+	        }
+
+	        return options;
+	      };
+
+	      return this.buildElementTree(root, optionsFactory, elementFactory);
+	    }
+	  }]);
+
+	  return Utils;
+	})();
+
+	exports.default = new Utils();
+
+/***/ },
+/* 75 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
 	var _dec, _class;
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -7043,6 +7349,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _reactRouter = __webpack_require__(9);
 
+	var _utils = __webpack_require__(74);
+
+	var _utils2 = _interopRequireDefault(_utils);
+
 	var _LoginLink = __webpack_require__(68);
 
 	var _LoginLink2 = _interopRequireDefault(_LoginLink);
@@ -7059,222 +7369,142 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var RegistrationForm = (_dec = _reactMixin2.default.decorate(_reactRouter.History), _dec(_class = (function (_React$Component) {
-	  _inherits(RegistrationForm, _React$Component);
+	var DefaultRegistrationForm = (function (_React$Component) {
+	  _inherits(DefaultRegistrationForm, _React$Component);
 
-	  function RegistrationForm() {
-	    var _Object$getPrototypeO;
+	  function DefaultRegistrationForm() {
+	    _classCallCheck(this, DefaultRegistrationForm);
 
-	    var _temp, _this, _ret;
-
-	    _classCallCheck(this, RegistrationForm);
-
-	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-	      args[_key] = arguments[_key];
-	    }
-
-	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(RegistrationForm)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.state = {
-	      fields: {
-	        givenName: '',
-	        surname: '',
-	        email: '',
-	        password: ''
-	      },
-	      isProcessing: false,
-	      isAccountCreated: false,
-	      isAccountEnabled: false,
-	      errorMessage: null
-	    }, _temp), _possibleConstructorReturn(_this, _ret);
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(DefaultRegistrationForm).apply(this, arguments));
 	  }
 
-	  _createClass(RegistrationForm, [{
-	    key: 'onFormSubmit',
-	    value: function onFormSubmit(e) {
-	      e.preventDefault();
-
-	      var self = this;
-
-	      self.setState({
-	        isProcessing: true
-	      });
-
-	      _UserActions2.default.register(this.state.fields, function (err, result) {
-	        if (err) {
-	          self.setState({
-	            errorMessage: err.message,
-	            isProcessing: false
-	          });
-	        } else {
-	          if (result.status === 'ENABLED') {
-	            _UserActions2.default.login({
-	              username: self.state.fields.email || self.state.fields.username,
-	              password: self.state.fields.password
-	            }, function (err) {
-	              if (err) {
-	                self.setState({
-	                  isProcessing: false,
-	                  isAccountCreated: false,
-	                  errorMessage: err.message
-	                });
-	              } else {
-	                self.setState({
-	                  isProcessing: false,
-	                  isAccountCreated: true,
-	                  isAccountEnabled: true
-	                });
-	              }
-	            });
-	          } else {
-	            self.setState({
-	              isProcessing: false,
-	              isAccountCreated: true,
-	              isAccountEnabled: false
-	            });
-	          }
-	        }
-	      });
-	    }
-	  }, {
-	    key: 'onFirstNameChanged',
-	    value: function onFirstNameChanged(e) {
-	      this.state.fields.givenName = e.target.value;
-	    }
-	  }, {
-	    key: 'onLastNameChanged',
-	    value: function onLastNameChanged(e) {
-	      this.state.fields.surname = e.target.value;
-	    }
-	  }, {
-	    key: 'onEmailChanged',
-	    value: function onEmailChanged(e) {
-	      this.state.fields.email = e.target.value;
-	    }
-	  }, {
-	    key: 'onPasswordChanged',
-	    value: function onPasswordChanged(e) {
-	      this.state.fields.password = e.target.value;
-	    }
-	  }, {
+	  _createClass(DefaultRegistrationForm, [{
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
-	        'div',
-	        { className: 'sp-login-form' },
-	        this.state.isAccountCreated ? _react2.default.createElement(
+	        RegistrationForm,
+	        this.props,
+	        _react2.default.createElement(
 	          'div',
-	          { className: 'row' },
+	          { className: 'sp-login-form' },
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'col-sm-offset-4 col-xs-12 col-sm-4' },
-	            this.state.isAccountEnabled ? _react2.default.createElement(
-	              'p',
-	              { className: 'alert alert-success' },
-	              'Your account has been created. ',
-	              _react2.default.createElement(
-	                _LoginLink2.default,
-	                null,
-	                'Login Now'
-	              ),
-	              '.'
-	            ) : _react2.default.createElement(
+	            { className: 'row', spIf: 'account.created' },
+	            _react2.default.createElement(
 	              'div',
-	              null,
+	              { className: 'col-sm-offset-4 col-xs-12 col-sm-4' },
 	              _react2.default.createElement(
 	                'p',
-	                { className: 'alert alert-success' },
-	                'Your account has been created. Please check your email for a verification link.'
-	              ),
-	              _react2.default.createElement(
-	                'p',
-	                { className: 'pull-right' },
+	                { className: 'alert alert-success', spIf: 'account.enabled' },
+	                'Your account has been created. ',
 	                _react2.default.createElement(
 	                  _LoginLink2.default,
 	                  null,
-	                  'Back to Login'
+	                  'Login Now'
+	                ),
+	                '.'
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { spIf: '!account.enabled' },
+	                _react2.default.createElement(
+	                  'p',
+	                  { className: 'alert alert-success' },
+	                  'Your account has been created. Please check your email for a verification link.'
+	                ),
+	                _react2.default.createElement(
+	                  'p',
+	                  { className: 'pull-right' },
+	                  _react2.default.createElement(
+	                    _LoginLink2.default,
+	                    null,
+	                    'Back to Login'
+	                  )
 	                )
 	              )
 	            )
-	          )
-	        ) : _react2.default.createElement(
-	          'div',
-	          { className: 'row' },
+	          ),
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'col-xs-12' },
+	            { className: 'row', spIf: '!account.created' },
 	            _react2.default.createElement(
-	              'form',
-	              { className: 'form-horizontal', onSubmit: this.onFormSubmit.bind(this) },
+	              'div',
+	              { className: 'col-xs-12' },
 	              _react2.default.createElement(
 	                'div',
-	                { className: 'form-group' },
-	                _react2.default.createElement(
-	                  'label',
-	                  { htmlFor: 'spFirstName', className: 'col-xs-12 col-sm-4 control-label' },
-	                  'First Name'
-	                ),
+	                { className: 'form-horizontal' },
 	                _react2.default.createElement(
 	                  'div',
-	                  { className: 'col-xs-12 col-sm-4' },
-	                  _react2.default.createElement('input', { className: 'form-control', id: 'spFirstName', placeholder: 'First Name', disabled: this.state.isProcessing, onChange: this.onFirstNameChanged.bind(this) })
-	                )
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'form-group' },
-	                _react2.default.createElement(
-	                  'label',
-	                  { htmlFor: 'spLastName', className: 'col-xs-12 col-sm-4 control-label' },
-	                  'Last Name'
-	                ),
-	                _react2.default.createElement(
-	                  'div',
-	                  { className: 'col-xs-12 col-sm-4' },
-	                  _react2.default.createElement('input', { className: 'form-control', id: 'spLastName', placeholder: 'Last Name', disabled: this.state.isProcessing, onChange: this.onLastNameChanged.bind(this) })
-	                )
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'form-group' },
-	                _react2.default.createElement(
-	                  'label',
-	                  { htmlFor: 'spEmail', className: 'col-xs-12 col-sm-4 control-label' },
-	                  'Email'
-	                ),
-	                _react2.default.createElement(
-	                  'div',
-	                  { className: 'col-xs-12 col-sm-4' },
-	                  _react2.default.createElement('input', { className: 'form-control', id: 'spEmail', placeholder: 'Email', disabled: this.state.isProcessing, onChange: this.onEmailChanged.bind(this) })
-	                )
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'form-group' },
-	                _react2.default.createElement(
-	                  'label',
-	                  { htmlFor: 'spPassword', className: 'col-xs-12 col-sm-4 control-label' },
-	                  'Password'
-	                ),
-	                _react2.default.createElement(
-	                  'div',
-	                  { className: 'col-xs-12 col-sm-4' },
-	                  _react2.default.createElement('input', { type: 'password', className: 'form-control', id: 'spPassword', placeholder: 'Password', disabled: this.state.isProcessing, onChange: this.onPasswordChanged.bind(this) })
-	                )
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'form-group' },
-	                _react2.default.createElement(
-	                  'div',
-	                  { className: 'col-sm-offset-4 col-sm-4' },
-	                  this.state.errorMessage === null ? null : _react2.default.createElement(
-	                    'p',
-	                    { className: 'alert alert-danger' },
-	                    this.state.errorMessage
+	                  { className: 'form-group' },
+	                  _react2.default.createElement(
+	                    'label',
+	                    { htmlFor: 'spFirstName', className: 'col-xs-12 col-sm-4 control-label' },
+	                    'First Name'
 	                  ),
 	                  _react2.default.createElement(
-	                    'button',
-	                    { type: 'submit', className: 'btn btn-primary', disabled: this.state.isProcessing },
-	                    'Register'
+	                    'div',
+	                    { className: 'col-xs-12 col-sm-4' },
+	                    _react2.default.createElement('input', { className: 'form-control', id: 'spFirstName', placeholder: 'First Name', name: 'givenName' })
+	                  )
+	                ),
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'form-group' },
+	                  _react2.default.createElement(
+	                    'label',
+	                    { htmlFor: 'spLastName', className: 'col-xs-12 col-sm-4 control-label' },
+	                    'Last Name'
+	                  ),
+	                  _react2.default.createElement(
+	                    'div',
+	                    { className: 'col-xs-12 col-sm-4' },
+	                    _react2.default.createElement('input', { className: 'form-control', id: 'spLastName', placeholder: 'Last Name', name: 'surname' })
+	                  )
+	                ),
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'form-group' },
+	                  _react2.default.createElement(
+	                    'label',
+	                    { htmlFor: 'spEmail', className: 'col-xs-12 col-sm-4 control-label' },
+	                    'Email'
+	                  ),
+	                  _react2.default.createElement(
+	                    'div',
+	                    { className: 'col-xs-12 col-sm-4' },
+	                    _react2.default.createElement('input', { className: 'form-control', id: 'spEmail', placeholder: 'Email', name: 'email' })
+	                  )
+	                ),
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'form-group' },
+	                  _react2.default.createElement(
+	                    'label',
+	                    { htmlFor: 'spPassword', className: 'col-xs-12 col-sm-4 control-label' },
+	                    'Password'
+	                  ),
+	                  _react2.default.createElement(
+	                    'div',
+	                    { className: 'col-xs-12 col-sm-4' },
+	                    _react2.default.createElement('input', { type: 'password', className: 'form-control', id: 'spPassword', placeholder: 'Password', name: 'password' })
+	                  )
+	                ),
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'form-group' },
+	                  _react2.default.createElement(
+	                    'div',
+	                    { className: 'col-sm-offset-4 col-sm-4' },
+	                    _react2.default.createElement(
+	                      'p',
+	                      { className: 'alert alert-danger', spIf: 'form.error' },
+	                      _react2.default.createElement('span', { spBind: 'form.errorMessage' })
+	                    ),
+	                    _react2.default.createElement(
+	                      'button',
+	                      { type: 'submit', className: 'btn btn-primary' },
+	                      'Register'
+	                    )
 	                  )
 	                )
 	              )
@@ -7285,15 +7515,196 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  }]);
 
+	  return DefaultRegistrationForm;
+	})(_react2.default.Component);
+
+	var RegistrationForm = (_dec = _reactMixin2.default.decorate(_reactRouter.History), _dec(_class = (function (_React$Component2) {
+	  _inherits(RegistrationForm, _React$Component2);
+
+	  function RegistrationForm() {
+	    var _Object$getPrototypeO;
+
+	    var _temp, _this2, _ret;
+
+	    _classCallCheck(this, RegistrationForm);
+
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+
+	    return _ret = (_temp = (_this2 = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(RegistrationForm)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this2), _this2.state = {
+	      fields: {
+	        givenName: '',
+	        surname: '',
+	        email: '',
+	        password: ''
+	      },
+	      errorMessage: null,
+	      isFormProcessing: false,
+	      isAccountCreated: false,
+	      isAccountEnabled: false
+	    }, _temp), _possibleConstructorReturn(_this2, _ret);
+	  }
+
+	  _createClass(RegistrationForm, [{
+	    key: 'onFormSubmit',
+	    value: function onFormSubmit(e) {
+	      var _this3 = this;
+
+	      e.preventDefault();
+
+	      var next = function next(err, data) {
+	        if (err) {
+	          return _this3.setState({
+	            isFormProcessing: false,
+	            errorMessage: err.message
+	          });
+	        }
+
+	        // If the user didn't specify any data,
+	        // then simply default to what we have in state.
+	        data = data || _this3.state.fields;
+
+	        _UserActions2.default.register(data, function (err, result) {
+	          if (err) {
+	            _this3.setState({
+	              isFormProcessing: false,
+	              errorMessage: err.message
+	            });
+	          } else if (result.status === 'ENABLED') {
+	            _UserActions2.default.login({
+	              username: data.email || data.username,
+	              password: data.password
+	            }, function (err) {
+	              if (err) {
+	                return _this3.setState({
+	                  isFormProcessing: false,
+	                  isAccountCreated: false,
+	                  errorMessage: err.message
+	                });
+	              }
+
+	              _this3.setState({
+	                isFormProcessing: false,
+	                isAccountCreated: true,
+	                isAccountEnabled: true
+	              });
+	            });
+	          } else {
+	            _this3.setState({
+	              isFormProcessing: false,
+	              isAccountCreated: true,
+	              isAccountEnabled: false
+	            });
+	          }
+	        });
+	      };
+
+	      this.setState({
+	        isFormProcessing: true
+	      });
+
+	      if (this.props.onSubmit) {
+	        e.data = this.state.fields;
+	        this.props.onSubmit(e, next);
+	      } else {
+	        next(null, this.state.fields);
+	      }
+	    }
+	  }, {
+	    key: '_mapFormFieldHandler',
+	    value: function _mapFormFieldHandler(element, tryMapField) {
+	      if (['input', 'textarea'].indexOf(element.type) > -1) {
+	        if (element.props.type !== 'submit') {
+	          switch (element.props.name) {
+	            case 'email':
+	              tryMapField('email');
+	              break;
+	            case 'login':
+	            case 'username':
+	              tryMapField('username');
+	              break;
+	            case 'givenName':
+	            case 'firstName':
+	              tryMapField('givenName');
+	              break;
+	            case 'surname':
+	            case 'lastName':
+	              tryMapField('surname');
+	              break;
+	            case 'password':
+	              tryMapField('password');
+	              break;
+	          }
+	        }
+	      }
+	    }
+	  }, {
+	    key: '_spIfHandler',
+	    value: function _spIfHandler(action, element) {
+	      var test = null;
+
+	      switch (action) {
+	        case 'form.processing':
+	          test = this.state.isFormProcessing;
+	          break;
+	        case 'form.error':
+	          test = !!this.state.errorMessage;
+	          break;
+	        case 'account.created':
+	          test = this.state.isAccountCreated;
+	          break;
+	        case 'account.enabled':
+	          test = this.state.isAccountEnabled;
+	          break;
+	      }
+
+	      return test;
+	    }
+	  }, {
+	    key: '_spBindHandler',
+	    value: function _spBindHandler(action, element) {
+	      var element = false;
+
+	      switch (action) {
+	        case 'form.errorMessage':
+	          var className = element.props ? element.props.className : undefined;
+	          element = _react2.default.createElement(
+	            'span',
+	            { className: className },
+	            this.state.errorMessage
+	          );
+	          break;
+	      }
+
+	      return element;
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      if (this.props.children) {
+	        return _react2.default.createElement(
+	          'form',
+	          { onSubmit: this.onFormSubmit.bind(this) },
+	          _utils2.default.makeForm(this, this._mapFormFieldHandler.bind(this), this._spIfHandler.bind(this), this._spBindHandler.bind(this))
+	        );
+	      } else {
+	        return _react2.default.createElement(DefaultRegistrationForm, this.props);
+	      }
+	    }
+	  }]);
+
 	  return RegistrationForm;
 	})(_react2.default.Component)) || _class);
 	exports.default = RegistrationForm;
 
 /***/ },
-/* 75 */
+/* 76 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+
+	var _dec, _class;
 
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
@@ -7306,6 +7717,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactMixin = __webpack_require__(71);
+
+	var _reactMixin2 = _interopRequireDefault(_reactMixin);
+
+	var _reactRouter = __webpack_require__(9);
+
+	var _utils = __webpack_require__(74);
+
+	var _utils2 = _interopRequireDefault(_utils);
+
 	var _LoginLink = __webpack_require__(68);
 
 	var _LoginLink2 = _interopRequireDefault(_LoginLink);
@@ -7322,114 +7743,82 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var ResetPasswordForm = (function (_React$Component) {
-	  _inherits(ResetPasswordForm, _React$Component);
+	var DefaultResetPasswordForm = (function (_React$Component) {
+	  _inherits(DefaultResetPasswordForm, _React$Component);
 
-	  function ResetPasswordForm() {
-	    var _Object$getPrototypeO;
+	  function DefaultResetPasswordForm() {
+	    _classCallCheck(this, DefaultResetPasswordForm);
 
-	    var _temp, _this, _ret;
-
-	    _classCallCheck(this, ResetPasswordForm);
-
-	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-	      args[_key] = arguments[_key];
-	    }
-
-	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(ResetPasswordForm)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.state = {
-	      fields: {
-	        email: ''
-	      },
-	      isRequestSent: false,
-	      errorMessage: null
-	    }, _temp), _possibleConstructorReturn(_this, _ret);
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(DefaultResetPasswordForm).apply(this, arguments));
 	  }
 
-	  _createClass(ResetPasswordForm, [{
-	    key: 'onFormSubmit',
-	    value: function onFormSubmit(e) {
-	      var self = this;
-	      e.preventDefault();
-
-	      _UserActions2.default.forgotPassword(this.state.fields, function (err) {
-	        if (err) {
-	          self.setState({ errorMessage: err.message });
-	          return;
-	        }
-	        self.setState({ isRequestSent: true });
-	      });
-	    }
-	  }, {
-	    key: 'onEmailChanged',
-	    value: function onEmailChanged(e) {
-	      this.state.fields.email = e.target.value;
-	    }
-	  }, {
+	  _createClass(DefaultResetPasswordForm, [{
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
-	        'div',
-	        { className: 'row' },
-	        this.state.isRequestSent ? _react2.default.createElement(
+	        ResetPasswordForm,
+	        this.props,
+	        _react2.default.createElement(
 	          'div',
-	          { className: 'col-sm-offset-4 col-xs-12 col-sm-4' },
-	          this.state.errorMessage === null ? _react2.default.createElement(
-	            'div',
-	            null,
-	            _react2.default.createElement(
-	              'p',
-	              { className: 'alert alert-success' },
-	              'We have sent a password reset link to the email address of the account that you specified. Please check your email for this message, then click on the link.'
-	            ),
-	            _react2.default.createElement(
-	              'p',
-	              { className: 'pull-right' },
-	              _react2.default.createElement(
-	                _LoginLink2.default,
-	                null,
-	                'Back to Login'
-	              )
-	            )
-	          ) : _react2.default.createElement(
-	            'div',
-	            { className: 'alert alert-danger' },
-	            'Sorry, there was a problem with that email or username.  Please try again.'
-	          )
-	        ) : _react2.default.createElement(
-	          'div',
-	          { className: 'col-xs-12' },
+	          { className: 'sp-reset-password-form' },
 	          _react2.default.createElement(
-	            'form',
-	            { className: 'form-horizontal', onSubmit: this.onFormSubmit.bind(this) },
+	            'div',
+	            { className: 'row' },
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'form-group' },
+	              { className: 'col-sm-offset-4 col-xs-12 col-sm-4', spIf: 'form.sent' },
 	              _react2.default.createElement(
-	                'label',
-	                { htmlFor: 'spEmail', className: 'col-xs-12 col-sm-4 control-label' },
-	                'Email or Username'
+	                'p',
+	                { className: 'alert alert-success' },
+	                'We have sent a password reset link to the email address of the account that you specified. Please check your email for this message, then click on the link.'
 	              ),
 	              _react2.default.createElement(
-	                'div',
-	                { className: 'col-xs-12 col-sm-4' },
-	                _react2.default.createElement('input', { className: 'form-control', id: 'spEmail', onChange: this.onEmailChanged.bind(this), placeholder: 'Your Email Address' })
+	                'p',
+	                { className: 'pull-right' },
+	                _react2.default.createElement(
+	                  _LoginLink2.default,
+	                  null,
+	                  'Back to Login'
+	                )
 	              )
 	            ),
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'form-group' },
+	              { className: 'col-xs-12', spIf: '!form.sent' },
 	              _react2.default.createElement(
 	                'div',
-	                { className: 'col-sm-offset-4 col-xs-12' },
-	                this.state.errorMessage ? _react2.default.createElement(
-	                  'p',
-	                  { className: 'text-danger' },
-	                  this.state.errorMessage
-	                ) : null,
+	                { className: 'form-horizontal' },
 	                _react2.default.createElement(
-	                  'button',
-	                  { type: 'submit', className: 'btn btn-primary' },
-	                  'Request Password Reset'
+	                  'div',
+	                  { className: 'form-group' },
+	                  _react2.default.createElement(
+	                    'label',
+	                    { htmlFor: 'spEmail', className: 'col-xs-12 col-sm-4 control-label' },
+	                    'Email or Username'
+	                  ),
+	                  _react2.default.createElement(
+	                    'div',
+	                    { className: 'col-xs-12 col-sm-4' },
+	                    _react2.default.createElement('input', { className: 'form-control', id: 'spEmail', name: 'email', placeholder: 'Your Email Address' })
+	                  )
+	                ),
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'form-group' },
+	                  _react2.default.createElement(
+	                    'div',
+	                    { className: 'col-sm-offset-4 col-xs-12' },
+	                    _react2.default.createElement(
+	                      'p',
+	                      { spIf: 'form.error' },
+	                      _react2.default.createElement('span', { spBind: 'form.errorMessage' })
+	                    ),
+	                    _react2.default.createElement(
+	                      'button',
+	                      { type: 'submit', className: 'btn btn-primary' },
+	                      'Request Password Reset'
+	                    )
+	                  )
 	                )
 	              )
 	            )
@@ -7439,13 +7828,150 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  }]);
 
-	  return ResetPasswordForm;
+	  return DefaultResetPasswordForm;
 	})(_react2.default.Component);
 
+	var ResetPasswordForm = (_dec = _reactMixin2.default.decorate(_reactRouter.History), _dec(_class = (function (_React$Component2) {
+	  _inherits(ResetPasswordForm, _React$Component2);
+
+	  function ResetPasswordForm() {
+	    var _Object$getPrototypeO;
+
+	    var _temp, _this2, _ret;
+
+	    _classCallCheck(this, ResetPasswordForm);
+
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+
+	    return _ret = (_temp = (_this2 = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(ResetPasswordForm)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this2), _this2.state = {
+	      fields: {
+	        email: ''
+	      },
+	      errorMessage: null,
+	      isFormProcessing: false,
+	      isFormSent: false
+	    }, _temp), _possibleConstructorReturn(_this2, _ret);
+	  }
+
+	  _createClass(ResetPasswordForm, [{
+	    key: 'onFormSubmit',
+	    value: function onFormSubmit(e) {
+	      var _this3 = this;
+
+	      e.preventDefault();
+
+	      var next = function next(err, data) {
+	        if (err) {
+	          return _this3.setState({
+	            isFormProcessing: false,
+	            errorMessage: err.message
+	          });
+	        }
+
+	        // If the user didn't specify any data,
+	        // then simply default to what we have in state.
+	        data = data || _this3.state.fields;
+
+	        _UserActions2.default.forgotPassword(_this3.state.fields, function (err) {
+	          if (err) {
+	            _this3.setState({
+	              isFormProcessing: false,
+	              errorMessage: err.message
+	            });
+	          } else {
+	            _this3.setState({
+	              isFormSent: true,
+	              isFormProcessing: false,
+	              errorMessage: null
+	            });
+	          }
+	        });
+	      };
+
+	      this.setState({
+	        isFormProcessing: true
+	      });
+
+	      if (this.props.onSubmit) {
+	        e.data = this.state.fields;
+	        this.props.onSubmit(e, next);
+	      } else {
+	        next(null, this.state.fields);
+	      }
+	    }
+	  }, {
+	    key: '_mapFormFieldHandler',
+	    value: function _mapFormFieldHandler(element, tryMapField) {
+	      if (element.type === 'input' || element.type === 'textarea') {
+	        if (element.props.type !== 'submit') {
+	          switch (element.props.name) {
+	            case 'email':
+	              tryMapField('email');
+	              break;
+	          }
+	        }
+	      }
+	    }
+	  }, {
+	    key: '_spIfHandler',
+	    value: function _spIfHandler(action, element) {
+	      var test = null;
+
+	      switch (action) {
+	        case 'form.processing':
+	          test = this.state.isFormProcessing;
+	          break;
+	        case 'form.sent':
+	          test = this.state.isFormSent;
+	          break;
+	        case 'form.error':
+	          test = this.state.errorMessage !== null;
+	          break;
+	      }
+
+	      return test;
+	    }
+	  }, {
+	    key: '_spBindHandler',
+	    value: function _spBindHandler(action, element) {
+	      var element = false;
+
+	      switch (action) {
+	        case 'form.errorMessage':
+	          var className = element.props ? element.props.className : undefined;
+	          element = _react2.default.createElement(
+	            'span',
+	            { className: className },
+	            this.state.errorMessage
+	          );
+	          break;
+	      }
+
+	      return element;
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      if (this.props.children) {
+	        return _react2.default.createElement(
+	          'form',
+	          { onSubmit: this.onFormSubmit.bind(this) },
+	          _utils2.default.makeForm(this, this._mapFormFieldHandler.bind(this), this._spIfHandler.bind(this), this._spBindHandler.bind(this))
+	        );
+	      } else {
+	        return _react2.default.createElement(DefaultResetPasswordForm, this.props);
+	      }
+	    }
+	  }]);
+
+	  return ResetPasswordForm;
+	})(_react2.default.Component)) || _class);
 	exports.default = ResetPasswordForm;
 
 /***/ },
-/* 76 */
+/* 77 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7551,7 +8077,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = VerifyEmailView;
 
 /***/ },
-/* 77 */
+/* 78 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7567,7 +8093,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _UserComponent2 = __webpack_require__(78);
+	var _UserComponent2 = __webpack_require__(79);
 
 	var _UserComponent3 = _interopRequireDefault(_UserComponent2);
 
@@ -7634,7 +8160,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = UserField;
 
 /***/ },
-/* 78 */
+/* 79 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
