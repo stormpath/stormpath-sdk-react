@@ -95,7 +95,54 @@ Renders any child components if there isn't an established user session.
 Renders a username and password login form.
 
 ```html
-<LoginForm redirectTo='/home' />
+<LoginForm redirectTo="/home" />
+```
+
+Customize the form by providing your own markup.
+
+```html
+<LoginForm>
+  <p>
+    <label htmlFor="username">Username or Email</label><br />
+    <input id="username" type="text" name="username" />
+  </p>
+  <p>
+    <label htmlFor="password">Password</label><br />
+    <input id="password" type="password" name="password" />
+  </p>
+  <p spIf="form.error">
+    <strong>Error:</strong><br />
+    <span spBind="form.errorMessage" />
+  </p>
+  <p>
+    <input type="submit" value="Login" />
+  </p>
+</LoginForm>
+```
+
+If you want to handle the form `onSubmit()` event, then simply provide a callback for it.
+
+```javascript
+class LoginPage extends React.Component {
+  onFormSubmit(e, next) {
+    // e.data will contain the data mapped from your form.
+    console.log("Form submitted", e.data);
+
+    // To return an error message, call next() as:
+    // next(new Error('Something in the form is wrong.'));
+
+    // Or if you want to change the data being sent, call it as:
+    // next(null, { myNewData: '123' });
+
+    // If you call next without any arguments,
+    // it will simply proceed processing the form.
+    next();
+  }
+
+  render() {
+    return <LoginForm onSubmit={this.onFormSubmit.bind(this)} />;
+  }
+}
 ```
 
 #### RegistrationForm
