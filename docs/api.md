@@ -222,6 +222,55 @@ Renders a password reset form.
 <ResetPasswordForm />
 ```
 
+Customize the form by providing your own markup.
+
+```html
+<ResetPasswordForm>
+  <div spIf="form.sent">
+    <p>We have sent a password reset link to the email address of the account that you specified.<br />
+    Please check your email for this message, then click on the link.</p>
+  </div>
+  <div spIf="!form.sent">
+    <p>
+      <label htmlFor="email">Email</label><br />
+      <input id="email" type="text" name="email" />
+    </p>
+    <p spIf="form.error">
+      <strong>Error:</strong><br />
+      <span spBind="form.errorMessage" />
+    </p>
+    <p>
+      <input type="submit" value="Request Password reset" />
+    </p>
+  </div>
+</ResetPasswordForm>
+```
+
+If you want to handle the form `onSubmit()` event, then simply provide a callback for it.
+
+```javascript
+class LoginPage extends React.Component {
+  onFormSubmit(e, next) {
+    // e.data will contain the data mapped from your form.
+    console.log("Form submitted", e.data);
+
+    // To return an error message, call next() as:
+    // next(new Error('Something in the form is wrong.'));
+
+    // Or if you want to change the data being sent, call it as:
+    // next(null, { myNewData: '123' });
+
+    // If you call next without any arguments,
+    // it will simply proceed processing the form.
+    next();
+  }
+
+  render() {
+    return <ResetPasswordForm onSubmit={this.onFormSubmit.bind(this)} />;
+  }
+}
+```
+
 #### VerifyEmailView
 
 Renders an email verification view. The parameter `spToken` is required in order for the token to be validated.
