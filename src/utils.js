@@ -84,7 +84,7 @@ class Utils {
     };
   }
 
-  makeForm(source, fieldMapFn, spIf, spBindFn) {
+  makeForm(source, fieldMapFn, spIfFn, spBindFn) {
     var root = React.cloneElement(<div />, {}, source.props.children);
 
     var fieldMap = this.getFormFieldMap(root, fieldMapFn);
@@ -109,7 +109,7 @@ class Utils {
             spIf = spIf.substr(1);
           }
 
-          test = spIf(spIf, element);
+          test = spIfFn(spIf, element);
 
           if (test !== null) {
             if (inverted) {
