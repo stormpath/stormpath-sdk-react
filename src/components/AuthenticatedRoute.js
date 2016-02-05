@@ -6,13 +6,13 @@ import UserStore from './../stores/UserStore';
 export default class AuthenticatedRoute extends Route {
   static defaultProps = {
     onEnter(nextState, replaceState, callback) {
-      var router = Context.getInstance().getRouter();
+      UserStore.isAuthenticated((err, authenticated) => {
+        if (!authenticated) {
+          var router = Context.getInstance().getRouter();
+          var homeRoute = router.getHomeRoute();
+          var loginRoute = router.getLoginRoute();
+          var redirectTo = (loginRoute || {}).path || (homeRoute || {}).path || '/';
 
-      var loginRoute = router.getLoginRoute();
-      var redirectTo = (loginRoute ? loginRoute.path : this.redirectTo) || '/';
-
-      UserStore.isAuthenticated(function (err, authenticated) {
-        if (err || !authenticated) {
           replaceState({ nextPathname: nextState.location.pathname }, redirectTo);
         }
         callback();

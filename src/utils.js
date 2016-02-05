@@ -3,12 +3,19 @@ import React from 'react';
 class Utils {
   nopElement = <span />;
 
-  forEachChild(children, handler) {
+  deepForEach(node, handler) {
+    handler(node);
+    if (node.props.children) {
+      this.forEachChild(node.props.children, handler, node);
+    }
+  }
+
+  forEachChild(children, handler, parent) {
     React.Children.forEach(children, (child) => {
-      handler(child);
+      handler(child, parent);
 
       if (child.props && child.props.children) {
-        this.forEachChild(child.props.children, handler);
+        this.forEachChild(child.props.children, handler, child);
       }
     });
   }

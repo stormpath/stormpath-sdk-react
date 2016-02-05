@@ -2,7 +2,8 @@ import React from 'react';
 import ReactMixin from 'react-mixin';
 import { History, Link } from 'react-router';
 
-import Utils from '../utils';
+import utils from '../utils';
+import Context from './../Context';
 import LoginLink from '../components/LoginLink';
 import UserActions from '../actions/UserActions';
 
@@ -115,11 +116,7 @@ export default class RegistrationForm extends React.Component {
               });
             }
 
-            this.setState({
-              isFormProcessing: false,
-              isAccountCreated: true,
-              isAccountEnabled: true
-            });
+            this._performRedirect();
           });
         } else {
           this.setState({
@@ -141,6 +138,15 @@ export default class RegistrationForm extends React.Component {
     } else {
       next(null, this.state.fields);
     }
+  }
+
+  _performRedirect() {
+    var router = Context.getInstance().getRouter();
+    var homeRoute = router.getHomeRoute();
+    var authenticatedHomeRoute = router.getAuthenticatedHomeRoute();
+    var redirectTo = this.props.redirectTo || (authenticatedHomeRoute || {}).path || (homeRoute || {}).path || '/';
+
+    this.history.pushState(null, redirectTo);
   }
 
   _mapFormFieldHandler(element, tryMapField) {
@@ -208,7 +214,7 @@ export default class RegistrationForm extends React.Component {
     if (this.props.children) {
       return (
         <form onSubmit={this.onFormSubmit.bind(this)}>
-          {Utils.makeForm(this, this._mapFormFieldHandler.bind(this), this._spIfHandler.bind(this), this._spBindHandler.bind(this))}
+          {utils.makeForm(this, this._mapFormFieldHandler.bind(this), this._spIfHandler.bind(this), this._spBindHandler.bind(this))}
         </form>
       );
     } else {

@@ -1,12 +1,24 @@
 import ReactRouter from 'react-router';
 
+import utils from './../utils';
 import Context from './../Context';
 
+import HomeRoute from './HomeRoute';
 import LoginRoute from './LoginRoute';
 import LogoutRoute from './LogoutRoute';
+import AuthenticatedRoute from './AuthenticatedRoute';
 
 export default class Router extends ReactRouter {
   markedRoutes = {
+    home: {
+      type: HomeRoute,
+      authenticated: {
+        props: null
+      },
+      notAuthenticated: {
+        props: null
+      }
+    },
     login: {
       type: LoginRoute,
       props: null
@@ -26,28 +38,34 @@ export default class Router extends ReactRouter {
   _mapMarkedRoutes() {
     var markedRoutes = this.markedRoutes;
 
-    function getChildren(node) {
-      if (!node.props.children || !node.props.children.props || !node.props.children.props.children) {
-        return [];
-      }
-      return node.props.children.props.children;
-    }
-
-    function walk(node) {
-      // Try and map the node to a marked route
+    utils.deepForEach(this, (node, parent) => {
+      // Try and map the route node to a marked route.
       for (var routeName in markedRoutes) {
         var route = markedRoutes[routeName];
-        if (node.type == route.type) {
-          markedRoutes[routeName].props = node.props;
+        if (node.type === route.type) {
+          var markedRoute = markedRoutes[routeName];
+
+          if (node.type === HomeRoute) {
+            if (parent.type === AuthenticatedRoute) {
+              markedRoute = markedRoute.authenticated;
+            } else {
+              markedRoute = markedRoute.notAuthenticated;
+            }
+          }
+
+          markedRoute.props = node.props;
           break;
         }
       }
+    });
+  }
 
-      // Walk children
-      getChildren(node).forEach(walk);
-    }
+  getHomeRoute() {
+    return this.markedRoutes.home.notAuthenticated.props;
+  }
 
-    walk(this);
+  getAuthenticatedHomeRoute() {
+    return this.markedRoutes.home.authenticated.props;
   }
 
   getLoginRoute() {

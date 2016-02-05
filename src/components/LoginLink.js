@@ -8,7 +8,7 @@ export default class LoginLink extends React.Component {
     var router = Context.getInstance().getRouter();
 
     var loginRoute = router.getLoginRoute();
-    var targetPath = loginRoute ? loginRoute.path : '/login';
+    var targetPath = (loginRoute || {}).path || '/login';
 
   	return (
       <Link to={targetPath} className={this.props.className}>
