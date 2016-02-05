@@ -104,9 +104,8 @@ export default class UserService {
   }
 
 	me(callback) {
-    var self = this;
-    this.meRequestPool.request(function (resultCallback) {
-      self._makeRequest('get', self.endpoints.me, null, resultCallback);
+    this.meRequestPool.request((resultCallback) => {
+      this._makeRequest('get', this.endpoints.me, null, resultCallback);
     }, callback);
 	}
 

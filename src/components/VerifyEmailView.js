@@ -13,16 +13,15 @@ export default class VerifyEmailView extends React.Component {
   }
 
   componentDidMount() {
-    var self = this;
     var spToken = this.props.spToken;
 
-    UserActions.verifyEmail(spToken, function (err) {
+    UserActions.verifyEmail(spToken, (err) => {
       if (err) {
-        self.setState({
+        this.setState({
           status: 'ERROR'
         });
       } else {
-        self.setState({
+        this.setState({
           status: 'VERIFIED'
         });
       }

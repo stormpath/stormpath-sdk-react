@@ -9,10 +9,9 @@ export default class UserComponent extends React.Component {
   };
 
   onChange() {
-    var self = this;
-    UserStore.resolveSession(function (err, user) {
-      if (self.onChangeListener !== null) {
-        self.setState({ user: user });
+    UserStore.resolveSession((err, user) => {
+      if (this.onChangeListener !== null) {
+        this.setState({ user: user });
       }
     });
   }
