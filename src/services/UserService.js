@@ -41,6 +41,7 @@ function makeAjaxRequest(method, path, body, callback) {
 
   request.open(method.toUpperCase(), path, true);
   request.setRequestHeader('Accept', 'application/json');
+  request.setRequestHeader('X-Stormpath-Agent', pkg.name + '/' + pkg.version);
 
   request.onreadystatechange = function () {
     // 4 = Request finished and response is ready.
