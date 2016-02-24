@@ -21,23 +21,20 @@
   "bugs": "https://github.com/stormpath/stormpath-sdk-react/issues",
   "scripts": {
     "build": "npm run build-cjs && npm run build-es6 && npm run build-umd && npm run build-min",
-    "build-cjs": "rimraf lib && node ./node_modules/babel-cli/lib/babel ./src -d lib",
-    "build-es6": "rimraf es6 && node ./node_modules/babel-cli/lib/babel ./src -d es6",
+    "build-cjs": "NODE_ENV=production webpack --output-library-target commonjs2 src/index.js ./lib/index.js",
+    "build-es6": "NODE_ENV=production webpack --output-library-target commonjs2 src/index.js ./es6/index.js",
     "build-umd": "NODE_ENV=production webpack src/index.js umd/stormpath-sdk-react.js",
     "build-min": "NODE_ENV=production webpack -p src/index.js umd/stormpath-sdk-react.min.js",
-    "build-dist": "NODE_ENV=production webpack src/index.js dist/stormpath-sdk-react.js && NODE_ENV=production webpack -p src/index.js dist/stormpath-sdk-react.min.js",
-    "lint": "eslint src examples"
+    "build-dist": "NODE_ENV=production webpack src/index.js dist/stormpath-sdk-react.js && NODE_ENV=production webpack -p src/index.js dist/stormpath-sdk-react.min.js"
   },
-  "dependencies": {
+  "devDependencies": {
     "flux": "^2.1.1",
     "globals": "^8.16.0",
     "invariant": "^2.2.0",
     "keymirror": "^0.1.1",
     "react-mixin": "^3.0.3",
     "react-router": "^1.0.3",
-    "warning": "^2.1.0"
-  },
-  "devDependencies": {
+    "warning": "^2.1.0",
     "babel-cli": "^6.3.17",
     "babel-core": "^6.3.26",
     "babel-eslint": "^5.0.0-beta6",
@@ -62,7 +59,6 @@
     "react-dom": "^0.14.5",
     "react-static-container": "^1.0.0",
     "react-transform-catch-errors": "^1.0.1",
-    "rimraf": "^2.5.0",
     "style-loader": "^0.13.0",
     "webpack": "^1.12.9",
     "webpack-dev-middleware": "^1.4.0"

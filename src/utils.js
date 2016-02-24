@@ -1,3 +1,4 @@
+import url from 'url';
 import React from 'react';
 
 class Utils {
@@ -167,6 +168,44 @@ class Utils {
     };
 
     return this.buildElementTree(root, optionsFactory, elementFactory);
+  }
+
+  mergeObjects(obj1, obj2) {
+    var obj3 = {};
+
+    if (obj1) {
+      for (var attrname in obj1) {
+        obj3[attrname] = obj1[attrname];
+      }
+    }
+
+    if (obj2) {
+      for (var attrname in obj2) {
+        obj3[attrname] = obj2[attrname];
+      }
+    }
+
+    return obj3;
+  }
+
+  isRelativeUri(uri) {
+    return uri && uri[0] === '/';
+  }
+
+  isSameHost(a, b) {
+    var urlA = url.parse(a);
+
+    if (!urlA) {
+      return false;
+    }
+
+    var urlB = url.parse(b);
+
+    if (!urlB) {
+      return false;
+    }
+
+    return urlA.host === urlB.host;
   }
 }
 
