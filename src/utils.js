@@ -188,6 +188,10 @@ class Utils {
     return obj3;
   }
 
+  isRelativeUri(uri) {
+    return uri && uri[0] === '/';
+  }
+
   isSameHost(a, b) {
     var urlA = url.parse(a);
 
