@@ -73,7 +73,7 @@ export default class BaseService {
       if (result.status === 200) {
         callback(null, data);
       } else {
-        callback(new Error(data.error || 'Invalid request.'));
+        callback(new Error(data.message || data.error || 'A request to the API failed.'));
       }
     });
   }
