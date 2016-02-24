@@ -4,35 +4,79 @@ import { History, Link } from 'react-router';
 
 import utils from '../utils';
 import Context from '../Context';
+import UserStore from '../stores/UserStore';
 import UserActions from '../actions/UserActions';
+import LoadingText from '../components/LoadingText';
 
 class DefaultLoginForm extends React.Component {
+  state = {
+    fields: null
+  };
+
+  componentDidMount() {
+    if (this.state.fields !== null) {
+      return;
+    }
+
+    var defaultFields = [
+      {
+        label: 'Username or Email',
+        name: 'login',
+        placeholder: 'Username or Email',
+        required: true,
+        type: 'text'
+      }, {
+        label: 'Password',
+        name: 'password',
+        placeholder: 'Password',
+        required: true,
+        type: 'password'
+      }
+    ];
+
+    UserStore.getLoginViewData((err, data) => {
+      this.setState({
+        fields: data && data.form ? data.form.fields : defaultFields
+      });
+    });
+  }
+
   render() {
+    var fieldMarkup = null;
+
+    if (this.state.fields !== null) {
+      fieldMarkup = [];
+
+      this.state.fields.forEach((field, index) => {
+        var fieldId = `sp-${field.name}-${index}`;
+        fieldMarkup.push(
+          <div key={ fieldId } className="form-group">
+            <label htmlFor={ fieldId } className="col-xs-12 col-sm-4 control-label">{ field.label }</label>
+            <div className="col-xs-12 col-sm-4">
+              <input type={ field.type } className="form-control" id={ fieldId } name={ field.name } placeholder={ field.placeholder } />
+            </div>
+          </div>
+        );
+      });
+
+      fieldMarkup.push(
+        <div key="login-button" className="form-group">
+          <div className="col-sm-offset-4 col-sm-4">
+            <p className="alert alert-danger" spIf="form.error"><span spBind="form.errorMessage" /></p>
+            <button type="submit" className="btn btn-primary">Login</button>
+            <Link to="/forgot" className="pull-right">Forgot Password</Link>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <LoginForm {...this.props}>
         <div className='sp-login-form'>
           <div className="row">
             <div className="col-xs-12">
               <div className="form-horizontal">
-                <div className="form-group">
-                  <label htmlFor="spEmail" className="col-xs-12 col-sm-4 control-label">Email</label>
-                  <div className="col-xs-12 col-sm-4">
-                    <input className="form-control" id="spUsername" name="username" placeholder="Username or Email" />
-                  </div>
-                </div>
-                <div className="form-group">
-                  <label htmlFor="spPassword" className="col-xs-12 col-sm-4 control-label">Password</label>
-                  <div className="col-xs-12 col-sm-4">
-                    <input type="password" className="form-control" id="spPassword" name="password" placeholder="Password" />
-                  </div>
-                </div>
-                <div className="form-group">
-                  <div className="col-sm-offset-4 col-sm-4">
-                    <p className="alert alert-danger" spIf="form.error"><span spBind="form.errorMessage" /></p>
-                    <button type="submit" className="btn btn-primary">Login</button>
-                    <Link to="/forgot" className="pull-right">Forgot Password</Link>
-                  </div>
-                </div>
+                { fieldMarkup ? fieldMarkup : <LoadingText /> }
               </div>
             </div>
           </div>

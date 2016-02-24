@@ -29,6 +29,10 @@ class UserStore extends BaseStore {
     });
   }
 
+  getLoginViewData(callback) {
+    this.service.getLoginViewData(callback);
+  }
+
   login(options, callback) {
     this.reset();
 

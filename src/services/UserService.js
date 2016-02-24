@@ -114,6 +114,10 @@ export default class UserService {
     }, callback);
 	}
 
+  getLoginViewData(callback) {
+    this._makeRequest('get', this._buildEndpoint(this.endpoints.login), null, callback);
+  }
+
 	login(options, callback) {
     this._makeRequest('post', this._buildEndpoint(this.endpoints.login), options, callback);
 	}
