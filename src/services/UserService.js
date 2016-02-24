@@ -1,82 +1,10 @@
-class RequestPool {
-  waiting = [];
+import utils from '../utils';
+import BaseService from './BaseService';
+import RequestPool from './RequestPool';
 
-  request(resolver, callback) {
-    var waiting = this.waiting;
-
-    waiting.push(callback);
-
-    if (waiting.length === 1) {
-      resolver(function () {
-        while (waiting.length) {
-          waiting.shift().apply(null, arguments);
-        }
-      });
-    }
-
-    return false;
-  }
-}
-
-function mergeObjects(obj1, obj2){
-  var obj3 = {};
-
-  if (obj1) {
-    for (var attrname in obj1) {
-      obj3[attrname] = obj1[attrname];
-    }
-  }
-
-  if (obj2) {
-    for (var attrname in obj2) {
-      obj3[attrname] = obj2[attrname];
-    }
-  }
-
-  return obj3;
-}
-
-function makeAjaxRequest(method, path, body, callback) {
-  var request = new XMLHttpRequest();
-
-  request.open(method.toUpperCase(), path, true);
-  request.setRequestHeader('Accept', 'application/json');
-  request.setRequestHeader('X-Stormpath-Agent', pkg.name + '/' + pkg.version);
-
-  request.onreadystatechange = function () {
-    // 4 = Request finished and response is ready.
-    // Ignore everything else.
-    if (request.readyState !== 4) {
-      return;
-    }
-
-    var result = {
-      status: request.status,
-      responseJSON: null
-    };
-
-    try {
-      if (request.responseText) {
-        result.responseJSON = JSON.parse(request.responseText);
-      }
-      callback(null, result);
-    } catch(e) {
-      callback(e);
-    }
-  };
-
-  if (body !== undefined) {
-    request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-    request.send(JSON.stringify(body));
-  }
-}
-
-export default class UserService {
+export default class UserService extends BaseService {
   constructor(endpoints) {
-    this.meRequestPool = new RequestPool();
-
-    this.endpoints = {
-      baseUri: null,
+    var defaultEndpoints = {
       me: '/me',
       login: '/login',
       register: '/register',
@@ -86,56 +14,38 @@ export default class UserService {
       logout: '/logout'
     };
 
-    this.endpoints = mergeObjects(this.endpoints, endpoints);
-  }
+    super(utils.mergeObjects(defaultEndpoints, endpoints));
 
-  _makeRequest(method, path, body, callback) {
-    makeAjaxRequest(method, path, body, function (err, result) {
-      if (err) {
-        return callback(err);
-      }
-
-      var data = result.responseJSON || {};
-
-      if (result.status === 200) {
-        callback(null, data);
-      } else {
-        callback(new Error(data.error || 'Invalid request.'));
-      }
-    });
-  }
-
-  _buildEndpoint(endpoint) {
-    return (this.endpoints.baseUri || '') + endpoint;
+    this.meRequestPool = new RequestPool();
   }
 
 	me(callback) {
     this.meRequestPool.request((resultCallback) => {
-      this._makeRequest('get', this._buildEndpoint(this.endpoints.me), null, resultCallback);
+      this._makeRequest('get', this.endpoints.me, null, resultCallback);
     }, callback);
 	}
 
 	login(options, callback) {
-    this._makeRequest('post', this._buildEndpoint(this.endpoints.login), options, callback);
+    this._makeRequest('post', this.endpoints.login, options, callback);
 	}
 
   register(options, callback) {
-    this._makeRequest('post', this._buildEndpoint(this.endpoints.register), options, callback);
+    this._makeRequest('post', this.endpoints.register, options, callback);
   }
 
   verifyEmail(spToken, callback) {
-    this._makeRequest('get', this._buildEndpoint(this.endpoints.verifyEmail + '?sptoken=' + encodeURIComponent(spToken)), null, callback);
+    this._makeRequest('get', this.endpoints.verifyEmail + '?sptoken=' + encodeURIComponent(spToken), null, callback);
   }
 
   forgotPassword(options, callback) {
-    this._makeRequest('post', this._buildEndpoint(this.endpoints.forgotPassword), options, callback);
+    this._makeRequest('post', this.endpoints.forgotPassword, options, callback);
   }
 
   changePassword(options, callback) {
-    this._makeRequest('post', this._buildEndpoint(this.endpoints.changePassword), options, callback);
+    this._makeRequest('post', this.endpoints.changePassword, options, callback);
   }
 
 	logout(callback) {
-    this._makeRequest('get', this._buildEndpoint(this.endpoints.logout), null, callback);
+    this._makeRequest('get', this.endpoints.logout, null, callback);
 	}
 }
