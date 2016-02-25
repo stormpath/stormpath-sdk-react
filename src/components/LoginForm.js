@@ -53,7 +53,7 @@ class DefaultLoginForm extends React.Component {
           <div key={ fieldId } className="form-group">
             <label htmlFor={ fieldId } className="col-xs-12 col-sm-4 control-label">{ field.label }</label>
             <div className="col-xs-12 col-sm-4">
-              <input type={ field.type } className="form-control" id={ fieldId } name={ field.name } placeholder={ field.placeholder } />
+              <input type={ field.type } className="form-control" id={ fieldId } name={ field.name } placeholder={ field.placeholder } required={ field.required } />
             </div>
           </div>
         );
