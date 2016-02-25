@@ -37,6 +37,10 @@ export default class UserService extends BaseService {
     this._makeRequest('post', this.endpoints.register, options, callback);
   }
 
+  getRegisterViewData(callback) {
+    this._makeRequest('get', this.endpoints.register, null, callback);
+  }
+
   verifyEmail(spToken, callback) {
     this._makeRequest('get', this.endpoints.verifyEmail + '?sptoken=' + encodeURIComponent(spToken), null, callback);
   }
