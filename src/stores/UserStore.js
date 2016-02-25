@@ -49,6 +49,10 @@ class UserStore extends BaseStore {
     this.service.register(options, callback);
   }
 
+  getRegisterViewData(callback) {
+    this.service.getRegisterViewData(callback);
+  }
+
   forgotPassword(options, callback) {
     this.service.forgotPassword(options, callback);
   }

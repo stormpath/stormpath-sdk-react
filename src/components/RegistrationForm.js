@@ -5,10 +5,86 @@ import { History, Link } from 'react-router';
 import utils from '../utils';
 import Context from './../Context';
 import LoginLink from '../components/LoginLink';
+import UserStore from '../stores/UserStore';
 import UserActions from '../actions/UserActions';
+import LoadingText from '../components/LoadingText';
 
 class DefaultRegistrationForm extends React.Component {
+  state = {
+    fields: null
+  };
+
+  componentDidMount() {
+    if (this.state.fields !== null) {
+      return;
+    }
+
+    var defaultFields = [
+      {
+        label: 'First Name',
+        name: 'givenName',
+        placeholder: 'First Name',
+        required: true,
+        type: 'text'
+      },
+      {
+        label: 'Last Name',
+        name: 'surname',
+        placeholder: 'Last Name',
+        required: true,
+        type: 'text'
+      },
+      {
+        label: 'Email',
+        name: 'email',
+        placeholder: 'Email',
+        required: true,
+        type: 'email'
+      },
+      {
+        label: 'Password',
+        name: 'password',
+        placeholder: 'Password',
+        required: true,
+        type: 'password'
+      }
+    ];
+
+    UserStore.getRegisterViewData((err, data) => {
+      this.setState({
+        fields: data && data.form ? data.form.fields : defaultFields
+      });
+    });
+  }
+
   render() {
+    var fieldMarkup = null;
+
+    if (this.state.fields !== null) {
+      fieldMarkup = [];
+
+      this.state.fields.forEach((field, index) => {
+        var fieldId = `sp-${field.name}-${index}`;
+        fieldMarkup.push(
+          <div key={ fieldId } className="form-group">
+            <label htmlFor={ fieldId } className="col-xs-12 col-sm-4 control-label">{ field.label }</label>
+            <div className="col-xs-12 col-sm-4">
+              <input type={ field.type } className="form-control" id={ fieldId } name={ field.name } placeholder={ field.placeholder } required={ field.required } />
+            </div>
+          </div>
+        );
+      });
+
+      fieldMarkup.push(
+        <div key="register-button" className="form-group">
+          <div className="col-sm-offset-4 col-sm-4">
+            <p className="alert alert-danger" spIf="form.error"><span spBind="form.errorMessage" /></p>
+            <button type="submit" className="btn btn-primary">Register</button>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <RegistrationForm {...this.props}>
         <div className='sp-login-form'>
@@ -28,36 +104,7 @@ class DefaultRegistrationForm extends React.Component {
           <div className="row" spIf="!account.created">
             <div className="col-xs-12">
               <div className="form-horizontal">
-                <div className="form-group">
-                  <label htmlFor="spFirstName" className="col-xs-12 col-sm-4 control-label">First Name</label>
-                  <div className="col-xs-12 col-sm-4">
-                    <input className="form-control" id="spFirstName" placeholder="First Name" name="givenName" />
-                  </div>
-                </div>
-                <div className="form-group">
-                  <label htmlFor="spLastName" className="col-xs-12 col-sm-4 control-label">Last Name</label>
-                  <div className="col-xs-12 col-sm-4">
-                    <input className="form-control" id="spLastName" placeholder="Last Name" name="surname" />
-                  </div>
-                </div>
-                <div className="form-group">
-                  <label htmlFor="spEmail" className="col-xs-12 col-sm-4 control-label">Email</label>
-                  <div className="col-xs-12 col-sm-4">
-                    <input className="form-control" id="spEmail" placeholder="Email" name="email" />
-                  </div>
-                </div>
-                <div className="form-group">
-                  <label htmlFor="spPassword" className="col-xs-12 col-sm-4 control-label">Password</label>
-                  <div className="col-xs-12 col-sm-4">
-                    <input type="password" className="form-control" id="spPassword" placeholder="Password" name="password" />
-                  </div>
-                </div>
-                <div className="form-group">
-                  <div className="col-sm-offset-4 col-sm-4">
-                    <p className="alert alert-danger" spIf="form.error"><span spBind="form.errorMessage" /></p>
-                    <button type="submit" className="btn btn-primary">Register</button>
-                  </div>
-                </div>
+                { fieldMarkup ? fieldMarkup : <LoadingText /> }
               </div>
             </div>
           </div>
@@ -95,7 +142,7 @@ export default class RegistrationForm extends React.Component {
 
       // If the user didn't specify any data,
       // then simply default to what we have in state.
-      data = data || this.state.fields;
+      data = data || this.state.fields;
 
       UserActions.register(data, (err, result) => {
         if (err) {
@@ -118,7 +165,7 @@ export default class RegistrationForm extends React.Component {
 
             this._performRedirect();
           });
-        } else {
+        } else {
           this.setState({
             isFormProcessing: false,
             isAccountCreated: true,
@@ -144,13 +191,13 @@ export default class RegistrationForm extends React.Component {
     var router = Context.getInstance().getRouter();
     var homeRoute = router.getHomeRoute();
     var authenticatedHomeRoute = router.getAuthenticatedHomeRoute();
-    var redirectTo = this.props.redirectTo || (authenticatedHomeRoute || {}).path || (homeRoute || {}).path || '/';
+    var redirectTo = this.props.redirectTo || (authenticatedHomeRoute || {}).path || (homeRoute || {}).path || '/';
 
     this.history.pushState(null, redirectTo);
   }
 
   _mapFormFieldHandler(element, tryMapField) {
-    if (['input', 'textarea'].indexOf(element.type) > -1) {
+    if (['input', 'textarea'].indexOf(element.type) > -1) {
       if (element.props.type !== 'submit') {
         switch(element.props.name) {
           case 'email':
