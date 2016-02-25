@@ -5,7 +5,7 @@ export default class LoadingText extends React.Component {
 
   state = {
     text: null
-  }
+  };
 
   componentDidMount() {
     this.waitTimeout = setTimeout(() => {
