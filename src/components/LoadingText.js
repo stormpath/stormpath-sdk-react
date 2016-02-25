@@ -10,9 +10,9 @@ export default class LoadingText extends React.Component {
   componentDidMount() {
     this.waitTimeout = setTimeout(() => {
       this.setState({
-        text: this.props.text || 'Loading...'
+        text: this.props.text || 'Loading...'
       });
-    }, this.props.showAfter || 250);
+    }, this.props.showAfter || 250);
   }
 
   componentWillUnmount() {
