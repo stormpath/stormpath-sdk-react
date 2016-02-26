@@ -54,6 +54,6 @@ export default class UserService extends BaseService {
   }
 
 	logout(callback) {
-    this._makeRequest('get', this.endpoints.logout, null, callback);
+    this._makeRequest('post', this.endpoints.logout, null, callback);
 	}
 }
