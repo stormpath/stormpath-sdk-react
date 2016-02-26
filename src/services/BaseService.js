@@ -35,7 +35,7 @@ function makeHttpRequest(method, uri, body, headers, callback) {
     }
   };
 
-  if (body !== undefined) {
+  if (typeof body === 'object') {
     request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
     request.send(JSON.stringify(body));
   }
