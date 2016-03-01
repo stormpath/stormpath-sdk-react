@@ -110,19 +110,13 @@ Stormpath already integrated!*
   <LoginRoute path='/login' component={LoginPage} />
   ```
 
-  Once you've added a [`LoginRoute`][], let's add a [`LogoutRoute`][]. The [`LogoutRoute`][] is merely a route handler that ends your session, so you don't need to add any view for it.
-    
-  ```html
-  <LogoutRoute path='/logout' />
-  ```
-
   Then on all routes that you want to protect, use [`AuthenticatedRoute`][].
 
   ```html
   <AuthenticatedRoute path='/protected' component={ProtectedPage} />
   ```
 
-  Now we have most of our routes setup, let's add the route to redirect to when logging out.
+  Now we have most of our routes setup, let's add the route to redirect to when we've logged out.
 
   ```html
   <HomeRoute path='/' component={HomePage} />
@@ -215,7 +209,6 @@ Apache 2.0, see [LICENSE](LICENSE).
 [`LoginLink`]: https://github.com/stormpath/stormpath-sdk-react/blob/master/docs/api.md#loginlink
 [`LoginRoute`]: https://github.com/stormpath/stormpath-sdk-react/blob/master/docs/api.md#loginroute
 [`LogoutLink`]: https://github.com/stormpath/stormpath-sdk-react/blob/master/docs/api.md#logoutlink
-[`LogoutRoute`]: https://github.com/stormpath/stormpath-sdk-react/blob/master/docs/api.md#logoutroute
 [`NotAuthenticated`]: https://github.com/stormpath/stormpath-sdk-react/blob/master/docs/api.md#notauthenticated
 [`ReactRouter.Route`]: https://github.com/rackt/react-router/blob/master/docs/API.md#route
 [`ReactRouter.Router`]: https://github.com/rackt/react-router/blob/master/docs/API.md#router
