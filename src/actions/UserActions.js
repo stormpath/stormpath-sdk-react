@@ -44,6 +44,14 @@ class UserActions {
     });
   }
 
+  updateProfile(data, callback) {
+    context.getDispatcher().dispatch({
+      actionType: UserConstants.USER_UPDATE_PROFILE,
+      data: data,
+      callback: callback
+    });
+  }
+
   set(data) {
     context.getDispatcher().dispatch({
       actionType: UserConstants.USER_SET,

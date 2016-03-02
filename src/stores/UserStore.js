@@ -37,7 +37,11 @@ class UserStore extends BaseStore {
         return callback(err);
       }
 
-      this.resolveSession(callback);
+      this.sessionError = null;
+      this.sessionStore.set(result);
+      this.emitChange();
+
+      callback(null, result);
     });
   }
 
@@ -55,6 +59,10 @@ class UserStore extends BaseStore {
 
   changePassword(options, callback) {
     this.service.changePassword(options, callback);
+  }
+
+  updateProfile(data, callback) {
+    this.service.updateProfile(data, callback);
   }
 
   verifyEmail(spToken, callback) {
@@ -85,7 +93,7 @@ class UserStore extends BaseStore {
         this.sessionStore.reset();
       } else {
         this.sessionError = null;
-        this.sessionStore.set(result.account || result || {});
+        this.sessionStore.set(result);
       }
 
       if (callback) {
@@ -122,6 +130,9 @@ app.on('ready', () => {
         break;
       case UserConstants.USER_CHANGE_PASSWORD:
         userStore.changePassword(payload.options, payload.callback);
+        break;
+      case UserConstants.USER_UPDATE_PROFILE:
+        userStore.updateProfile(payload.data, payload.callback);
         break;
       case UserConstants.USER_VERIFY_EMAIL:
         userStore.verifyEmail(payload.options.spToken, payload.callback);

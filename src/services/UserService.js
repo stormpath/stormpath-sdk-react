@@ -19,22 +19,36 @@ export default class UserService extends BaseService {
     this.meRequestPool = new RequestPool();
   }
 
+  _unwrapAccountResult(callback) {
+    return (err, result) => {
+      if (err) {
+        return callback(err);
+      }
+
+      callback(null, result.account || result || {});
+    };
+  }
+
 	me(callback) {
     this.meRequestPool.request((resultCallback) => {
-      this._makeRequest('get', this.endpoints.me, null, resultCallback);
+      this._makeRequest('get', this.endpoints.me, null, this._unwrapAccountResult(resultCallback));
     }, callback);
 	}
+
+  updateProfile(data, callback) {
+    this._makeRequest('post', this.endpoints.me, data, callback);
+  }
 
   getLoginViewData(callback) {
     this._makeRequest('get', this._buildEndpoint(this.endpoints.login), null, callback);
   }
 
 	login(options, callback) {
-    this._makeRequest('post', this.endpoints.login, options, callback);
+    this._makeRequest('post', this.endpoints.login, options, this._unwrapAccountResult(callback));
 	}
 
   register(options, callback) {
-    this._makeRequest('post', this.endpoints.register, options, callback);
+    this._makeRequest('post', this.endpoints.register, options, this._unwrapAccountResult(callback));
   }
 
   getRegisterViewData(callback) {

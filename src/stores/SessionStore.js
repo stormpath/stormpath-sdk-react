@@ -8,7 +8,7 @@ export default class SessionStore extends BaseStore {
   }
 
   set(session) {
-    if (this.session !== session) {
+    if (JSON.stringify(this.session) !== JSON.stringify(session)) {
       this.session = session;
       this.emitChange(session);
     }

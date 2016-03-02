@@ -128,17 +128,17 @@ export default class ResetPasswordForm extends React.Component {
     return test;
   }
 
-  _spBindHandler(action, element) {
-    var element = false;
+  _spBindHandler(bind, element) {
+    var result = false;
 
-    switch (action) {
+    switch (bind) {
       case 'form.errorMessage':
         let className = element.props ? element.props.className : undefined;
-        element = <span className={className}>{this.state.errorMessage}</span>;
+        result = <span className={className}>{this.state.errorMessage}</span>;
         break;
     }
 
-    return element;
+    return result;
   }
 
   render() {
