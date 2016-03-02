@@ -1,4 +1,4 @@
-## 0.5.0 to 1.0.0 (2016-03-01)
+## 0.5.0 to 1.0.0 (Mar 1, 2016)
 
 Breaking:
 
@@ -8,7 +8,7 @@ Breaking:
 
 Notice:
 
-  - The `LogoutLink` previously redirected the user to the path of them `LogoutRoute`.
+  - The `LogoutLink` previously redirected the user to the path of the `LogoutRoute`.
   This has changed. The `LogoutRoute` is in fact no longer needed. So instead of
   redirecting to the `LogoutRoute` path, the `LogoutLink` will take care of doing
   the logout itself.
