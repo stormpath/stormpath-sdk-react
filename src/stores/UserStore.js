@@ -4,14 +4,13 @@ import BaseStore from '../stores/BaseStore';
 import UserService from '../services/UserService';
 import UserConstants from '../constants/UserConstants';
 
-var _session = false;
-var _sessionError = null;
-var _sessionResolved = false;
-
 class UserStore extends BaseStore {
   constructor() {
     super();
     this.service = null;
+    this.session = false;
+    this.sessionError = null;
+    this.sessionResolved = false;
   }
 
   init(context) {
@@ -20,12 +19,12 @@ class UserStore extends BaseStore {
   }
 
   getSession() {
-    return _session;
+    return this.session;
   }
 
   isAuthenticated(callback) {
     this.resolveSession((err, result) => {
-      callback(err, !err && _session !== false);
+      callback(err, !err && this.session !== false);
     });
   }
 
@@ -79,33 +78,33 @@ class UserStore extends BaseStore {
   }
 
   resolveSession(callback) {
-    if (_sessionResolved) {
-      return callback && callback(_sessionError, _session);
+    if (this.sessionResolved) {
+      return callback && callback(this.sessionError, this.session);
     }
 
     this.service.me((err, result) => {
       this.reset();
 
-      _sessionResolved = true;
+      this.sessionResolved = true;
 
       if (err) {
-        _sessionError = err;
+        this.sessionError = err;
       } else {
-        _session = result;
+        this.session = result;
       }
 
       if (callback) {
-        callback(_sessionError, _session);
+        callback(this.sessionError, this.session);
       }
 
       this.emitChange();
     });
   }
 
-  reset(resolved) {
-    _session = false;
-    _sessionError = null;
-    _sessionResolved = false;
+  reset() {
+    this.session = false;
+    this.sessionError = null;
+    this.sessionResolved = false;
   }
 }
 
