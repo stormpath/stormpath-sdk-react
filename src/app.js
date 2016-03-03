@@ -1,12 +1,11 @@
 import { Dispatcher } from 'flux';
 import { EventEmitter } from 'events';
 
-import Context from './Context';
+import context from './context';
 
 class App extends EventEmitter {
-  constructor(context) {
+  constructor() {
     super();
-    this.context = context;
     this.initialized = false;
   }
 
@@ -24,15 +23,15 @@ class App extends EventEmitter {
     this.initialized = true;
 
     // If there's no specified dispatcher, then just create our own one.
-    this.context.setDispatcher(options.dispatcher || new Dispatcher());
+    context.setDispatcher(options.dispatcher || new Dispatcher());
 
     // If there are any endpoints specified, then set these.
     if (options.endpoints) {
-      this.context.setEndpoints(options.endpoints);
+      context.setEndpoints(options.endpoints);
     }
 
-    this.emit('ready', this.context);
+    this.emit('ready');
   }
 }
 
-export default new App(Context.getInstance())
+export default new App()

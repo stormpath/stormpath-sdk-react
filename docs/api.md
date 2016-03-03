@@ -91,6 +91,51 @@ Specify `redirectTo` to set the path to redirect to after logging out. If this i
 <LogoutRoute redirectTo='/pathToRedirectTo' />
 ```
 
+## Contexts
+
+#### authenticated (bool)
+
+If you want to know if there's an authenticated account, then include the `authenticated` context.
+
+```javascript
+class AuthenticatedExample extends React.Component {
+  static contextTypes = {
+    authenticated: React.PropTypes.bool
+  };
+
+  render() {
+    return (
+      <p>
+        { this.context.authenticated ?
+          'Authenticated!' :
+          'Not authenticated!'
+        }
+      </p>
+    );
+  }
+}
+```
+
+#### account (object)
+
+If you want to retrieve the authenticated account, then include the `account` context. The value will be `undefined` if there's no authenticated account.
+
+```javascript
+class AccountExample extends React.Component {
+  static contextTypes = {
+    account: React.PropTypes.object
+  };
+
+  render() {
+    return (
+      <p>
+        Hello {this.context.account.givenName}!
+      </p>
+    );
+  }
+}
+```
+
 ## Components
 
 #### Authenticated
@@ -329,23 +374,4 @@ Renders a link that points to the LogoutRoute or `/logout` if no LogoutRoute is 
 ```html
 <LogoutLink />
 <LogoutLink><img src="wrap-something-in-a-logout-link.png" /></LogoutLink>
-```
-
-## Base Components
-
-#### UserComponent
-
-Extend a component with user state.
-
-```javascript
-class HelloUser extends UserComponent {
-  render() {
-    return (
-      <p>
-      	Hello {this.state.user.username}!
-      </p>
-    );
-  }
-}
-
 ```

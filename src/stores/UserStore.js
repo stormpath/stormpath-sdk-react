@@ -1,30 +1,27 @@
 import app from '../app';
+import context from '../context';
 
-import BaseStore from '../stores/BaseStore';
+import BaseStore from './BaseStore';
+import SessionStore from './SessionStore';
 import UserService from '../services/UserService';
 import UserConstants from '../constants/UserConstants';
 
 class UserStore extends BaseStore {
-  constructor() {
+  constructor(sessionStore) {
     super();
     this.service = null;
-    this.session = false;
     this.sessionError = null;
-    this.sessionResolved = false;
+    this.sessionStore = sessionStore;
   }
 
-  init(context) {
+  init() {
     this.service = new UserService(context.getEndpoints());
     this.resolveSession();
   }
 
-  getSession() {
-    return this.session;
-  }
-
   isAuthenticated(callback) {
     this.resolveSession((err, result) => {
-      callback(err, !err && this.session !== false);
+      callback(err, !err && !this.sessionStore.empty());
     });
   }
 
@@ -78,19 +75,17 @@ class UserStore extends BaseStore {
   }
 
   resolveSession(callback) {
-    if (this.sessionResolved) {
-      return callback && callback(this.sessionError, this.session);
+    if (this.sessionError || !this.sessionStore.empty()) {
+      return callback && callback(this.sessionError, this.sessionStore.get());
     }
 
     this.service.me((err, result) => {
-      this.reset();
-
-      this.sessionResolved = true;
-
       if (err) {
         this.sessionError = err;
+        this.sessionStore.reset();
       } else {
-        this.session = result;
+        this.sessionError = null;
+        this.sessionStore.set(result.account || result || {});
       }
 
       if (callback) {
@@ -102,16 +97,15 @@ class UserStore extends BaseStore {
   }
 
   reset() {
-    this.session = false;
     this.sessionError = null;
-    this.sessionResolved = false;
+    this.sessionStore.reset();
   }
 }
 
-var userStore = new UserStore();
+var userStore = new UserStore(context.sessionStore);
 
-app.on('ready', (context) => {
-  userStore.init(context);
+app.on('ready', () => {
+  userStore.init();
   context.getDispatcher().register((payload) => {
     switch(payload.actionType) {
       case UserConstants.USER_LOGIN:

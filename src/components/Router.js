@@ -1,7 +1,8 @@
-import ReactRouter from 'react-router';
+import React from 'react';
+import { Router as ReactRouter } from 'react-router';
 
 import utils from './../utils';
-import Context from './../Context';
+import context from './../context';
 
 import HomeRoute from './HomeRoute';
 import LoginRoute from './LoginRoute';
@@ -9,6 +10,16 @@ import LogoutRoute from './LogoutRoute';
 import AuthenticatedRoute from './AuthenticatedRoute';
 
 export default class Router extends ReactRouter {
+  static childContextTypes = {
+    authenticated: React.PropTypes.bool,
+    account: React.PropTypes.object
+  };
+
+  state = {
+    authenticated: false,
+    account: undefined
+  };
+
   markedRoutes = {
     home: {
       type: HomeRoute,
@@ -31,8 +42,11 @@ export default class Router extends ReactRouter {
 
   constructor() {
     super(...arguments);
+
     this._mapMarkedRoutes();
-    Context.getInstance().setRouter(this);
+    this.accountChangeListener = this._setAccountState.bind(this);
+
+    context.setRouter(this);
   }
 
   _mapMarkedRoutes() {
@@ -74,5 +88,28 @@ export default class Router extends ReactRouter {
 
   getLogoutRoute() {
     return this.markedRoutes.logout.props;
+  }
+
+  _setAccountState(account) {
+    this.setState({
+      authenticated: account !== null,
+      account: account
+    });
+  }
+
+  componentDidMount() {
+    this._setAccountState(context.sessionStore.get());
+    context.sessionStore.addListener('changed', this.accountChangeListener);
+  }
+
+  componentWillUnmount() {
+    context.sessionStore.removeListener('changed', this.accountChangeListener);
+  }
+
+  getChildContext() {
+    return {
+      authenticated: this.state.authenticated,
+      account: this.state.account
+    }
   }
 }

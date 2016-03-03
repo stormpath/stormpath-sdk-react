@@ -1,23 +1,11 @@
-let contextInstance = null;
+import SessionStore from './stores/SessionStore';
 
-export default class Context {
+class Context {
   constructor() {
-    if (contextInstance) {
-      return contextInstance;
-    }
-
     this.router = null;
     this.dispatcher = null;
     this.endpoints = null;
-
-    contextInstance = this;
-  }
-
-  static getInstance() {
-    if (!contextInstance) {
-      return new Context();
-    }
-    return contextInstance;
+    this.sessionStore = new SessionStore();
   }
 
   setRouter(router) {
@@ -44,3 +32,5 @@ export default class Context {
     return this.endpoints || {};
   }
 }
+
+export default new Context()

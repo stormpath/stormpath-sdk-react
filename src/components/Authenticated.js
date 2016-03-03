@@ -1,38 +1,12 @@
 import React from 'react';
-import UserStore from './../stores/UserStore';
 
 export default class Authenticated extends React.Component {
-  onChangeListener = null;
-
-  state = {
-    authenticated: null
+  static contextTypes = {
+    account: React.PropTypes.object
   };
 
-  constructor() {
-    super();
-  }
-
-  onChange() {
-    UserStore.isAuthenticated((err, authenticated) => {
-      if (this.onChangeListener !== null) {
-        this.setState({ authenticated: authenticated === true });
-      }
-    });
-  }
-
-  componentWillMount() {
-    this.onChangeListener = this.onChange.bind(this);
-    UserStore.addChangeListener(this.onChangeListener);
-    this.onChange();
-  }
-
-  componentWillUnmount() {
-    UserStore.removeChangeListener(this.onChangeListener);
-    this.onChangeListener = null;
-  }
-
   render() {
-    return this.state.authenticated === true ?
+    return this.context.account !== undefined ?
       this.props.children : null;
   }
 }
