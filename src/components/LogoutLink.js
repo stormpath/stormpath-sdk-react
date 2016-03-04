@@ -2,7 +2,7 @@ import React from 'react';
 import ReactMixin from 'react-mixin';
 import { History } from 'react-router';
 
-import Context from './../Context';
+import context from './../context';
 import UserActions from './../actions/UserActions';
 
 @ReactMixin.decorate(History)
@@ -12,7 +12,7 @@ export default class LogoutLink extends React.Component {
   };
 
   _performRedirect() {
-    var router = Context.getInstance().getRouter();
+    var router = context.getRouter();
     var homeRoute = router.getHomeRoute();
     var loginRoute = router.getLoginRoute();
     var redirectTo = this.props.redirectTo || (homeRoute || {}).path || (loginRoute || {}).path || '/';

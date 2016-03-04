@@ -1,9 +1,12 @@
 import React from 'react';
-import Authenticated from './Authenticated';
 
-export default class NotAuthenticated extends Authenticated {
+export default class NotAuthenticated extends React.Component {
+  static contextTypes = {
+    user: React.PropTypes.object
+  };
+
   render() {
-    return this.state.authenticated === false ?
+    return this.context.user === undefined ?
       this.props.children : null;
   }
 }

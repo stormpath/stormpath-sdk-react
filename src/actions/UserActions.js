@@ -1,13 +1,9 @@
-import Context from './../Context';
+import context from './../context';
 import UserConstants from './../constants/UserConstants';
 
 class UserActions {
-  constructor(context) {
-    this.context = context;
-  }
-
   login(options, callback) {
-    this.context.getDispatcher().dispatch({
+    context.getDispatcher().dispatch({
       actionType: UserConstants.USER_LOGIN,
       options: options,
       callback: callback
@@ -15,7 +11,7 @@ class UserActions {
   }
 
   register(options, callback) {
-    this.context.getDispatcher().dispatch({
+    context.getDispatcher().dispatch({
       actionType: UserConstants.USER_REGISTER,
       options: options,
       callback: callback
@@ -23,7 +19,7 @@ class UserActions {
   }
 
   forgotPassword(options, callback) {
-    this.context.getDispatcher().dispatch({
+    context.getDispatcher().dispatch({
       actionType: UserConstants.USER_FORGOT_PASSWORD,
       options: options,
       callback: callback
@@ -31,7 +27,7 @@ class UserActions {
   }
 
   verifyEmail(spToken, callback) {
-    this.context.getDispatcher().dispatch({
+    context.getDispatcher().dispatch({
       actionType: UserConstants.USER_VERIFY_EMAIL,
       options: {
         spToken: spToken
@@ -41,7 +37,7 @@ class UserActions {
   }
 
   changePassword(options, callback) {
-    this.context.getDispatcher().dispatch({
+    context.getDispatcher().dispatch({
       actionType: UserConstants.USER_CHANGE_PASSWORD,
       options: options,
       callback: callback
@@ -49,18 +45,18 @@ class UserActions {
   }
 
   set(data) {
-    this.context.getDispatcher().dispatch({
+    context.getDispatcher().dispatch({
       actionType: UserConstants.USER_SET,
       data: data
     });
   }
 
   logout(callback) {
-    this.context.getDispatcher().dispatch({
+    context.getDispatcher().dispatch({
       actionType: UserConstants.USER_LOGOUT,
       callback: callback
     });
   }
 }
 
-export default new UserActions(Context.getInstance())
+export default new UserActions()

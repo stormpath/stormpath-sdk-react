@@ -3,7 +3,8 @@ import ReactMixin from 'react-mixin';
 import { History, Link } from 'react-router';
 
 import utils from '../utils';
-import Context from '../Context';
+import context from '../context';
+
 import UserStore from '../stores/UserStore';
 import UserActions from '../actions/UserActions';
 import LoadingText from '../components/LoadingText';
@@ -140,7 +141,7 @@ export default class LoginForm extends React.Component {
   }
 
   _performRedirect() {
-    var router = Context.getInstance().getRouter();
+    var router = context.getRouter();
     var homeRoute = router.getHomeRoute();
     var authenticatedHomeRoute = router.getAuthenticatedHomeRoute();
     var redirectTo = this.props.redirectTo || (authenticatedHomeRoute || {}).path || (homeRoute || {}).path || '/';

@@ -1,12 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import Context from './../Context';
+import context from './../context';
 
 export default class LoginLink extends React.Component {
   render() {
-    var router = Context.getInstance().getRouter();
-
+    var router = context.getRouter();
     var loginRoute = router.getLoginRoute();
     var targetPath = (loginRoute || {}).path || '/login';
 
