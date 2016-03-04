@@ -328,7 +328,7 @@ Customize the form by providing your own markup.
 If you want to handle the form `onSubmit()` event, then simply provide a callback for it.
 
 ```javascript
-class LoginPage extends React.Component {
+class ResetPasswordPage extends React.Component {
   onFormSubmit(e, next) {
     // e.data will contain the data mapped from your form.
     console.log("Form submitted", e.data);
@@ -346,6 +346,114 @@ class LoginPage extends React.Component {
 
   render() {
     return <ResetPasswordForm onSubmit={this.onFormSubmit.bind(this)} />;
+  }
+}
+```
+
+#### UserProfileForm
+
+Renders a form that allows you to update the user profile.
+
+```html
+<UserProfileForm />
+```
+
+**Important:** In order to update user data, you need to provide your own POST API for the `me` endpoint.
+
+Using the `express-stormpath` library, simply expose a new endpoint as shown below.
+
+```javascript
+app.post('/me', bodyParser.json(), stormpath.loginRequired, function (req, res) {
+  function writeError(message) {
+    res.status(400);
+    res.json({ message: message, status: 400 });
+    res.end();
+  }
+  
+  function saveAccount() {
+    req.user.givenName = req.body.givenName;
+    req.user.surname = req.body.surname;
+    req.user.email = req.body.email;
+    
+    req.user.save(function (err) {
+      if (err) {
+        return writeError(err.userMessage || err.message);
+      }
+      res.end();
+    });
+  }
+
+  if (req.body.password) {
+    var application = req.app.get('stormpathApplication');
+    
+    application.authenticateAccount({
+      username: req.user.username,
+      password: req.body.existingPassword
+    }, function (err) {
+      if (err) {
+        return writeError('The existing password that you entered was incorrect.');
+      }
+      
+      req.user.password = req.body.password();
+      
+      saveAccount();
+    });
+  } else {
+    saveAccount();
+  }
+});
+```
+
+Customize the form by providing your own markup.
+
+```html
+<UserProfileForm>
+  <p>
+    <label htmlFor="givenName">First name</label><br />
+    <input id="givenName" type="text" name="givenName" />
+  </p>
+  <p>
+    <label htmlFor="surname">Last name</label><br />
+    <input id="email" type="text" name="surname" />
+  </p>
+  <p>
+    <label htmlFor="email">Email</label><br />
+    <input id="email" type="text" name="email" />
+  </p>
+  <p spIf="form.error">
+    <strong>Error:</strong><br />
+    <span spBind="form.errorMessage" />
+  </p>
+  <p spIf="form.successful">
+    Profile updated.
+  </p>
+  <p>
+    <input type="submit" value="Update" />
+  </p>
+</UserProfileForm>
+```
+
+If you want to handle the form `onSubmit()` event, then simply provide a callback for it.
+
+```javascript
+class ProfilePage extends React.Component {
+  onFormSubmit(e, next) {
+    // e.data will contain the data mapped from your form.
+    console.log("Form submitted", e.data);
+
+    // To return an error message, call next() as:
+    // next(new Error('Something in the form is wrong.'));
+
+    // Or if you want to change the data being sent, call it as:
+    // next(null, { myNewData: '123' });
+
+    // If you call next without any arguments,
+    // it will simply proceed processing the form.
+    next();
+  }
+
+  render() {
+    return <UserProfileForm onSubmit={this.onFormSubmit.bind(this)} />;
   }
 }
 ```

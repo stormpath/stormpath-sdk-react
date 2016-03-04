@@ -27,7 +27,7 @@ class Utils {
     var newElement = elementFactory && elementFactory(element, parent) || element;
     var newOptions = optionsFactory && optionsFactory(element, parent) || {};
 
-    if (newElement !== this.nopElement && newElement.props && newElement.props.children ) {
+    if (newElement !== this.nopElement && newElement.props && newElement.props.children) {
       newChildren = React.Children.map(
         newElement.props.children,
         (childElement) => {
@@ -45,7 +45,7 @@ class Utils {
   getFormFieldMap(root, handler) {
     var fields = {};
 
-    var tryMapField = (field, name) => {
+    var tryMapField = (field, name, defaultValue) => {
       if (field.props.ignore) {
         return;
       }
@@ -55,7 +55,10 @@ class Utils {
       }
 
       if (!('name' in fields)) {
-        fields[name] = field;
+        fields[name] = {
+          element: field,
+          defaultValue: defaultValue
+        };
       }
     };
 
@@ -72,17 +75,18 @@ class Utils {
 
     for (var key in fields) {
       var field = fields[key];
+      var element = field.element;
 
-      if (!(field.type in inverseMap)) {
-        inverseMap[field.type] = {};
+      if (!(element.type in inverseMap)) {
+        inverseMap[element.type] = {};
       }
 
-      var defaultValue = field.props.value || '';
-      defaultValues[key] = defaultValue;
+      defaultValues[key] = field.defaultValue !== undefined ?
+        field.defaultValue : (element.props.value || '');
 
-      inverseMap[field.type][field.props.name] = {
+      inverseMap[element.type][element.props.name] = {
         fieldName: key,
-        field: field
+        field: element
       };
     }
 
@@ -134,7 +138,7 @@ class Utils {
 
         if (spBind) {
           var newElement = spBindFn(spBind, element);
-          if (newElement !== false) {
+          if (newElement !== false || newElement) {
             element = newElement;
           }
         }
@@ -151,9 +155,20 @@ class Utils {
 
         if (elementType in fieldMap.inverse && elementAttributeName in fieldMap.inverse[elementType]) {
           var mappedField = fieldMap.inverse[elementType][elementAttributeName];
-          options.onChange = (e) => {
-            disabled: source.state.isFormProcessing
+
+          if (elementAttributeName in fieldMap.defaultValues) {
+            options.defaultValue = fieldMap.defaultValues[elementAttributeName];
+          }
+
+          var originalOnChange = element.props.onChange;
+          options.onChange = (e, ...args) => {
+            options.disabled = source.state.isFormProcessing;
             source.state.fields[mappedField.fieldName] = e.target.value;
+
+            // Honor the original onChange event.
+            if (originalOnChange) {
+              originalOnChange(e, ...args);
+            }
           };
         }
 
@@ -168,6 +183,10 @@ class Utils {
     };
 
     return this.buildElementTree(root, optionsFactory, elementFactory);
+  }
+
+  clone(value) {
+    return JSON.parse(JSON.stringify(value));
   }
 
   mergeObjects(obj1, obj2) {
