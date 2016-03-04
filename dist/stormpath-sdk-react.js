@@ -59,7 +59,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.UserComponent = exports.UserField = exports.VerifyEmailView = exports.ResetPasswordForm = exports.RegistrationForm = exports.LoginForm = exports.LogoutLink = exports.LoginLink = exports.NotAuthenticated = exports.Authenticated = exports.AuthenticatedRoute = exports.LogoutRoute = exports.LoginRoute = exports.constants = exports.actions = exports.Router = exports.Context = undefined;
+	exports.UserComponent = exports.UserField = exports.VerifyEmailView = exports.ResetPasswordForm = exports.RegistrationForm = exports.LoginForm = exports.LogoutLink = exports.LoginLink = exports.NotAuthenticated = exports.Authenticated = exports.AuthenticatedRoute = exports.LogoutRoute = exports.LoginRoute = exports.HomeRoute = exports.constants = exports.actions = exports.Router = exports.Context = undefined;
 	exports.init = init;
 
 	var _app = __webpack_require__(1);
@@ -74,63 +74,67 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _Router3 = _interopRequireDefault(_Router2);
 
-	var _UserActions = __webpack_require__(59);
+	var _UserActions = __webpack_require__(74);
 
 	var _UserActions2 = _interopRequireDefault(_UserActions);
 
-	var _UserConstants = __webpack_require__(60);
+	var _UserConstants = __webpack_require__(71);
 
 	var _UserConstants2 = _interopRequireDefault(_UserConstants);
 
-	var _LoginRoute2 = __webpack_require__(57);
+	var _HomeRoute2 = __webpack_require__(64);
+
+	var _HomeRoute3 = _interopRequireDefault(_HomeRoute2);
+
+	var _LoginRoute2 = __webpack_require__(65);
 
 	var _LoginRoute3 = _interopRequireDefault(_LoginRoute2);
 
-	var _LogoutRoute2 = __webpack_require__(58);
+	var _LogoutRoute2 = __webpack_require__(73);
 
 	var _LogoutRoute3 = _interopRequireDefault(_LogoutRoute2);
 
-	var _AuthenticatedRoute2 = __webpack_require__(62);
+	var _AuthenticatedRoute2 = __webpack_require__(75);
 
 	var _AuthenticatedRoute3 = _interopRequireDefault(_AuthenticatedRoute2);
 
-	var _Authenticated2 = __webpack_require__(66);
+	var _Authenticated2 = __webpack_require__(76);
 
 	var _Authenticated3 = _interopRequireDefault(_Authenticated2);
 
-	var _NotAuthenticated2 = __webpack_require__(67);
+	var _NotAuthenticated2 = __webpack_require__(77);
 
 	var _NotAuthenticated3 = _interopRequireDefault(_NotAuthenticated2);
 
-	var _LoginLink2 = __webpack_require__(68);
+	var _LoginLink2 = __webpack_require__(78);
 
 	var _LoginLink3 = _interopRequireDefault(_LoginLink2);
 
-	var _LogoutLink2 = __webpack_require__(69);
+	var _LogoutLink2 = __webpack_require__(79);
 
 	var _LogoutLink3 = _interopRequireDefault(_LogoutLink2);
 
-	var _LoginForm2 = __webpack_require__(70);
+	var _LoginForm2 = __webpack_require__(83);
 
 	var _LoginForm3 = _interopRequireDefault(_LoginForm2);
 
-	var _RegistrationForm2 = __webpack_require__(75);
+	var _RegistrationForm2 = __webpack_require__(85);
 
 	var _RegistrationForm3 = _interopRequireDefault(_RegistrationForm2);
 
-	var _ResetPasswordForm2 = __webpack_require__(76);
+	var _ResetPasswordForm2 = __webpack_require__(86);
 
 	var _ResetPasswordForm3 = _interopRequireDefault(_ResetPasswordForm2);
 
-	var _VerifyEmailView2 = __webpack_require__(77);
+	var _VerifyEmailView2 = __webpack_require__(87);
 
 	var _VerifyEmailView3 = _interopRequireDefault(_VerifyEmailView2);
 
-	var _UserField2 = __webpack_require__(78);
+	var _UserField2 = __webpack_require__(88);
 
 	var _UserField3 = _interopRequireDefault(_UserField2);
 
-	var _UserComponent2 = __webpack_require__(79);
+	var _UserComponent2 = __webpack_require__(89);
 
 	var _UserComponent3 = _interopRequireDefault(_UserComponent2);
 
@@ -140,6 +144,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.Router = _Router3.default;
 	exports.actions = _UserActions2.default;
 	exports.constants = _UserConstants2.default;
+	exports.HomeRoute = _HomeRoute3.default;
 	exports.LoginRoute = _LoginRoute3.default;
 	exports.LogoutRoute = _LogoutRoute3.default;
 	exports.AuthenticatedRoute = _AuthenticatedRoute3.default;
@@ -1039,17 +1044,29 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _reactRouter2 = _interopRequireDefault(_reactRouter);
 
+	var _utils = __webpack_require__(57);
+
+	var _utils2 = _interopRequireDefault(_utils);
+
 	var _Context = __webpack_require__(7);
 
 	var _Context2 = _interopRequireDefault(_Context);
 
-	var _LoginRoute = __webpack_require__(57);
+	var _HomeRoute = __webpack_require__(64);
+
+	var _HomeRoute2 = _interopRequireDefault(_HomeRoute);
+
+	var _LoginRoute = __webpack_require__(65);
 
 	var _LoginRoute2 = _interopRequireDefault(_LoginRoute);
 
-	var _LogoutRoute = __webpack_require__(58);
+	var _LogoutRoute = __webpack_require__(73);
 
 	var _LogoutRoute2 = _interopRequireDefault(_LogoutRoute);
+
+	var _AuthenticatedRoute = __webpack_require__(75);
+
+	var _AuthenticatedRoute2 = _interopRequireDefault(_AuthenticatedRoute);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1068,6 +1085,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Router).apply(this, arguments));
 
 	    _this.markedRoutes = {
+	      home: {
+	        type: _HomeRoute2.default,
+	        authenticated: {
+	          props: null
+	        },
+	        notAuthenticated: {
+	          props: null
+	        }
+	      },
 	      login: {
 	        type: _LoginRoute2.default,
 	        props: null
@@ -1088,28 +1114,36 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function _mapMarkedRoutes() {
 	      var markedRoutes = this.markedRoutes;
 
-	      function getChildren(node) {
-	        if (!node.props.children || !node.props.children.props || !node.props.children.props.children) {
-	          return [];
-	        }
-	        return node.props.children.props.children;
-	      }
-
-	      function walk(node) {
-	        // Try and map the node to a marked route
+	      _utils2.default.deepForEach(this, function (node, parent) {
+	        // Try and map the route node to a marked route.
 	        for (var routeName in markedRoutes) {
 	          var route = markedRoutes[routeName];
-	          if (node.type == route.type) {
-	            markedRoutes[routeName].props = node.props;
+	          if (node.type === route.type) {
+	            var markedRoute = markedRoutes[routeName];
+
+	            if (node.type === _HomeRoute2.default) {
+	              if (parent.type === _AuthenticatedRoute2.default) {
+	                markedRoute = markedRoute.authenticated;
+	              } else {
+	                markedRoute = markedRoute.notAuthenticated;
+	              }
+	            }
+
+	            markedRoute.props = node.props;
 	            break;
 	          }
 	        }
-
-	        // Walk children
-	        getChildren(node).forEach(walk);
-	      }
-
-	      walk(this);
+	      });
+	    }
+	  }, {
+	    key: 'getHomeRoute',
+	    value: function getHomeRoute() {
+	      return this.markedRoutes.home.notAuthenticated.props;
+	    }
+	  }, {
+	    key: 'getAuthenticatedHomeRoute',
+	    value: function getAuthenticatedHomeRoute() {
+	      return this.markedRoutes.home.authenticated.props;
 	    }
 	  }, {
 	    key: 'getLoginRoute',
@@ -5473,6 +5507,1689 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _url = __webpack_require__(58);
+
+	var _url2 = _interopRequireDefault(_url);
+
+	var _react = __webpack_require__(12);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var Utils = (function () {
+	  function Utils() {
+	    _classCallCheck(this, Utils);
+
+	    this.nopElement = _react2.default.createElement('span', null);
+	  }
+
+	  _createClass(Utils, [{
+	    key: 'deepForEach',
+	    value: function deepForEach(node, handler) {
+	      handler(node);
+	      if (node.props.children) {
+	        this.forEachChild(node.props.children, handler, node);
+	      }
+	    }
+	  }, {
+	    key: 'forEachChild',
+	    value: function forEachChild(children, handler, parent) {
+	      var _this = this;
+
+	      _react2.default.Children.forEach(children, function (child) {
+	        handler(child, parent);
+
+	        if (child.props && child.props.children) {
+	          _this.forEachChild(child.props.children, handler, child);
+	        }
+	      });
+	    }
+	  }, {
+	    key: 'buildElementTree',
+	    value: function buildElementTree(element, optionsFactory, elementFactory, parent) {
+	      var _this2 = this;
+
+	      var newChildren = undefined;
+
+	      var newElement = elementFactory && elementFactory(element, parent) || element;
+	      var newOptions = optionsFactory && optionsFactory(element, parent) || {};
+
+	      if (newElement !== this.nopElement && newElement.props && newElement.props.children) {
+	        newChildren = _react2.default.Children.map(newElement.props.children, function (childElement) {
+	          if (!_react2.default.isValidElement(childElement)) {
+	            return elementFactory(childElement, parent);
+	          }
+	          return _this2.buildElementTree(childElement, optionsFactory, elementFactory, newElement);
+	        });
+	      }
+
+	      return _react2.default.cloneElement(newElement, newOptions, newChildren);
+	    }
+	  }, {
+	    key: 'getFormFieldMap',
+	    value: function getFormFieldMap(root, handler) {
+	      var fields = {};
+
+	      var tryMapField = function tryMapField(field, name) {
+	        if (field.props.ignore) {
+	          return;
+	        }
+
+	        if (field.props.fieldName) {
+	          name = elements.props.fieldName;
+	        }
+
+	        if (!('name' in fields)) {
+	          fields[name] = field;
+	        }
+	      };
+
+	      this.forEachChild(root, function (child) {
+	        if (!child.props) {
+	          return;
+	        }
+
+	        handler(child, tryMapField.bind(null, child));
+	      });
+
+	      var inverseMap = {};
+	      var defaultValues = {};
+
+	      for (var key in fields) {
+	        var field = fields[key];
+
+	        if (!(field.type in inverseMap)) {
+	          inverseMap[field.type] = {};
+	        }
+
+	        var defaultValue = field.props.value || '';
+	        defaultValues[key] = defaultValue;
+
+	        inverseMap[field.type][field.props.name] = {
+	          fieldName: key,
+	          field: field
+	        };
+	      }
+
+	      return {
+	        defaultValues: defaultValues,
+	        inverse: inverseMap
+	      };
+	    }
+	  }, {
+	    key: 'makeForm',
+	    value: function makeForm(source, fieldMapFn, spIfFn, spBindFn) {
+	      var _this3 = this;
+
+	      var root = _react2.default.cloneElement(_react2.default.createElement('div', null), {}, source.props.children);
+
+	      var fieldMap = this.getFormFieldMap(root, fieldMapFn);
+
+	      source.state.fields = source.state.fields || {};
+	      for (var key in fieldMap.defaultValues) {
+	        if (!(key in source.state.fields)) {
+	          source.state.fields[key] = fieldMap.defaultValues[key];
+	        }
+	      }
+
+	      var elementFactory = function elementFactory(element, parent) {
+	        if (element.props) {
+	          var spIf = element.props.spIf;
+
+	          if (spIf) {
+	            var test = null;
+	            var inverted = false;
+
+	            if (spIf[0] === '!') {
+	              inverted = true;
+	              spIf = spIf.substr(1);
+	            }
+
+	            test = spIfFn(spIf, element);
+
+	            if (test !== null) {
+	              if (inverted) {
+	                test = !test;
+	              }
+
+	              if (!test) {
+	                return _this3.nopElement;
+	              }
+	            }
+	          }
+
+	          var spBind = element.props.spBind;
+
+	          if (spBind) {
+	            var newElement = spBindFn(spBind, element);
+	            if (newElement !== false) {
+	              element = newElement;
+	            }
+	          }
+	        }
+	        return element;
+	      };
+
+	      var optionsFactory = function optionsFactory(element, parent) {
+	        var options = {};
+
+	        if (element.props) {
+	          var elementType = element.type;
+	          var elementAttributeName = element.props.name;
+
+	          if (elementType in fieldMap.inverse && elementAttributeName in fieldMap.inverse[elementType]) {
+	            var mappedField = fieldMap.inverse[elementType][elementAttributeName];
+	            options.onChange = function (e) {
+	              disabled: source.state.isFormProcessing;
+	              source.state.fields[mappedField.fieldName] = e.target.value;
+	            };
+	          }
+
+	          var elementAttributeType = element.props.type;
+
+	          if ((elementType === 'input' || elementType === 'button') && elementAttributeType === 'submit') {
+	            options.disabled = source.state.isFormProcessing;
+	          }
+	        }
+
+	        return options;
+	      };
+
+	      return this.buildElementTree(root, optionsFactory, elementFactory);
+	    }
+	  }, {
+	    key: 'mergeObjects',
+	    value: function mergeObjects(obj1, obj2) {
+	      var obj3 = {};
+
+	      if (obj1) {
+	        for (var attrname in obj1) {
+	          obj3[attrname] = obj1[attrname];
+	        }
+	      }
+
+	      if (obj2) {
+	        for (var attrname in obj2) {
+	          obj3[attrname] = obj2[attrname];
+	        }
+	      }
+
+	      return obj3;
+	    }
+	  }, {
+	    key: 'isRelativeUri',
+	    value: function isRelativeUri(uri) {
+	      return uri && uri[0] === '/';
+	    }
+	  }, {
+	    key: 'isSameHost',
+	    value: function isSameHost(a, b) {
+	      var urlA = _url2.default.parse(a);
+
+	      if (!urlA) {
+	        return false;
+	      }
+
+	      var urlB = _url2.default.parse(b);
+
+	      if (!urlB) {
+	        return false;
+	      }
+
+	      return urlA.host === urlB.host;
+	    }
+	  }]);
+
+	  return Utils;
+	})();
+
+	exports.default = new Utils();
+
+/***/ },
+/* 58 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// Copyright Joyent, Inc. and other Node contributors.
+	//
+	// Permission is hereby granted, free of charge, to any person obtaining a
+	// copy of this software and associated documentation files (the
+	// "Software"), to deal in the Software without restriction, including
+	// without limitation the rights to use, copy, modify, merge, publish,
+	// distribute, sublicense, and/or sell copies of the Software, and to permit
+	// persons to whom the Software is furnished to do so, subject to the
+	// following conditions:
+	//
+	// The above copyright notice and this permission notice shall be included
+	// in all copies or substantial portions of the Software.
+	//
+	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+	// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+	var punycode = __webpack_require__(59);
+
+	exports.parse = urlParse;
+	exports.resolve = urlResolve;
+	exports.resolveObject = urlResolveObject;
+	exports.format = urlFormat;
+
+	exports.Url = Url;
+
+	function Url() {
+	  this.protocol = null;
+	  this.slashes = null;
+	  this.auth = null;
+	  this.host = null;
+	  this.port = null;
+	  this.hostname = null;
+	  this.hash = null;
+	  this.search = null;
+	  this.query = null;
+	  this.pathname = null;
+	  this.path = null;
+	  this.href = null;
+	}
+
+	// Reference: RFC 3986, RFC 1808, RFC 2396
+
+	// define these here so at least they only have to be
+	// compiled once on the first module load.
+	var protocolPattern = /^([a-z0-9.+-]+:)/i,
+	    portPattern = /:[0-9]*$/,
+
+	    // RFC 2396: characters reserved for delimiting URLs.
+	    // We actually just auto-escape these.
+	    delims = ['<', '>', '"', '`', ' ', '\r', '\n', '\t'],
+
+	    // RFC 2396: characters not allowed for various reasons.
+	    unwise = ['{', '}', '|', '\\', '^', '`'].concat(delims),
+
+	    // Allowed by RFCs, but cause of XSS attacks.  Always escape these.
+	    autoEscape = ['\''].concat(unwise),
+	    // Characters that are never ever allowed in a hostname.
+	    // Note that any invalid chars are also handled, but these
+	    // are the ones that are *expected* to be seen, so we fast-path
+	    // them.
+	    nonHostChars = ['%', '/', '?', ';', '#'].concat(autoEscape),
+	    hostEndingChars = ['/', '?', '#'],
+	    hostnameMaxLen = 255,
+	    hostnamePartPattern = /^[a-z0-9A-Z_-]{0,63}$/,
+	    hostnamePartStart = /^([a-z0-9A-Z_-]{0,63})(.*)$/,
+	    // protocols that can allow "unsafe" and "unwise" chars.
+	    unsafeProtocol = {
+	      'javascript': true,
+	      'javascript:': true
+	    },
+	    // protocols that never have a hostname.
+	    hostlessProtocol = {
+	      'javascript': true,
+	      'javascript:': true
+	    },
+	    // protocols that always contain a // bit.
+	    slashedProtocol = {
+	      'http': true,
+	      'https': true,
+	      'ftp': true,
+	      'gopher': true,
+	      'file': true,
+	      'http:': true,
+	      'https:': true,
+	      'ftp:': true,
+	      'gopher:': true,
+	      'file:': true
+	    },
+	    querystring = __webpack_require__(61);
+
+	function urlParse(url, parseQueryString, slashesDenoteHost) {
+	  if (url && isObject(url) && url instanceof Url) return url;
+
+	  var u = new Url;
+	  u.parse(url, parseQueryString, slashesDenoteHost);
+	  return u;
+	}
+
+	Url.prototype.parse = function(url, parseQueryString, slashesDenoteHost) {
+	  if (!isString(url)) {
+	    throw new TypeError("Parameter 'url' must be a string, not " + typeof url);
+	  }
+
+	  var rest = url;
+
+	  // trim before proceeding.
+	  // This is to support parse stuff like "  http://foo.com  \n"
+	  rest = rest.trim();
+
+	  var proto = protocolPattern.exec(rest);
+	  if (proto) {
+	    proto = proto[0];
+	    var lowerProto = proto.toLowerCase();
+	    this.protocol = lowerProto;
+	    rest = rest.substr(proto.length);
+	  }
+
+	  // figure out if it's got a host
+	  // user@server is *always* interpreted as a hostname, and url
+	  // resolution will treat //foo/bar as host=foo,path=bar because that's
+	  // how the browser resolves relative URLs.
+	  if (slashesDenoteHost || proto || rest.match(/^\/\/[^@\/]+@[^@\/]+/)) {
+	    var slashes = rest.substr(0, 2) === '//';
+	    if (slashes && !(proto && hostlessProtocol[proto])) {
+	      rest = rest.substr(2);
+	      this.slashes = true;
+	    }
+	  }
+
+	  if (!hostlessProtocol[proto] &&
+	      (slashes || (proto && !slashedProtocol[proto]))) {
+
+	    // there's a hostname.
+	    // the first instance of /, ?, ;, or # ends the host.
+	    //
+	    // If there is an @ in the hostname, then non-host chars *are* allowed
+	    // to the left of the last @ sign, unless some host-ending character
+	    // comes *before* the @-sign.
+	    // URLs are obnoxious.
+	    //
+	    // ex:
+	    // http://a@b@c/ => user:a@b host:c
+	    // http://a@b?@c => user:a host:c path:/?@c
+
+	    // v0.12 TODO(isaacs): This is not quite how Chrome does things.
+	    // Review our test case against browsers more comprehensively.
+
+	    // find the first instance of any hostEndingChars
+	    var hostEnd = -1;
+	    for (var i = 0; i < hostEndingChars.length; i++) {
+	      var hec = rest.indexOf(hostEndingChars[i]);
+	      if (hec !== -1 && (hostEnd === -1 || hec < hostEnd))
+	        hostEnd = hec;
+	    }
+
+	    // at this point, either we have an explicit point where the
+	    // auth portion cannot go past, or the last @ char is the decider.
+	    var auth, atSign;
+	    if (hostEnd === -1) {
+	      // atSign can be anywhere.
+	      atSign = rest.lastIndexOf('@');
+	    } else {
+	      // atSign must be in auth portion.
+	      // http://a@b/c@d => host:b auth:a path:/c@d
+	      atSign = rest.lastIndexOf('@', hostEnd);
+	    }
+
+	    // Now we have a portion which is definitely the auth.
+	    // Pull that off.
+	    if (atSign !== -1) {
+	      auth = rest.slice(0, atSign);
+	      rest = rest.slice(atSign + 1);
+	      this.auth = decodeURIComponent(auth);
+	    }
+
+	    // the host is the remaining to the left of the first non-host char
+	    hostEnd = -1;
+	    for (var i = 0; i < nonHostChars.length; i++) {
+	      var hec = rest.indexOf(nonHostChars[i]);
+	      if (hec !== -1 && (hostEnd === -1 || hec < hostEnd))
+	        hostEnd = hec;
+	    }
+	    // if we still have not hit it, then the entire thing is a host.
+	    if (hostEnd === -1)
+	      hostEnd = rest.length;
+
+	    this.host = rest.slice(0, hostEnd);
+	    rest = rest.slice(hostEnd);
+
+	    // pull out port.
+	    this.parseHost();
+
+	    // we've indicated that there is a hostname,
+	    // so even if it's empty, it has to be present.
+	    this.hostname = this.hostname || '';
+
+	    // if hostname begins with [ and ends with ]
+	    // assume that it's an IPv6 address.
+	    var ipv6Hostname = this.hostname[0] === '[' &&
+	        this.hostname[this.hostname.length - 1] === ']';
+
+	    // validate a little.
+	    if (!ipv6Hostname) {
+	      var hostparts = this.hostname.split(/\./);
+	      for (var i = 0, l = hostparts.length; i < l; i++) {
+	        var part = hostparts[i];
+	        if (!part) continue;
+	        if (!part.match(hostnamePartPattern)) {
+	          var newpart = '';
+	          for (var j = 0, k = part.length; j < k; j++) {
+	            if (part.charCodeAt(j) > 127) {
+	              // we replace non-ASCII char with a temporary placeholder
+	              // we need this to make sure size of hostname is not
+	              // broken by replacing non-ASCII by nothing
+	              newpart += 'x';
+	            } else {
+	              newpart += part[j];
+	            }
+	          }
+	          // we test again with ASCII char only
+	          if (!newpart.match(hostnamePartPattern)) {
+	            var validParts = hostparts.slice(0, i);
+	            var notHost = hostparts.slice(i + 1);
+	            var bit = part.match(hostnamePartStart);
+	            if (bit) {
+	              validParts.push(bit[1]);
+	              notHost.unshift(bit[2]);
+	            }
+	            if (notHost.length) {
+	              rest = '/' + notHost.join('.') + rest;
+	            }
+	            this.hostname = validParts.join('.');
+	            break;
+	          }
+	        }
+	      }
+	    }
+
+	    if (this.hostname.length > hostnameMaxLen) {
+	      this.hostname = '';
+	    } else {
+	      // hostnames are always lower case.
+	      this.hostname = this.hostname.toLowerCase();
+	    }
+
+	    if (!ipv6Hostname) {
+	      // IDNA Support: Returns a puny coded representation of "domain".
+	      // It only converts the part of the domain name that
+	      // has non ASCII characters. I.e. it dosent matter if
+	      // you call it with a domain that already is in ASCII.
+	      var domainArray = this.hostname.split('.');
+	      var newOut = [];
+	      for (var i = 0; i < domainArray.length; ++i) {
+	        var s = domainArray[i];
+	        newOut.push(s.match(/[^A-Za-z0-9_-]/) ?
+	            'xn--' + punycode.encode(s) : s);
+	      }
+	      this.hostname = newOut.join('.');
+	    }
+
+	    var p = this.port ? ':' + this.port : '';
+	    var h = this.hostname || '';
+	    this.host = h + p;
+	    this.href += this.host;
+
+	    // strip [ and ] from the hostname
+	    // the host field still retains them, though
+	    if (ipv6Hostname) {
+	      this.hostname = this.hostname.substr(1, this.hostname.length - 2);
+	      if (rest[0] !== '/') {
+	        rest = '/' + rest;
+	      }
+	    }
+	  }
+
+	  // now rest is set to the post-host stuff.
+	  // chop off any delim chars.
+	  if (!unsafeProtocol[lowerProto]) {
+
+	    // First, make 100% sure that any "autoEscape" chars get
+	    // escaped, even if encodeURIComponent doesn't think they
+	    // need to be.
+	    for (var i = 0, l = autoEscape.length; i < l; i++) {
+	      var ae = autoEscape[i];
+	      var esc = encodeURIComponent(ae);
+	      if (esc === ae) {
+	        esc = escape(ae);
+	      }
+	      rest = rest.split(ae).join(esc);
+	    }
+	  }
+
+
+	  // chop off from the tail first.
+	  var hash = rest.indexOf('#');
+	  if (hash !== -1) {
+	    // got a fragment string.
+	    this.hash = rest.substr(hash);
+	    rest = rest.slice(0, hash);
+	  }
+	  var qm = rest.indexOf('?');
+	  if (qm !== -1) {
+	    this.search = rest.substr(qm);
+	    this.query = rest.substr(qm + 1);
+	    if (parseQueryString) {
+	      this.query = querystring.parse(this.query);
+	    }
+	    rest = rest.slice(0, qm);
+	  } else if (parseQueryString) {
+	    // no query string, but parseQueryString still requested
+	    this.search = '';
+	    this.query = {};
+	  }
+	  if (rest) this.pathname = rest;
+	  if (slashedProtocol[lowerProto] &&
+	      this.hostname && !this.pathname) {
+	    this.pathname = '/';
+	  }
+
+	  //to support http.request
+	  if (this.pathname || this.search) {
+	    var p = this.pathname || '';
+	    var s = this.search || '';
+	    this.path = p + s;
+	  }
+
+	  // finally, reconstruct the href based on what has been validated.
+	  this.href = this.format();
+	  return this;
+	};
+
+	// format a parsed object into a url string
+	function urlFormat(obj) {
+	  // ensure it's an object, and not a string url.
+	  // If it's an obj, this is a no-op.
+	  // this way, you can call url_format() on strings
+	  // to clean up potentially wonky urls.
+	  if (isString(obj)) obj = urlParse(obj);
+	  if (!(obj instanceof Url)) return Url.prototype.format.call(obj);
+	  return obj.format();
+	}
+
+	Url.prototype.format = function() {
+	  var auth = this.auth || '';
+	  if (auth) {
+	    auth = encodeURIComponent(auth);
+	    auth = auth.replace(/%3A/i, ':');
+	    auth += '@';
+	  }
+
+	  var protocol = this.protocol || '',
+	      pathname = this.pathname || '',
+	      hash = this.hash || '',
+	      host = false,
+	      query = '';
+
+	  if (this.host) {
+	    host = auth + this.host;
+	  } else if (this.hostname) {
+	    host = auth + (this.hostname.indexOf(':') === -1 ?
+	        this.hostname :
+	        '[' + this.hostname + ']');
+	    if (this.port) {
+	      host += ':' + this.port;
+	    }
+	  }
+
+	  if (this.query &&
+	      isObject(this.query) &&
+	      Object.keys(this.query).length) {
+	    query = querystring.stringify(this.query);
+	  }
+
+	  var search = this.search || (query && ('?' + query)) || '';
+
+	  if (protocol && protocol.substr(-1) !== ':') protocol += ':';
+
+	  // only the slashedProtocols get the //.  Not mailto:, xmpp:, etc.
+	  // unless they had them to begin with.
+	  if (this.slashes ||
+	      (!protocol || slashedProtocol[protocol]) && host !== false) {
+	    host = '//' + (host || '');
+	    if (pathname && pathname.charAt(0) !== '/') pathname = '/' + pathname;
+	  } else if (!host) {
+	    host = '';
+	  }
+
+	  if (hash && hash.charAt(0) !== '#') hash = '#' + hash;
+	  if (search && search.charAt(0) !== '?') search = '?' + search;
+
+	  pathname = pathname.replace(/[?#]/g, function(match) {
+	    return encodeURIComponent(match);
+	  });
+	  search = search.replace('#', '%23');
+
+	  return protocol + host + pathname + search + hash;
+	};
+
+	function urlResolve(source, relative) {
+	  return urlParse(source, false, true).resolve(relative);
+	}
+
+	Url.prototype.resolve = function(relative) {
+	  return this.resolveObject(urlParse(relative, false, true)).format();
+	};
+
+	function urlResolveObject(source, relative) {
+	  if (!source) return relative;
+	  return urlParse(source, false, true).resolveObject(relative);
+	}
+
+	Url.prototype.resolveObject = function(relative) {
+	  if (isString(relative)) {
+	    var rel = new Url();
+	    rel.parse(relative, false, true);
+	    relative = rel;
+	  }
+
+	  var result = new Url();
+	  Object.keys(this).forEach(function(k) {
+	    result[k] = this[k];
+	  }, this);
+
+	  // hash is always overridden, no matter what.
+	  // even href="" will remove it.
+	  result.hash = relative.hash;
+
+	  // if the relative url is empty, then there's nothing left to do here.
+	  if (relative.href === '') {
+	    result.href = result.format();
+	    return result;
+	  }
+
+	  // hrefs like //foo/bar always cut to the protocol.
+	  if (relative.slashes && !relative.protocol) {
+	    // take everything except the protocol from relative
+	    Object.keys(relative).forEach(function(k) {
+	      if (k !== 'protocol')
+	        result[k] = relative[k];
+	    });
+
+	    //urlParse appends trailing / to urls like http://www.example.com
+	    if (slashedProtocol[result.protocol] &&
+	        result.hostname && !result.pathname) {
+	      result.path = result.pathname = '/';
+	    }
+
+	    result.href = result.format();
+	    return result;
+	  }
+
+	  if (relative.protocol && relative.protocol !== result.protocol) {
+	    // if it's a known url protocol, then changing
+	    // the protocol does weird things
+	    // first, if it's not file:, then we MUST have a host,
+	    // and if there was a path
+	    // to begin with, then we MUST have a path.
+	    // if it is file:, then the host is dropped,
+	    // because that's known to be hostless.
+	    // anything else is assumed to be absolute.
+	    if (!slashedProtocol[relative.protocol]) {
+	      Object.keys(relative).forEach(function(k) {
+	        result[k] = relative[k];
+	      });
+	      result.href = result.format();
+	      return result;
+	    }
+
+	    result.protocol = relative.protocol;
+	    if (!relative.host && !hostlessProtocol[relative.protocol]) {
+	      var relPath = (relative.pathname || '').split('/');
+	      while (relPath.length && !(relative.host = relPath.shift()));
+	      if (!relative.host) relative.host = '';
+	      if (!relative.hostname) relative.hostname = '';
+	      if (relPath[0] !== '') relPath.unshift('');
+	      if (relPath.length < 2) relPath.unshift('');
+	      result.pathname = relPath.join('/');
+	    } else {
+	      result.pathname = relative.pathname;
+	    }
+	    result.search = relative.search;
+	    result.query = relative.query;
+	    result.host = relative.host || '';
+	    result.auth = relative.auth;
+	    result.hostname = relative.hostname || relative.host;
+	    result.port = relative.port;
+	    // to support http.request
+	    if (result.pathname || result.search) {
+	      var p = result.pathname || '';
+	      var s = result.search || '';
+	      result.path = p + s;
+	    }
+	    result.slashes = result.slashes || relative.slashes;
+	    result.href = result.format();
+	    return result;
+	  }
+
+	  var isSourceAbs = (result.pathname && result.pathname.charAt(0) === '/'),
+	      isRelAbs = (
+	          relative.host ||
+	          relative.pathname && relative.pathname.charAt(0) === '/'
+	      ),
+	      mustEndAbs = (isRelAbs || isSourceAbs ||
+	                    (result.host && relative.pathname)),
+	      removeAllDots = mustEndAbs,
+	      srcPath = result.pathname && result.pathname.split('/') || [],
+	      relPath = relative.pathname && relative.pathname.split('/') || [],
+	      psychotic = result.protocol && !slashedProtocol[result.protocol];
+
+	  // if the url is a non-slashed url, then relative
+	  // links like ../.. should be able
+	  // to crawl up to the hostname, as well.  This is strange.
+	  // result.protocol has already been set by now.
+	  // Later on, put the first path part into the host field.
+	  if (psychotic) {
+	    result.hostname = '';
+	    result.port = null;
+	    if (result.host) {
+	      if (srcPath[0] === '') srcPath[0] = result.host;
+	      else srcPath.unshift(result.host);
+	    }
+	    result.host = '';
+	    if (relative.protocol) {
+	      relative.hostname = null;
+	      relative.port = null;
+	      if (relative.host) {
+	        if (relPath[0] === '') relPath[0] = relative.host;
+	        else relPath.unshift(relative.host);
+	      }
+	      relative.host = null;
+	    }
+	    mustEndAbs = mustEndAbs && (relPath[0] === '' || srcPath[0] === '');
+	  }
+
+	  if (isRelAbs) {
+	    // it's absolute.
+	    result.host = (relative.host || relative.host === '') ?
+	                  relative.host : result.host;
+	    result.hostname = (relative.hostname || relative.hostname === '') ?
+	                      relative.hostname : result.hostname;
+	    result.search = relative.search;
+	    result.query = relative.query;
+	    srcPath = relPath;
+	    // fall through to the dot-handling below.
+	  } else if (relPath.length) {
+	    // it's relative
+	    // throw away the existing file, and take the new path instead.
+	    if (!srcPath) srcPath = [];
+	    srcPath.pop();
+	    srcPath = srcPath.concat(relPath);
+	    result.search = relative.search;
+	    result.query = relative.query;
+	  } else if (!isNullOrUndefined(relative.search)) {
+	    // just pull out the search.
+	    // like href='?foo'.
+	    // Put this after the other two cases because it simplifies the booleans
+	    if (psychotic) {
+	      result.hostname = result.host = srcPath.shift();
+	      //occationaly the auth can get stuck only in host
+	      //this especialy happens in cases like
+	      //url.resolveObject('mailto:local1@domain1', 'local2@domain2')
+	      var authInHost = result.host && result.host.indexOf('@') > 0 ?
+	                       result.host.split('@') : false;
+	      if (authInHost) {
+	        result.auth = authInHost.shift();
+	        result.host = result.hostname = authInHost.shift();
+	      }
+	    }
+	    result.search = relative.search;
+	    result.query = relative.query;
+	    //to support http.request
+	    if (!isNull(result.pathname) || !isNull(result.search)) {
+	      result.path = (result.pathname ? result.pathname : '') +
+	                    (result.search ? result.search : '');
+	    }
+	    result.href = result.format();
+	    return result;
+	  }
+
+	  if (!srcPath.length) {
+	    // no path at all.  easy.
+	    // we've already handled the other stuff above.
+	    result.pathname = null;
+	    //to support http.request
+	    if (result.search) {
+	      result.path = '/' + result.search;
+	    } else {
+	      result.path = null;
+	    }
+	    result.href = result.format();
+	    return result;
+	  }
+
+	  // if a url ENDs in . or .., then it must get a trailing slash.
+	  // however, if it ends in anything else non-slashy,
+	  // then it must NOT get a trailing slash.
+	  var last = srcPath.slice(-1)[0];
+	  var hasTrailingSlash = (
+	      (result.host || relative.host) && (last === '.' || last === '..') ||
+	      last === '');
+
+	  // strip single dots, resolve double dots to parent dir
+	  // if the path tries to go above the root, `up` ends up > 0
+	  var up = 0;
+	  for (var i = srcPath.length; i >= 0; i--) {
+	    last = srcPath[i];
+	    if (last == '.') {
+	      srcPath.splice(i, 1);
+	    } else if (last === '..') {
+	      srcPath.splice(i, 1);
+	      up++;
+	    } else if (up) {
+	      srcPath.splice(i, 1);
+	      up--;
+	    }
+	  }
+
+	  // if the path is allowed to go above the root, restore leading ..s
+	  if (!mustEndAbs && !removeAllDots) {
+	    for (; up--; up) {
+	      srcPath.unshift('..');
+	    }
+	  }
+
+	  if (mustEndAbs && srcPath[0] !== '' &&
+	      (!srcPath[0] || srcPath[0].charAt(0) !== '/')) {
+	    srcPath.unshift('');
+	  }
+
+	  if (hasTrailingSlash && (srcPath.join('/').substr(-1) !== '/')) {
+	    srcPath.push('');
+	  }
+
+	  var isAbsolute = srcPath[0] === '' ||
+	      (srcPath[0] && srcPath[0].charAt(0) === '/');
+
+	  // put the host back
+	  if (psychotic) {
+	    result.hostname = result.host = isAbsolute ? '' :
+	                                    srcPath.length ? srcPath.shift() : '';
+	    //occationaly the auth can get stuck only in host
+	    //this especialy happens in cases like
+	    //url.resolveObject('mailto:local1@domain1', 'local2@domain2')
+	    var authInHost = result.host && result.host.indexOf('@') > 0 ?
+	                     result.host.split('@') : false;
+	    if (authInHost) {
+	      result.auth = authInHost.shift();
+	      result.host = result.hostname = authInHost.shift();
+	    }
+	  }
+
+	  mustEndAbs = mustEndAbs || (result.host && srcPath.length);
+
+	  if (mustEndAbs && !isAbsolute) {
+	    srcPath.unshift('');
+	  }
+
+	  if (!srcPath.length) {
+	    result.pathname = null;
+	    result.path = null;
+	  } else {
+	    result.pathname = srcPath.join('/');
+	  }
+
+	  //to support request.http
+	  if (!isNull(result.pathname) || !isNull(result.search)) {
+	    result.path = (result.pathname ? result.pathname : '') +
+	                  (result.search ? result.search : '');
+	  }
+	  result.auth = relative.auth || result.auth;
+	  result.slashes = result.slashes || relative.slashes;
+	  result.href = result.format();
+	  return result;
+	};
+
+	Url.prototype.parseHost = function() {
+	  var host = this.host;
+	  var port = portPattern.exec(host);
+	  if (port) {
+	    port = port[0];
+	    if (port !== ':') {
+	      this.port = port.substr(1);
+	    }
+	    host = host.substr(0, host.length - port.length);
+	  }
+	  if (host) this.hostname = host;
+	};
+
+	function isString(arg) {
+	  return typeof arg === "string";
+	}
+
+	function isObject(arg) {
+	  return typeof arg === 'object' && arg !== null;
+	}
+
+	function isNull(arg) {
+	  return arg === null;
+	}
+	function isNullOrUndefined(arg) {
+	  return  arg == null;
+	}
+
+
+/***/ },
+/* 59 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/*! https://mths.be/punycode v1.3.2 by @mathias */
+	;(function(root) {
+
+		/** Detect free variables */
+		var freeExports = typeof exports == 'object' && exports &&
+			!exports.nodeType && exports;
+		var freeModule = typeof module == 'object' && module &&
+			!module.nodeType && module;
+		var freeGlobal = typeof global == 'object' && global;
+		if (
+			freeGlobal.global === freeGlobal ||
+			freeGlobal.window === freeGlobal ||
+			freeGlobal.self === freeGlobal
+		) {
+			root = freeGlobal;
+		}
+
+		/**
+		 * The `punycode` object.
+		 * @name punycode
+		 * @type Object
+		 */
+		var punycode,
+
+		/** Highest positive signed 32-bit float value */
+		maxInt = 2147483647, // aka. 0x7FFFFFFF or 2^31-1
+
+		/** Bootstring parameters */
+		base = 36,
+		tMin = 1,
+		tMax = 26,
+		skew = 38,
+		damp = 700,
+		initialBias = 72,
+		initialN = 128, // 0x80
+		delimiter = '-', // '\x2D'
+
+		/** Regular expressions */
+		regexPunycode = /^xn--/,
+		regexNonASCII = /[^\x20-\x7E]/, // unprintable ASCII chars + non-ASCII chars
+		regexSeparators = /[\x2E\u3002\uFF0E\uFF61]/g, // RFC 3490 separators
+
+		/** Error messages */
+		errors = {
+			'overflow': 'Overflow: input needs wider integers to process',
+			'not-basic': 'Illegal input >= 0x80 (not a basic code point)',
+			'invalid-input': 'Invalid input'
+		},
+
+		/** Convenience shortcuts */
+		baseMinusTMin = base - tMin,
+		floor = Math.floor,
+		stringFromCharCode = String.fromCharCode,
+
+		/** Temporary variable */
+		key;
+
+		/*--------------------------------------------------------------------------*/
+
+		/**
+		 * A generic error utility function.
+		 * @private
+		 * @param {String} type The error type.
+		 * @returns {Error} Throws a `RangeError` with the applicable error message.
+		 */
+		function error(type) {
+			throw RangeError(errors[type]);
+		}
+
+		/**
+		 * A generic `Array#map` utility function.
+		 * @private
+		 * @param {Array} array The array to iterate over.
+		 * @param {Function} callback The function that gets called for every array
+		 * item.
+		 * @returns {Array} A new array of values returned by the callback function.
+		 */
+		function map(array, fn) {
+			var length = array.length;
+			var result = [];
+			while (length--) {
+				result[length] = fn(array[length]);
+			}
+			return result;
+		}
+
+		/**
+		 * A simple `Array#map`-like wrapper to work with domain name strings or email
+		 * addresses.
+		 * @private
+		 * @param {String} domain The domain name or email address.
+		 * @param {Function} callback The function that gets called for every
+		 * character.
+		 * @returns {Array} A new string of characters returned by the callback
+		 * function.
+		 */
+		function mapDomain(string, fn) {
+			var parts = string.split('@');
+			var result = '';
+			if (parts.length > 1) {
+				// In email addresses, only the domain name should be punycoded. Leave
+				// the local part (i.e. everything up to `@`) intact.
+				result = parts[0] + '@';
+				string = parts[1];
+			}
+			// Avoid `split(regex)` for IE8 compatibility. See #17.
+			string = string.replace(regexSeparators, '\x2E');
+			var labels = string.split('.');
+			var encoded = map(labels, fn).join('.');
+			return result + encoded;
+		}
+
+		/**
+		 * Creates an array containing the numeric code points of each Unicode
+		 * character in the string. While JavaScript uses UCS-2 internally,
+		 * this function will convert a pair of surrogate halves (each of which
+		 * UCS-2 exposes as separate characters) into a single code point,
+		 * matching UTF-16.
+		 * @see `punycode.ucs2.encode`
+		 * @see <https://mathiasbynens.be/notes/javascript-encoding>
+		 * @memberOf punycode.ucs2
+		 * @name decode
+		 * @param {String} string The Unicode input string (UCS-2).
+		 * @returns {Array} The new array of code points.
+		 */
+		function ucs2decode(string) {
+			var output = [],
+			    counter = 0,
+			    length = string.length,
+			    value,
+			    extra;
+			while (counter < length) {
+				value = string.charCodeAt(counter++);
+				if (value >= 0xD800 && value <= 0xDBFF && counter < length) {
+					// high surrogate, and there is a next character
+					extra = string.charCodeAt(counter++);
+					if ((extra & 0xFC00) == 0xDC00) { // low surrogate
+						output.push(((value & 0x3FF) << 10) + (extra & 0x3FF) + 0x10000);
+					} else {
+						// unmatched surrogate; only append this code unit, in case the next
+						// code unit is the high surrogate of a surrogate pair
+						output.push(value);
+						counter--;
+					}
+				} else {
+					output.push(value);
+				}
+			}
+			return output;
+		}
+
+		/**
+		 * Creates a string based on an array of numeric code points.
+		 * @see `punycode.ucs2.decode`
+		 * @memberOf punycode.ucs2
+		 * @name encode
+		 * @param {Array} codePoints The array of numeric code points.
+		 * @returns {String} The new Unicode string (UCS-2).
+		 */
+		function ucs2encode(array) {
+			return map(array, function(value) {
+				var output = '';
+				if (value > 0xFFFF) {
+					value -= 0x10000;
+					output += stringFromCharCode(value >>> 10 & 0x3FF | 0xD800);
+					value = 0xDC00 | value & 0x3FF;
+				}
+				output += stringFromCharCode(value);
+				return output;
+			}).join('');
+		}
+
+		/**
+		 * Converts a basic code point into a digit/integer.
+		 * @see `digitToBasic()`
+		 * @private
+		 * @param {Number} codePoint The basic numeric code point value.
+		 * @returns {Number} The numeric value of a basic code point (for use in
+		 * representing integers) in the range `0` to `base - 1`, or `base` if
+		 * the code point does not represent a value.
+		 */
+		function basicToDigit(codePoint) {
+			if (codePoint - 48 < 10) {
+				return codePoint - 22;
+			}
+			if (codePoint - 65 < 26) {
+				return codePoint - 65;
+			}
+			if (codePoint - 97 < 26) {
+				return codePoint - 97;
+			}
+			return base;
+		}
+
+		/**
+		 * Converts a digit/integer into a basic code point.
+		 * @see `basicToDigit()`
+		 * @private
+		 * @param {Number} digit The numeric value of a basic code point.
+		 * @returns {Number} The basic code point whose value (when used for
+		 * representing integers) is `digit`, which needs to be in the range
+		 * `0` to `base - 1`. If `flag` is non-zero, the uppercase form is
+		 * used; else, the lowercase form is used. The behavior is undefined
+		 * if `flag` is non-zero and `digit` has no uppercase form.
+		 */
+		function digitToBasic(digit, flag) {
+			//  0..25 map to ASCII a..z or A..Z
+			// 26..35 map to ASCII 0..9
+			return digit + 22 + 75 * (digit < 26) - ((flag != 0) << 5);
+		}
+
+		/**
+		 * Bias adaptation function as per section 3.4 of RFC 3492.
+		 * http://tools.ietf.org/html/rfc3492#section-3.4
+		 * @private
+		 */
+		function adapt(delta, numPoints, firstTime) {
+			var k = 0;
+			delta = firstTime ? floor(delta / damp) : delta >> 1;
+			delta += floor(delta / numPoints);
+			for (/* no initialization */; delta > baseMinusTMin * tMax >> 1; k += base) {
+				delta = floor(delta / baseMinusTMin);
+			}
+			return floor(k + (baseMinusTMin + 1) * delta / (delta + skew));
+		}
+
+		/**
+		 * Converts a Punycode string of ASCII-only symbols to a string of Unicode
+		 * symbols.
+		 * @memberOf punycode
+		 * @param {String} input The Punycode string of ASCII-only symbols.
+		 * @returns {String} The resulting string of Unicode symbols.
+		 */
+		function decode(input) {
+			// Don't use UCS-2
+			var output = [],
+			    inputLength = input.length,
+			    out,
+			    i = 0,
+			    n = initialN,
+			    bias = initialBias,
+			    basic,
+			    j,
+			    index,
+			    oldi,
+			    w,
+			    k,
+			    digit,
+			    t,
+			    /** Cached calculation results */
+			    baseMinusT;
+
+			// Handle the basic code points: let `basic` be the number of input code
+			// points before the last delimiter, or `0` if there is none, then copy
+			// the first basic code points to the output.
+
+			basic = input.lastIndexOf(delimiter);
+			if (basic < 0) {
+				basic = 0;
+			}
+
+			for (j = 0; j < basic; ++j) {
+				// if it's not a basic code point
+				if (input.charCodeAt(j) >= 0x80) {
+					error('not-basic');
+				}
+				output.push(input.charCodeAt(j));
+			}
+
+			// Main decoding loop: start just after the last delimiter if any basic code
+			// points were copied; start at the beginning otherwise.
+
+			for (index = basic > 0 ? basic + 1 : 0; index < inputLength; /* no final expression */) {
+
+				// `index` is the index of the next character to be consumed.
+				// Decode a generalized variable-length integer into `delta`,
+				// which gets added to `i`. The overflow checking is easier
+				// if we increase `i` as we go, then subtract off its starting
+				// value at the end to obtain `delta`.
+				for (oldi = i, w = 1, k = base; /* no condition */; k += base) {
+
+					if (index >= inputLength) {
+						error('invalid-input');
+					}
+
+					digit = basicToDigit(input.charCodeAt(index++));
+
+					if (digit >= base || digit > floor((maxInt - i) / w)) {
+						error('overflow');
+					}
+
+					i += digit * w;
+					t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
+
+					if (digit < t) {
+						break;
+					}
+
+					baseMinusT = base - t;
+					if (w > floor(maxInt / baseMinusT)) {
+						error('overflow');
+					}
+
+					w *= baseMinusT;
+
+				}
+
+				out = output.length + 1;
+				bias = adapt(i - oldi, out, oldi == 0);
+
+				// `i` was supposed to wrap around from `out` to `0`,
+				// incrementing `n` each time, so we'll fix that now:
+				if (floor(i / out) > maxInt - n) {
+					error('overflow');
+				}
+
+				n += floor(i / out);
+				i %= out;
+
+				// Insert `n` at position `i` of the output
+				output.splice(i++, 0, n);
+
+			}
+
+			return ucs2encode(output);
+		}
+
+		/**
+		 * Converts a string of Unicode symbols (e.g. a domain name label) to a
+		 * Punycode string of ASCII-only symbols.
+		 * @memberOf punycode
+		 * @param {String} input The string of Unicode symbols.
+		 * @returns {String} The resulting Punycode string of ASCII-only symbols.
+		 */
+		function encode(input) {
+			var n,
+			    delta,
+			    handledCPCount,
+			    basicLength,
+			    bias,
+			    j,
+			    m,
+			    q,
+			    k,
+			    t,
+			    currentValue,
+			    output = [],
+			    /** `inputLength` will hold the number of code points in `input`. */
+			    inputLength,
+			    /** Cached calculation results */
+			    handledCPCountPlusOne,
+			    baseMinusT,
+			    qMinusT;
+
+			// Convert the input in UCS-2 to Unicode
+			input = ucs2decode(input);
+
+			// Cache the length
+			inputLength = input.length;
+
+			// Initialize the state
+			n = initialN;
+			delta = 0;
+			bias = initialBias;
+
+			// Handle the basic code points
+			for (j = 0; j < inputLength; ++j) {
+				currentValue = input[j];
+				if (currentValue < 0x80) {
+					output.push(stringFromCharCode(currentValue));
+				}
+			}
+
+			handledCPCount = basicLength = output.length;
+
+			// `handledCPCount` is the number of code points that have been handled;
+			// `basicLength` is the number of basic code points.
+
+			// Finish the basic string - if it is not empty - with a delimiter
+			if (basicLength) {
+				output.push(delimiter);
+			}
+
+			// Main encoding loop:
+			while (handledCPCount < inputLength) {
+
+				// All non-basic code points < n have been handled already. Find the next
+				// larger one:
+				for (m = maxInt, j = 0; j < inputLength; ++j) {
+					currentValue = input[j];
+					if (currentValue >= n && currentValue < m) {
+						m = currentValue;
+					}
+				}
+
+				// Increase `delta` enough to advance the decoder's <n,i> state to <m,0>,
+				// but guard against overflow
+				handledCPCountPlusOne = handledCPCount + 1;
+				if (m - n > floor((maxInt - delta) / handledCPCountPlusOne)) {
+					error('overflow');
+				}
+
+				delta += (m - n) * handledCPCountPlusOne;
+				n = m;
+
+				for (j = 0; j < inputLength; ++j) {
+					currentValue = input[j];
+
+					if (currentValue < n && ++delta > maxInt) {
+						error('overflow');
+					}
+
+					if (currentValue == n) {
+						// Represent delta as a generalized variable-length integer
+						for (q = delta, k = base; /* no condition */; k += base) {
+							t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
+							if (q < t) {
+								break;
+							}
+							qMinusT = q - t;
+							baseMinusT = base - t;
+							output.push(
+								stringFromCharCode(digitToBasic(t + qMinusT % baseMinusT, 0))
+							);
+							q = floor(qMinusT / baseMinusT);
+						}
+
+						output.push(stringFromCharCode(digitToBasic(q, 0)));
+						bias = adapt(delta, handledCPCountPlusOne, handledCPCount == basicLength);
+						delta = 0;
+						++handledCPCount;
+					}
+				}
+
+				++delta;
+				++n;
+
+			}
+			return output.join('');
+		}
+
+		/**
+		 * Converts a Punycode string representing a domain name or an email address
+		 * to Unicode. Only the Punycoded parts of the input will be converted, i.e.
+		 * it doesn't matter if you call it on a string that has already been
+		 * converted to Unicode.
+		 * @memberOf punycode
+		 * @param {String} input The Punycoded domain name or email address to
+		 * convert to Unicode.
+		 * @returns {String} The Unicode representation of the given Punycode
+		 * string.
+		 */
+		function toUnicode(input) {
+			return mapDomain(input, function(string) {
+				return regexPunycode.test(string)
+					? decode(string.slice(4).toLowerCase())
+					: string;
+			});
+		}
+
+		/**
+		 * Converts a Unicode string representing a domain name or an email address to
+		 * Punycode. Only the non-ASCII parts of the domain name will be converted,
+		 * i.e. it doesn't matter if you call it with a domain that's already in
+		 * ASCII.
+		 * @memberOf punycode
+		 * @param {String} input The domain name or email address to convert, as a
+		 * Unicode string.
+		 * @returns {String} The Punycode representation of the given domain name or
+		 * email address.
+		 */
+		function toASCII(input) {
+			return mapDomain(input, function(string) {
+				return regexNonASCII.test(string)
+					? 'xn--' + encode(string)
+					: string;
+			});
+		}
+
+		/*--------------------------------------------------------------------------*/
+
+		/** Define the public API */
+		punycode = {
+			/**
+			 * A string representing the current Punycode.js version number.
+			 * @memberOf punycode
+			 * @type String
+			 */
+			'version': '1.3.2',
+			/**
+			 * An object of methods to convert from JavaScript's internal character
+			 * representation (UCS-2) to Unicode code points, and back.
+			 * @see <https://mathiasbynens.be/notes/javascript-encoding>
+			 * @memberOf punycode
+			 * @type Object
+			 */
+			'ucs2': {
+				'decode': ucs2decode,
+				'encode': ucs2encode
+			},
+			'decode': decode,
+			'encode': encode,
+			'toASCII': toASCII,
+			'toUnicode': toUnicode
+		};
+
+		/** Expose `punycode` */
+		// Some AMD build optimizers, like r.js, check for specific condition patterns
+		// like the following:
+		if (
+			true
+		) {
+			!(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
+				return punycode;
+			}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		} else if (freeExports && freeModule) {
+			if (module.exports == freeExports) { // in Node.js or RingoJS v0.8.0+
+				freeModule.exports = punycode;
+			} else { // in Narwhal or RingoJS v0.7.0-
+				for (key in punycode) {
+					punycode.hasOwnProperty(key) && (freeExports[key] = punycode[key]);
+				}
+			}
+		} else { // in Rhino or a web browser
+			root.punycode = punycode;
+		}
+
+	}(this));
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(60)(module), (function() { return this; }())))
+
+/***/ },
+/* 60 */
+/***/ function(module, exports) {
+
+	module.exports = function(module) {
+		if(!module.webpackPolyfill) {
+			module.deprecate = function() {};
+			module.paths = [];
+			// module.parent = undefined by default
+			module.children = [];
+			module.webpackPolyfill = 1;
+		}
+		return module;
+	}
+
+
+/***/ },
+/* 61 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.decode = exports.parse = __webpack_require__(62);
+	exports.encode = exports.stringify = __webpack_require__(63);
+
+
+/***/ },
+/* 62 */
+/***/ function(module, exports) {
+
+	// Copyright Joyent, Inc. and other Node contributors.
+	//
+	// Permission is hereby granted, free of charge, to any person obtaining a
+	// copy of this software and associated documentation files (the
+	// "Software"), to deal in the Software without restriction, including
+	// without limitation the rights to use, copy, modify, merge, publish,
+	// distribute, sublicense, and/or sell copies of the Software, and to permit
+	// persons to whom the Software is furnished to do so, subject to the
+	// following conditions:
+	//
+	// The above copyright notice and this permission notice shall be included
+	// in all copies or substantial portions of the Software.
+	//
+	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+	// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+	'use strict';
+
+	// If obj.hasOwnProperty has been overridden, then calling
+	// obj.hasOwnProperty(prop) will break.
+	// See: https://github.com/joyent/node/issues/1707
+	function hasOwnProperty(obj, prop) {
+	  return Object.prototype.hasOwnProperty.call(obj, prop);
+	}
+
+	module.exports = function(qs, sep, eq, options) {
+	  sep = sep || '&';
+	  eq = eq || '=';
+	  var obj = {};
+
+	  if (typeof qs !== 'string' || qs.length === 0) {
+	    return obj;
+	  }
+
+	  var regexp = /\+/g;
+	  qs = qs.split(sep);
+
+	  var maxKeys = 1000;
+	  if (options && typeof options.maxKeys === 'number') {
+	    maxKeys = options.maxKeys;
+	  }
+
+	  var len = qs.length;
+	  // maxKeys <= 0 means that we should not limit keys count
+	  if (maxKeys > 0 && len > maxKeys) {
+	    len = maxKeys;
+	  }
+
+	  for (var i = 0; i < len; ++i) {
+	    var x = qs[i].replace(regexp, '%20'),
+	        idx = x.indexOf(eq),
+	        kstr, vstr, k, v;
+
+	    if (idx >= 0) {
+	      kstr = x.substr(0, idx);
+	      vstr = x.substr(idx + 1);
+	    } else {
+	      kstr = x;
+	      vstr = '';
+	    }
+
+	    k = decodeURIComponent(kstr);
+	    v = decodeURIComponent(vstr);
+
+	    if (!hasOwnProperty(obj, k)) {
+	      obj[k] = v;
+	    } else if (Array.isArray(obj[k])) {
+	      obj[k].push(v);
+	    } else {
+	      obj[k] = [obj[k], v];
+	    }
+	  }
+
+	  return obj;
+	};
+
+
+/***/ },
+/* 63 */
+/***/ function(module, exports) {
+
+	// Copyright Joyent, Inc. and other Node contributors.
+	//
+	// Permission is hereby granted, free of charge, to any person obtaining a
+	// copy of this software and associated documentation files (the
+	// "Software"), to deal in the Software without restriction, including
+	// without limitation the rights to use, copy, modify, merge, publish,
+	// distribute, sublicense, and/or sell copies of the Software, and to permit
+	// persons to whom the Software is furnished to do so, subject to the
+	// following conditions:
+	//
+	// The above copyright notice and this permission notice shall be included
+	// in all copies or substantial portions of the Software.
+	//
+	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+	// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+	'use strict';
+
+	var stringifyPrimitive = function(v) {
+	  switch (typeof v) {
+	    case 'string':
+	      return v;
+
+	    case 'boolean':
+	      return v ? 'true' : 'false';
+
+	    case 'number':
+	      return isFinite(v) ? v : '';
+
+	    default:
+	      return '';
+	  }
+	};
+
+	module.exports = function(obj, sep, eq, name) {
+	  sep = sep || '&';
+	  eq = eq || '=';
+	  if (obj === null) {
+	    obj = undefined;
+	  }
+
+	  if (typeof obj === 'object') {
+	    return Object.keys(obj).map(function(k) {
+	      var ks = encodeURIComponent(stringifyPrimitive(k)) + eq;
+	      if (Array.isArray(obj[k])) {
+	        return obj[k].map(function(v) {
+	          return ks + encodeURIComponent(stringifyPrimitive(v));
+	        }).join(sep);
+	      } else {
+	        return ks + encodeURIComponent(stringifyPrimitive(obj[k]));
+	      }
+	    }).join(sep);
+
+	  }
+
+	  if (!name) return '';
+	  return encodeURIComponent(stringifyPrimitive(name)) + eq +
+	         encodeURIComponent(stringifyPrimitive(obj));
+	};
+
+
+/***/ },
+/* 64 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
@@ -5486,7 +7203,52 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var LoginRoute = (function (_Route) {
+	var HomeRoute = (function (_Route) {
+	  _inherits(HomeRoute, _Route);
+
+	  function HomeRoute() {
+	    _classCallCheck(this, HomeRoute);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(HomeRoute).apply(this, arguments));
+	  }
+
+	  return HomeRoute;
+	})(_reactRouter.Route);
+
+	exports.default = HomeRoute;
+
+/***/ },
+/* 65 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _class, _temp;
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = undefined;
+
+	var _reactRouter = __webpack_require__(9);
+
+	var _Context = __webpack_require__(7);
+
+	var _Context2 = _interopRequireDefault(_Context);
+
+	var _UserStore = __webpack_require__(66);
+
+	var _UserStore2 = _interopRequireDefault(_UserStore);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var LoginRoute = (_temp = _class = (function (_Route) {
 	  _inherits(LoginRoute, _Route);
 
 	  function LoginRoute() {
@@ -5496,12 +7258,635 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  return LoginRoute;
-	})(_reactRouter.Route);
+	})(_reactRouter.Route), _class.defaultProps = {
+	  onEnter: function onEnter(nextState, replaceState, callback) {
+	    _UserStore2.default.isAuthenticated(function (err, authenticated) {
+	      if (authenticated) {
+	        var router = _Context2.default.getInstance().getRouter();
+	        var homeRoute = router.getHomeRoute();
+	        var authenticatedHomeRoute = router.getAuthenticatedHomeRoute();
+	        var redirectTo = (authenticatedHomeRoute || {}).path || (homeRoute || {}).path || '/';
 
+	        replaceState({ nextPathname: nextState.location.pathname }, redirectTo);
+	      }
+	      callback();
+	    });
+	  }
+	}, _temp);
 	exports.default = LoginRoute;
 
 /***/ },
-/* 58 */
+/* 66 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	var _app = __webpack_require__(1);
+
+	var _app2 = _interopRequireDefault(_app);
+
+	var _BaseStore2 = __webpack_require__(67);
+
+	var _BaseStore3 = _interopRequireDefault(_BaseStore2);
+
+	var _UserService = __webpack_require__(68);
+
+	var _UserService2 = _interopRequireDefault(_UserService);
+
+	var _UserConstants = __webpack_require__(71);
+
+	var _UserConstants2 = _interopRequireDefault(_UserConstants);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var _session = false;
+	var _sessionError = null;
+	var _sessionResolved = false;
+
+	var UserStore = (function (_BaseStore) {
+	  _inherits(UserStore, _BaseStore);
+
+	  function UserStore() {
+	    _classCallCheck(this, UserStore);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(UserStore).call(this));
+
+	    _this.service = null;
+	    return _this;
+	  }
+
+	  _createClass(UserStore, [{
+	    key: 'init',
+	    value: function init(context) {
+	      this.service = new _UserService2.default(context.getEndpoints());
+	      this.resolveSession();
+	    }
+	  }, {
+	    key: 'getSession',
+	    value: function getSession() {
+	      return _session;
+	    }
+	  }, {
+	    key: 'isAuthenticated',
+	    value: function isAuthenticated(callback) {
+	      this.resolveSession(function (err, result) {
+	        callback(err, !err && _session !== false);
+	      });
+	    }
+	  }, {
+	    key: 'getLoginViewData',
+	    value: function getLoginViewData(callback) {
+	      this.service.getLoginViewData(callback);
+	    }
+	  }, {
+	    key: 'login',
+	    value: function login(options, callback) {
+	      var _this2 = this;
+
+	      this.reset();
+
+	      this.service.login(options, function (err, result) {
+	        if (err) {
+	          return callback(err);
+	        }
+
+	        _this2.resolveSession(callback);
+	      });
+	    }
+	  }, {
+	    key: 'register',
+	    value: function register(options, callback) {
+	      this.service.register(options, callback);
+	    }
+	  }, {
+	    key: 'getRegisterViewData',
+	    value: function getRegisterViewData(callback) {
+	      this.service.getRegisterViewData(callback);
+	    }
+	  }, {
+	    key: 'forgotPassword',
+	    value: function forgotPassword(options, callback) {
+	      this.service.forgotPassword(options, callback);
+	    }
+	  }, {
+	    key: 'changePassword',
+	    value: function changePassword(options, callback) {
+	      this.service.changePassword(options, callback);
+	    }
+	  }, {
+	    key: 'verifyEmail',
+	    value: function verifyEmail(spToken, callback) {
+	      this.service.verifyEmail(spToken, callback);
+	    }
+	  }, {
+	    key: 'logout',
+	    value: function logout(callback) {
+	      var _this3 = this;
+
+	      this.service.logout(function (err) {
+	        if (err) {
+	          return callback(err);
+	        }
+
+	        _this3.reset();
+	        _this3.emitChange();
+
+	        callback();
+	      });
+	    }
+	  }, {
+	    key: 'resolveSession',
+	    value: function resolveSession(callback) {
+	      var _this4 = this;
+
+	      if (_sessionResolved) {
+	        return callback && callback(_sessionError, _session);
+	      }
+
+	      this.service.me(function (err, result) {
+	        _this4.reset();
+
+	        _sessionResolved = true;
+
+	        if (err) {
+	          _sessionError = err;
+	        } else {
+	          _session = result;
+	        }
+
+	        if (callback) {
+	          callback(_sessionError, _session);
+	        }
+
+	        _this4.emitChange();
+	      });
+	    }
+	  }, {
+	    key: 'reset',
+	    value: function reset(resolved) {
+	      _session = false;
+	      _sessionError = null;
+	      _sessionResolved = false;
+	    }
+	  }]);
+
+	  return UserStore;
+	})(_BaseStore3.default);
+
+	var userStore = new UserStore();
+
+	_app2.default.on('ready', function (context) {
+	  userStore.init(context);
+	  context.getDispatcher().register(function (payload) {
+	    switch (payload.actionType) {
+	      case _UserConstants2.default.USER_LOGIN:
+	        userStore.login(payload.options, payload.callback);
+	        break;
+	      case _UserConstants2.default.USER_LOGOUT:
+	        userStore.logout(payload.callback);
+	        break;
+	      case _UserConstants2.default.USER_REGISTER:
+	        userStore.register(payload.options, payload.callback);
+	        break;
+	      case _UserConstants2.default.USER_FORGOT_PASSWORD:
+	        userStore.forgotPassword(payload.options, payload.callback);
+	        break;
+	      case _UserConstants2.default.USER_CHANGE_PASSWORD:
+	        userStore.changePassword(payload.options, payload.callback);
+	        break;
+	      case _UserConstants2.default.USER_VERIFY_EMAIL:
+	        userStore.verifyEmail(payload.options.spToken, payload.callback);
+	        break;
+	    }
+	    return true;
+	  });
+	});
+
+	module.exports = userStore;
+
+/***/ },
+/* 67 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var EventEmitter = __webpack_require__(6).EventEmitter;
+
+	var BaseStore = (function (_EventEmitter) {
+	  _inherits(BaseStore, _EventEmitter);
+
+	  function BaseStore() {
+	    _classCallCheck(this, BaseStore);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(BaseStore).apply(this, arguments));
+	  }
+
+	  _createClass(BaseStore, [{
+	    key: 'emitChange',
+	    value: function emitChange() {
+	      this.emit('change');
+	    }
+	  }, {
+	    key: 'addChangeListener',
+	    value: function addChangeListener(callback) {
+	      return this.on('change', callback);
+	    }
+	  }, {
+	    key: 'removeChangeListener',
+	    value: function removeChangeListener(callback) {
+	      this.removeListener('change', callback);
+	    }
+	  }]);
+
+	  return BaseStore;
+	})(EventEmitter);
+
+	exports.default = BaseStore;
+
+/***/ },
+/* 68 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = undefined;
+
+	var _utils = __webpack_require__(57);
+
+	var _utils2 = _interopRequireDefault(_utils);
+
+	var _BaseService2 = __webpack_require__(69);
+
+	var _BaseService3 = _interopRequireDefault(_BaseService2);
+
+	var _RequestPool = __webpack_require__(70);
+
+	var _RequestPool2 = _interopRequireDefault(_RequestPool);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var UserService = (function (_BaseService) {
+	  _inherits(UserService, _BaseService);
+
+	  function UserService(endpoints) {
+	    _classCallCheck(this, UserService);
+
+	    var defaultEndpoints = {
+	      me: '/me',
+	      login: '/login',
+	      register: '/register',
+	      verifyEmail: '/verify',
+	      forgotPassword: '/forgot',
+	      changePassword: '/change',
+	      logout: '/logout'
+	    };
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(UserService).call(this, _utils2.default.mergeObjects(defaultEndpoints, endpoints)));
+
+	    _this.meRequestPool = new _RequestPool2.default();
+	    return _this;
+	  }
+
+	  _createClass(UserService, [{
+	    key: 'me',
+	    value: function me(callback) {
+	      var _this2 = this;
+
+	      this.meRequestPool.request(function (resultCallback) {
+	        _this2._makeRequest('get', _this2.endpoints.me, null, resultCallback);
+	      }, callback);
+	    }
+	  }, {
+	    key: 'getLoginViewData',
+	    value: function getLoginViewData(callback) {
+	      this._makeRequest('get', this._buildEndpoint(this.endpoints.login), null, callback);
+	    }
+	  }, {
+	    key: 'login',
+	    value: function login(options, callback) {
+	      this._makeRequest('post', this.endpoints.login, options, callback);
+	    }
+	  }, {
+	    key: 'register',
+	    value: function register(options, callback) {
+	      this._makeRequest('post', this.endpoints.register, options, callback);
+	    }
+	  }, {
+	    key: 'getRegisterViewData',
+	    value: function getRegisterViewData(callback) {
+	      this._makeRequest('get', this.endpoints.register, null, callback);
+	    }
+	  }, {
+	    key: 'verifyEmail',
+	    value: function verifyEmail(spToken, callback) {
+	      this._makeRequest('get', this.endpoints.verifyEmail + '?sptoken=' + encodeURIComponent(spToken), null, callback);
+	    }
+	  }, {
+	    key: 'forgotPassword',
+	    value: function forgotPassword(options, callback) {
+	      this._makeRequest('post', this.endpoints.forgotPassword, options, callback);
+	    }
+	  }, {
+	    key: 'changePassword',
+	    value: function changePassword(options, callback) {
+	      this._makeRequest('post', this.endpoints.changePassword, options, callback);
+	    }
+	  }, {
+	    key: 'logout',
+	    value: function logout(callback) {
+	      this._makeRequest('post', this.endpoints.logout, null, callback);
+	    }
+	  }]);
+
+	  return UserService;
+	})(_BaseService3.default);
+
+	exports.default = UserService;
+
+/***/ },
+/* 69 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = undefined;
+
+	var _react = __webpack_require__(12);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _utils = __webpack_require__(57);
+
+	var _utils2 = _interopRequireDefault(_utils);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
+
+	function makeHttpRequest(method, uri, body, headers, callback) {
+	  var request = new XMLHttpRequest();
+
+	  request.open(method.toUpperCase(), uri, true);
+
+	  if (headers) {
+	    for (var name in headers) {
+	      var value = headers[name];
+	      request.setRequestHeader(name, value);
+	    }
+	  }
+
+	  request.onreadystatechange = function () {
+	    // 4 = Request finished and response is ready.
+	    // Ignore everything else.
+	    if (request.readyState !== 4) {
+	      return;
+	    }
+
+	    var result = {
+	      status: request.status,
+	      responseJSON: null
+	    };
+
+	    try {
+	      if (request.responseText) {
+	        result.responseJSON = JSON.parse(request.responseText);
+	      }
+	      callback(null, result);
+	    } catch (e) {
+	      callback(e);
+	    }
+	  };
+
+	  if (body && (typeof body === 'undefined' ? 'undefined' : _typeof(body)) === 'object') {
+	    request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+	    request.send(JSON.stringify(body));
+	  } else {
+	    request.send();
+	  }
+	}
+
+	var BaseService = (function () {
+	  function BaseService(endpoints) {
+	    _classCallCheck(this, BaseService);
+
+	    var defaultEndpoints = {
+	      baseUri: null
+	    };
+
+	    this.endpoints = _utils2.default.mergeObjects(defaultEndpoints, endpoints);
+	  }
+
+	  _createClass(BaseService, [{
+	    key: '_makeRequest',
+	    value: function _makeRequest(method, path, body, callback) {
+	      var uri = this._buildEndpoint(path);
+
+	      var headers = {
+	        'Accept': 'application/json'
+	      };
+
+	      // Only set the X-Stormpath-Agent header if we're on the same domain as the requested URI.
+	      // This because we want to avoid CORS requests that require you to have to whitelist the X-Stormpath-Agent header.
+	      if (_utils2.default.isRelativeUri(uri) || _utils2.default.isSameHost(uri, window.location.href)) {
+	        headers['X-Stormpath-Agent'] = ("react-stormpath") + '/' + ("1.0.0") + ' react/' + _react2.default.version;
+	      }
+
+	      makeHttpRequest(method, uri, body, headers, function (err, result) {
+	        if (err) {
+	          return callback(err);
+	        }
+
+	        var data = result.responseJSON || {};
+
+	        if (result.status === 200) {
+	          callback(null, data);
+	        } else {
+	          callback(new Error(data.message || data.error || 'A request to the API failed.'));
+	        }
+	      });
+	    }
+	  }, {
+	    key: '_buildEndpoint',
+	    value: function _buildEndpoint(endpoint) {
+	      return (this.endpoints.baseUri || '') + endpoint;
+	    }
+	  }]);
+
+	  return BaseService;
+	})();
+
+	exports.default = BaseService;
+
+/***/ },
+/* 70 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var RequestPool = (function () {
+	  function RequestPool() {
+	    _classCallCheck(this, RequestPool);
+
+	    this.waiting = [];
+	  }
+
+	  _createClass(RequestPool, [{
+	    key: "request",
+	    value: function request(resolver, callback) {
+	      var waiting = this.waiting;
+
+	      waiting.push(callback);
+
+	      if (waiting.length === 1) {
+	        resolver(function () {
+	          while (waiting.length) {
+	            waiting.shift().apply(null, arguments);
+	          }
+	        });
+	      }
+
+	      return false;
+	    }
+	  }]);
+
+	  return RequestPool;
+	})();
+
+	exports.default = RequestPool;
+
+/***/ },
+/* 71 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _keymirror = __webpack_require__(72);
+
+	var _keymirror2 = _interopRequireDefault(_keymirror);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = (0, _keymirror2.default)({
+		USER_LOGIN: null,
+		USER_SET: null,
+		USER_REGISTER: null,
+		USER_FORGOT_PASSWORD: null,
+		USER_CHANGE_PASSWORD: null,
+		USER_VERIFY_EMAIL: null,
+		USER_LOGOUT: null
+	});
+
+/***/ },
+/* 72 */
+/***/ function(module, exports) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 */
+
+	"use strict";
+
+	/**
+	 * Constructs an enumeration with keys equal to their value.
+	 *
+	 * For example:
+	 *
+	 *   var COLORS = keyMirror({blue: null, red: null});
+	 *   var myColor = COLORS.blue;
+	 *   var isColorValid = !!COLORS[myColor];
+	 *
+	 * The last line could not be performed if the values of the generated enum were
+	 * not equal to their keys.
+	 *
+	 *   Input:  {key1: val1, key2: val2}
+	 *   Output: {key1: key1, key2: key2}
+	 *
+	 * @param {object} obj
+	 * @return {object}
+	 */
+	var keyMirror = function(obj) {
+	  var ret = {};
+	  var key;
+	  if (!(obj instanceof Object && !Array.isArray(obj))) {
+	    throw new Error('keyMirror(...): Argument must be an object.');
+	  }
+	  for (key in obj) {
+	    if (!obj.hasOwnProperty(key)) {
+	      continue;
+	    }
+	    ret[key] = key;
+	  }
+	  return ret;
+	};
+
+	module.exports = keyMirror;
+
+
+/***/ },
+/* 73 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5525,7 +7910,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _Context2 = _interopRequireDefault(_Context);
 
-	var _UserActions = __webpack_require__(59);
+	var _UserActions = __webpack_require__(74);
 
 	var _UserActions2 = _interopRequireDefault(_UserActions);
 
@@ -5549,13 +7934,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return LogoutRoute;
 	})(_reactRouter.Route), _class.defaultProps = {
 	  onEnter: function onEnter(nextState, replaceState, callback) {
-	    var router = _Context2.default.getInstance().getRouter();
-
-	    var loginRoute = router.getLoginRoute();
-	    var redirectTo = (loginRoute ? loginRoute.path : this.redirectTo) || '/';
+	    var _this2 = this;
 
 	    _UserActions2.default.logout(function () {
+	      var router = _Context2.default.getInstance().getRouter();
+	      var homeRoute = router.getHomeRoute();
+	      var loginRoute = router.getLoginRoute();
+	      var redirectTo = _this2.redirectTo || (homeRoute || {}).path || (loginRoute || {}).path || '/';
+
 	      replaceState({ nextPathname: nextState.location.pathname }, redirectTo);
+
 	      callback();
 	    });
 	  }
@@ -5563,7 +7951,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = LogoutRoute;
 
 /***/ },
-/* 59 */
+/* 74 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5578,7 +7966,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _Context2 = _interopRequireDefault(_Context);
 
-	var _UserConstants = __webpack_require__(60);
+	var _UserConstants = __webpack_require__(71);
 
 	var _UserConstants2 = _interopRequireDefault(_UserConstants);
 
@@ -5664,92 +8052,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = new UserActions(_Context2.default.getInstance());
 
 /***/ },
-/* 60 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-
-	var _keymirror = __webpack_require__(61);
-
-	var _keymirror2 = _interopRequireDefault(_keymirror);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	exports.default = (0, _keymirror2.default)({
-		USER_LOGIN: null,
-		USER_SET: null,
-		USER_REGISTER: null,
-		USER_FORGOT_PASSWORD: null,
-		USER_CHANGE_PASSWORD: null,
-		USER_VERIFY_EMAIL: null,
-		USER_LOGOUT: null
-	});
-
-/***/ },
-/* 61 */
-/***/ function(module, exports) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 */
-
-	"use strict";
-
-	/**
-	 * Constructs an enumeration with keys equal to their value.
-	 *
-	 * For example:
-	 *
-	 *   var COLORS = keyMirror({blue: null, red: null});
-	 *   var myColor = COLORS.blue;
-	 *   var isColorValid = !!COLORS[myColor];
-	 *
-	 * The last line could not be performed if the values of the generated enum were
-	 * not equal to their keys.
-	 *
-	 *   Input:  {key1: val1, key2: val2}
-	 *   Output: {key1: key1, key2: key2}
-	 *
-	 * @param {object} obj
-	 * @return {object}
-	 */
-	var keyMirror = function(obj) {
-	  var ret = {};
-	  var key;
-	  if (!(obj instanceof Object && !Array.isArray(obj))) {
-	    throw new Error('keyMirror(...): Argument must be an object.');
-	  }
-	  for (key in obj) {
-	    if (!obj.hasOwnProperty(key)) {
-	      continue;
-	    }
-	    ret[key] = key;
-	  }
-	  return ret;
-	};
-
-	module.exports = keyMirror;
-
-
-/***/ },
-/* 62 */
+/* 75 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5767,7 +8070,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _Context2 = _interopRequireDefault(_Context);
 
-	var _UserStore = __webpack_require__(63);
+	var _UserStore = __webpack_require__(66);
 
 	var _UserStore2 = _interopRequireDefault(_UserStore);
 
@@ -5791,13 +8094,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return AuthenticatedRoute;
 	})(_reactRouter.Route), _class.defaultProps = {
 	  onEnter: function onEnter(nextState, replaceState, callback) {
-	    var router = _Context2.default.getInstance().getRouter();
-
-	    var loginRoute = router.getLoginRoute();
-	    var redirectTo = (loginRoute ? loginRoute.path : this.redirectTo) || '/';
-
 	    _UserStore2.default.isAuthenticated(function (err, authenticated) {
-	      if (err || !authenticated) {
+	      if (!authenticated) {
+	        var router = _Context2.default.getInstance().getRouter();
+	        var homeRoute = router.getHomeRoute();
+	        var loginRoute = router.getLoginRoute();
+	        var redirectTo = (loginRoute || {}).path || (homeRoute || {}).path || '/';
+
 	        replaceState({ nextPathname: nextState.location.pathname }, redirectTo);
 	      }
 	      callback();
@@ -5807,421 +8110,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = AuthenticatedRoute;
 
 /***/ },
-/* 63 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	var _app = __webpack_require__(1);
-
-	var _app2 = _interopRequireDefault(_app);
-
-	var _BaseStore2 = __webpack_require__(64);
-
-	var _BaseStore3 = _interopRequireDefault(_BaseStore2);
-
-	var _UserService = __webpack_require__(65);
-
-	var _UserService2 = _interopRequireDefault(_UserService);
-
-	var _UserConstants = __webpack_require__(60);
-
-	var _UserConstants2 = _interopRequireDefault(_UserConstants);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var _session = false;
-	var _sessionError = null;
-	var _sessionResolved = false;
-
-	var UserStore = (function (_BaseStore) {
-	  _inherits(UserStore, _BaseStore);
-
-	  function UserStore() {
-	    _classCallCheck(this, UserStore);
-
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(UserStore).call(this));
-
-	    _this.service = null;
-	    return _this;
-	  }
-
-	  _createClass(UserStore, [{
-	    key: 'init',
-	    value: function init(context) {
-	      this.service = new _UserService2.default(context.getEndpoints());
-	      this.resolveSession();
-	    }
-	  }, {
-	    key: 'getSession',
-	    value: function getSession() {
-	      return _session;
-	    }
-	  }, {
-	    key: 'isAuthenticated',
-	    value: function isAuthenticated(callback) {
-	      this.resolveSession(function (err, result) {
-	        callback(err, !err && _session !== false);
-	      });
-	    }
-	  }, {
-	    key: 'login',
-	    value: function login(options, callback) {
-	      var self = this;
-
-	      this.reset();
-
-	      this.service.login(options, function (err, result) {
-	        if (err) {
-	          return callback(err);
-	        }
-
-	        self.resolveSession(callback);
-	      });
-	    }
-	  }, {
-	    key: 'register',
-	    value: function register(options, callback) {
-	      this.service.register(options, callback);
-	    }
-	  }, {
-	    key: 'forgotPassword',
-	    value: function forgotPassword(options, callback) {
-	      this.service.forgotPassword(options, callback);
-	    }
-	  }, {
-	    key: 'changePassword',
-	    value: function changePassword(options, callback) {
-	      this.service.changePassword(options, callback);
-	    }
-	  }, {
-	    key: 'verifyEmail',
-	    value: function verifyEmail(spToken, callback) {
-	      this.service.verifyEmail(spToken, callback);
-	    }
-	  }, {
-	    key: 'logout',
-	    value: function logout(callback) {
-	      var self = this;
-
-	      this.service.logout(function (err) {
-	        if (err) {
-	          return callback(err);
-	        }
-
-	        self.reset();
-	        self.emitChange();
-
-	        callback();
-	      });
-	    }
-	  }, {
-	    key: 'resolveSession',
-	    value: function resolveSession(callback) {
-	      var self = this;
-
-	      if (_sessionResolved) {
-	        return callback && callback(_sessionError, _session);
-	      }
-
-	      this.service.me(function (err, result) {
-	        self.reset();
-
-	        _sessionResolved = true;
-
-	        if (err) {
-	          _sessionError = err;
-	        } else {
-	          _session = result;
-	        }
-
-	        if (callback) {
-	          callback(_sessionError, _session);
-	        }
-
-	        self.emitChange();
-	      });
-	    }
-	  }, {
-	    key: 'reset',
-	    value: function reset(resolved) {
-	      _session = false;
-	      _sessionError = null;
-	      _sessionResolved = false;
-	    }
-	  }]);
-
-	  return UserStore;
-	})(_BaseStore3.default);
-
-	var userStore = new UserStore();
-
-	_app2.default.on('ready', function (context) {
-	  userStore.init(context);
-	  context.getDispatcher().register(function (payload) {
-	    switch (payload.actionType) {
-	      case _UserConstants2.default.USER_LOGIN:
-	        userStore.login(payload.options, payload.callback);
-	        break;
-	      case _UserConstants2.default.USER_LOGOUT:
-	        userStore.logout(payload.callback);
-	        break;
-	      case _UserConstants2.default.USER_REGISTER:
-	        userStore.register(payload.options, payload.callback);
-	        break;
-	      case _UserConstants2.default.USER_FORGOT_PASSWORD:
-	        userStore.forgotPassword(payload.options, payload.callback);
-	        break;
-	      case _UserConstants2.default.USER_CHANGE_PASSWORD:
-	        userStore.changePassword(payload.options, payload.callback);
-	        break;
-	      case _UserConstants2.default.USER_VERIFY_EMAIL:
-	        userStore.verifyEmail(payload.options.spToken, payload.callback);
-	        break;
-	    }
-	    return true;
-	  });
-	});
-
-	module.exports = userStore;
-
-/***/ },
-/* 64 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var EventEmitter = __webpack_require__(6).EventEmitter;
-
-	var BaseStore = (function (_EventEmitter) {
-	  _inherits(BaseStore, _EventEmitter);
-
-	  function BaseStore() {
-	    _classCallCheck(this, BaseStore);
-
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(BaseStore).apply(this, arguments));
-	  }
-
-	  _createClass(BaseStore, [{
-	    key: 'emitChange',
-	    value: function emitChange() {
-	      this.emit('change');
-	    }
-	  }, {
-	    key: 'addChangeListener',
-	    value: function addChangeListener(callback) {
-	      return this.on('change', callback);
-	    }
-	  }, {
-	    key: 'removeChangeListener',
-	    value: function removeChangeListener(callback) {
-	      this.removeListener('change', callback);
-	    }
-	  }]);
-
-	  return BaseStore;
-	})(EventEmitter);
-
-	exports.default = BaseStore;
-
-/***/ },
-/* 65 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	var RequestPool = (function () {
-	  function RequestPool() {
-	    _classCallCheck(this, RequestPool);
-
-	    this.waiting = [];
-	  }
-
-	  _createClass(RequestPool, [{
-	    key: 'request',
-	    value: function request(resolver, callback) {
-	      var waiting = this.waiting;
-
-	      waiting.push(callback);
-
-	      if (waiting.length === 1) {
-	        resolver(function () {
-	          while (waiting.length) {
-	            waiting.shift().apply(null, arguments);
-	          }
-	        });
-	      }
-
-	      return false;
-	    }
-	  }]);
-
-	  return RequestPool;
-	})();
-
-	function mergeObjects(obj1, obj2) {
-	  var obj3 = {};
-
-	  if (obj1) {
-	    for (var attrname in obj1) {
-	      obj3[attrname] = obj1[attrname];
-	    }
-	  }
-
-	  if (obj2) {
-	    for (var attrname in obj2) {
-	      obj3[attrname] = obj2[attrname];
-	    }
-	  }
-
-	  return obj3;
-	}
-
-	function makeAjaxRequest(method, path, body, callback) {
-	  var request = new XMLHttpRequest();
-
-	  request.open(method.toUpperCase(), path, true);
-	  request.setRequestHeader('Accept', 'application/json');
-
-	  request.onreadystatechange = function () {
-	    // 4 = Request finished and response is ready.
-	    // Ignore everything else.
-	    if (request.readyState !== 4) {
-	      return;
-	    }
-
-	    var result = {
-	      status: request.status,
-	      responseJSON: null
-	    };
-
-	    try {
-	      if (request.responseText) {
-	        result.responseJSON = JSON.parse(request.responseText);
-	      }
-	      callback(null, result);
-	    } catch (e) {
-	      callback(e);
-	    }
-	  };
-
-	  if (body !== undefined) {
-	    request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-	    request.send(JSON.stringify(body));
-	  }
-	}
-
-	var UserService = (function () {
-	  function UserService(endpoints) {
-	    _classCallCheck(this, UserService);
-
-	    this.meRequestPool = new RequestPool();
-
-	    this.endpoints = {
-	      me: '/me',
-	      login: '/login',
-	      register: '/register',
-	      verifyEmail: '/verify',
-	      forgotPassword: '/forgot',
-	      changePassword: '/change',
-	      logout: '/logout'
-	    };
-
-	    this.endpoints = mergeObjects(this.endpoints, endpoints);
-	  }
-
-	  _createClass(UserService, [{
-	    key: '_makeRequest',
-	    value: function _makeRequest(method, path, body, callback) {
-	      makeAjaxRequest(method, path, body, function (err, result) {
-	        if (err) {
-	          return callback(err);
-	        }
-
-	        var data = result.responseJSON || {};
-
-	        if (result.status === 200) {
-	          callback(null, data);
-	        } else {
-	          callback(new Error(data.error || 'Invalid request.'));
-	        }
-	      });
-	    }
-	  }, {
-	    key: 'me',
-	    value: function me(callback) {
-	      var self = this;
-	      this.meRequestPool.request(function (resultCallback) {
-	        self._makeRequest('get', self.endpoints.me, null, resultCallback);
-	      }, callback);
-	    }
-	  }, {
-	    key: 'login',
-	    value: function login(options, callback) {
-	      this._makeRequest('post', this.endpoints.login, options, callback);
-	    }
-	  }, {
-	    key: 'register',
-	    value: function register(options, callback) {
-	      this._makeRequest('post', this.endpoints.register, options, callback);
-	    }
-	  }, {
-	    key: 'verifyEmail',
-	    value: function verifyEmail(spToken, callback) {
-	      this._makeRequest('get', this.endpoints.verifyEmail + '?sptoken=' + encodeURIComponent(spToken), null, callback);
-	    }
-	  }, {
-	    key: 'forgotPassword',
-	    value: function forgotPassword(options, callback) {
-	      this._makeRequest('post', this.endpoints.forgotPassword, options, callback);
-	    }
-	  }, {
-	    key: 'changePassword',
-	    value: function changePassword(options, callback) {
-	      this._makeRequest('post', this.endpoints.changePassword, options, callback);
-	    }
-	  }, {
-	    key: 'logout',
-	    value: function logout(callback) {
-	      this._makeRequest('get', this.endpoints.logout, null, callback);
-	    }
-	  }]);
-
-	  return UserService;
-	})();
-
-	exports.default = UserService;
-
-/***/ },
-/* 66 */
+/* 76 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6237,7 +8126,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _UserStore = __webpack_require__(63);
+	var _UserStore = __webpack_require__(66);
 
 	var _UserStore2 = _interopRequireDefault(_UserStore);
 
@@ -6267,10 +8156,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _createClass(Authenticated, [{
 	    key: 'onChange',
 	    value: function onChange() {
-	      var self = this;
+	      var _this2 = this;
+
 	      _UserStore2.default.isAuthenticated(function (err, authenticated) {
-	        if (self.onChangeListener !== null) {
-	          self.setState({ authenticated: authenticated === true });
+	        if (_this2.onChangeListener !== null) {
+	          _this2.setState({ authenticated: authenticated === true });
 	        }
 	      });
 	    }
@@ -6300,7 +8190,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = Authenticated;
 
 /***/ },
-/* 67 */
+/* 77 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6316,7 +8206,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Authenticated2 = __webpack_require__(66);
+	var _Authenticated2 = __webpack_require__(76);
 
 	var _Authenticated3 = _interopRequireDefault(_Authenticated2);
 
@@ -6350,7 +8240,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = NotAuthenticated;
 
 /***/ },
-/* 68 */
+/* 78 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6395,7 +8285,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var router = _Context2.default.getInstance().getRouter();
 
 	      var loginRoute = router.getLoginRoute();
-	      var targetPath = loginRoute ? loginRoute.path : '/login';
+	      var targetPath = (loginRoute || {}).path || '/login';
 
 	      return _react2.default.createElement(
 	        _reactRouter.Link,
@@ -6411,12 +8301,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = LoginLink;
 
 /***/ },
-/* 69 */
+/* 79 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	var _dec, _class;
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -6426,6 +8318,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _react = __webpack_require__(12);
 
 	var _react2 = _interopRequireDefault(_react);
+
+	var _reactMixin = __webpack_require__(80);
+
+	var _reactMixin2 = _interopRequireDefault(_reactMixin);
 
 	var _reactRouter = __webpack_require__(9);
 
@@ -6433,74 +8329,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _Context2 = _interopRequireDefault(_Context);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var LogoutLink = (function (_React$Component) {
-	  _inherits(LogoutLink, _React$Component);
-
-	  function LogoutLink() {
-	    _classCallCheck(this, LogoutLink);
-
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(LogoutLink).apply(this, arguments));
-	  }
-
-	  _createClass(LogoutLink, [{
-	    key: 'render',
-	    value: function render() {
-	      var router = _Context2.default.getInstance().getRouter();
-
-	      var logoutRoute = router.getLogoutRoute();
-	      var targetPath = logoutRoute ? logoutRoute.path : '/logout';
-
-	      return _react2.default.createElement(
-	        _reactRouter.Link,
-	        { to: targetPath, className: this.props.className },
-	        this.props.children ? this.props.children : 'Logout'
-	      );
-	    }
-	  }]);
-
-	  return LogoutLink;
-	})(_react2.default.Component);
-
-	exports.default = LogoutLink;
-
-/***/ },
-/* 70 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _dec, _class;
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = undefined;
-
-	var _react = __webpack_require__(12);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactMixin = __webpack_require__(71);
-
-	var _reactMixin2 = _interopRequireDefault(_reactMixin);
-
-	var _reactRouter = __webpack_require__(9);
-
-	var _utils = __webpack_require__(74);
-
-	var _utils2 = _interopRequireDefault(_utils);
-
-	var _UserActions = __webpack_require__(59);
+	var _UserActions = __webpack_require__(74);
 
 	var _UserActions2 = _interopRequireDefault(_UserActions);
 
@@ -6512,239 +8341,71 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var DefaultLoginForm = (function (_React$Component) {
-	  _inherits(DefaultLoginForm, _React$Component);
+	var LogoutLink = (_dec = _reactMixin2.default.decorate(_reactRouter.History), _dec(_class = (function (_React$Component) {
+	  _inherits(LogoutLink, _React$Component);
 
-	  function DefaultLoginForm() {
-	    _classCallCheck(this, DefaultLoginForm);
-
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(DefaultLoginForm).apply(this, arguments));
-	  }
-
-	  _createClass(DefaultLoginForm, [{
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        LoginForm,
-	        this.props,
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'sp-login-form' },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'row' },
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'col-xs-12' },
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'form-horizontal' },
-	                _react2.default.createElement(
-	                  'div',
-	                  { className: 'form-group' },
-	                  _react2.default.createElement(
-	                    'label',
-	                    { htmlFor: 'spEmail', className: 'col-xs-12 col-sm-4 control-label' },
-	                    'Email'
-	                  ),
-	                  _react2.default.createElement(
-	                    'div',
-	                    { className: 'col-xs-12 col-sm-4' },
-	                    _react2.default.createElement('input', { className: 'form-control', id: 'spUsername', name: 'username', placeholder: 'Username or Email' })
-	                  )
-	                ),
-	                _react2.default.createElement(
-	                  'div',
-	                  { className: 'form-group' },
-	                  _react2.default.createElement(
-	                    'label',
-	                    { htmlFor: 'spPassword', className: 'col-xs-12 col-sm-4 control-label' },
-	                    'Password'
-	                  ),
-	                  _react2.default.createElement(
-	                    'div',
-	                    { className: 'col-xs-12 col-sm-4' },
-	                    _react2.default.createElement('input', { type: 'password', className: 'form-control', id: 'spPassword', name: 'password', placeholder: 'Password' })
-	                  )
-	                ),
-	                _react2.default.createElement(
-	                  'div',
-	                  { className: 'form-group' },
-	                  _react2.default.createElement(
-	                    'div',
-	                    { className: 'col-sm-offset-4 col-sm-4' },
-	                    _react2.default.createElement(
-	                      'p',
-	                      { className: 'alert alert-danger', spIf: 'form.error' },
-	                      _react2.default.createElement('span', { spBind: 'form.errorMessage' })
-	                    ),
-	                    _react2.default.createElement(
-	                      'button',
-	                      { type: 'submit', className: 'btn btn-primary' },
-	                      'Login'
-	                    ),
-	                    _react2.default.createElement(
-	                      _reactRouter.Link,
-	                      { to: '/forgot', className: 'pull-right' },
-	                      'Forgot Password'
-	                    )
-	                  )
-	                )
-	              )
-	            )
-	          )
-	        )
-	      );
-	    }
-	  }]);
-
-	  return DefaultLoginForm;
-	})(_react2.default.Component);
-
-	var LoginForm = (_dec = _reactMixin2.default.decorate(_reactRouter.History), _dec(_class = (function (_React$Component2) {
-	  _inherits(LoginForm, _React$Component2);
-
-	  function LoginForm() {
+	  function LogoutLink() {
 	    var _Object$getPrototypeO;
 
-	    var _temp, _this2, _ret;
+	    var _temp, _this, _ret;
 
-	    _classCallCheck(this, LoginForm);
+	    _classCallCheck(this, LogoutLink);
 
 	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
 	      args[_key] = arguments[_key];
 	    }
 
-	    return _ret = (_temp = (_this2 = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(LoginForm)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this2), _this2.state = {
-	      fields: {
-	        username: '',
-	        password: ''
-	      },
-	      errorMessage: null,
-	      isFormProcessing: false
-	    }, _temp), _possibleConstructorReturn(_this2, _ret);
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(LogoutLink)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.state = {
+	      disabled: false
+	    }, _temp), _possibleConstructorReturn(_this, _ret);
 	  }
 
-	  _createClass(LoginForm, [{
-	    key: 'onFormSubmit',
-	    value: function onFormSubmit(e) {
-	      var _this3 = this;
+	  _createClass(LogoutLink, [{
+	    key: '_performRedirect',
+	    value: function _performRedirect() {
+	      var router = _Context2.default.getInstance().getRouter();
+	      var homeRoute = router.getHomeRoute();
+	      var loginRoute = router.getLoginRoute();
+	      var redirectTo = this.props.redirectTo || (homeRoute || {}).path || (loginRoute || {}).path || '/';
+
+	      this.history.pushState(null, redirectTo);
+	    }
+	  }, {
+	    key: 'onClick',
+	    value: function onClick(e) {
+	      var _this2 = this;
 
 	      e.preventDefault();
 
-	      var next = function next(err, data) {
-	        if (err) {
-	          return _this3.setState({
-	            isFormProcessing: false,
-	            errorMessage: err.message
-	          });
-	        }
+	      if (!this.state.disabled) {
+	        this.setState({ disabled: true });
 
-	        // If the user didn't specify any data,
-	        // then simply default to what we have in state.
-	        data = data || _this3.state.fields;
-
-	        _UserActions2.default.login({
-	          username: data.username,
-	          password: data.password
-	        }, function (err, result) {
-	          _this3.setState({ isFormProcessing: false });
-
-	          if (err) {
-	            _this3.setState({ errorMessage: err.message });
-	          } else {
-	            _this3.history.pushState(null, _this3.props.redirectTo || '/');
-	          }
+	        _UserActions2.default.logout(function () {
+	          _this2._performRedirect();
 	        });
-	      };
-
-	      this.setState({
-	        isFormProcessing: true
-	      });
-
-	      if (this.props.onSubmit) {
-	        e.data = this.state.fields;
-	        this.props.onSubmit(e, next);
-	      } else {
-	        next(null, this.state.fields);
 	      }
-	    }
-	  }, {
-	    key: '_mapFormFieldHandler',
-	    value: function _mapFormFieldHandler(element, tryMapField) {
-	      if (element.type === 'input' || element.type === 'textarea') {
-	        if (element.props.type !== 'submit') {
-	          switch (element.props.name) {
-	            case 'login':
-	            case 'username':
-	              tryMapField('username');
-	              break;
-	            case 'password':
-	              tryMapField('password');
-	              break;
-	          }
-	        }
-	      }
-	    }
-	  }, {
-	    key: '_spIfHandler',
-	    value: function _spIfHandler(action, element) {
-	      var test = null;
-
-	      switch (action) {
-	        case 'form.processing':
-	          test = this.state.isFormProcessing;
-	          break;
-	        case 'form.error':
-	          test = this.state.errorMessage !== null;
-	          break;
-	      }
-
-	      return test;
-	    }
-	  }, {
-	    key: '_spBindHandler',
-	    value: function _spBindHandler(action, element) {
-	      var element = false;
-
-	      switch (action) {
-	        case 'form.errorMessage':
-	          var className = element.props ? element.props.className : undefined;
-	          element = _react2.default.createElement(
-	            'span',
-	            { className: className },
-	            this.state.errorMessage
-	          );
-	          break;
-	      }
-
-	      return element;
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      if (this.props.children) {
-	        return _react2.default.createElement(
-	          'form',
-	          { onSubmit: this.onFormSubmit.bind(this) },
-	          _utils2.default.makeForm(this, this._mapFormFieldHandler.bind(this), this._spIfHandler.bind(this), this._spBindHandler.bind(this))
-	        );
-	      } else {
-	        return _react2.default.createElement(DefaultLoginForm, this.props);
-	      }
+	      return _react2.default.createElement(
+	        'a',
+	        { href: '#', className: this.props.className, onClick: this.onClick.bind(this), disabled: this.state.disabled },
+	        this.props.children ? this.props.children : 'Logout'
+	      );
 	    }
 	  }]);
 
-	  return LoginForm;
+	  return LogoutLink;
 	})(_react2.default.Component)) || _class);
-	exports.default = LoginForm;
+	exports.default = LogoutLink;
 
 /***/ },
-/* 71 */
+/* 80 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var mixin = __webpack_require__(72);
-	var assign = __webpack_require__(73);
+	var mixin = __webpack_require__(81);
+	var assign = __webpack_require__(82);
 
 	var mixinProto = mixin({
 	  // lifecycle stuff is as you'd expect
@@ -6897,7 +8558,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 72 */
+/* 81 */
 /***/ function(module, exports) {
 
 	var objToStr = function(x){ return Object.prototype.toString.call(x); };
@@ -7080,7 +8741,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 73 */
+/* 82 */
 /***/ function(module, exports) {
 
 	/* eslint-disable no-unused-vars */
@@ -7125,212 +8786,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 74 */
+/* 83 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(12);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	var Utils = (function () {
-	  function Utils() {
-	    _classCallCheck(this, Utils);
-
-	    this.nopElement = _react2.default.createElement('span', null);
-	  }
-
-	  _createClass(Utils, [{
-	    key: 'forEachChild',
-	    value: function forEachChild(children, handler) {
-	      var _this = this;
-
-	      _react2.default.Children.forEach(children, function (child) {
-	        handler(child);
-
-	        if (child.props && child.props.children) {
-	          _this.forEachChild(child.props.children, handler);
-	        }
-	      });
-	    }
-	  }, {
-	    key: 'buildElementTree',
-	    value: function buildElementTree(element, optionsFactory, elementFactory, parent) {
-	      var _this2 = this;
-
-	      var newChildren = undefined;
-
-	      var newElement = elementFactory && elementFactory(element, parent) || element;
-	      var newOptions = optionsFactory && optionsFactory(element, parent) || {};
-
-	      if (newElement !== this.nopElement && newElement.props && newElement.props.children) {
-	        newChildren = _react2.default.Children.map(newElement.props.children, function (childElement) {
-	          if (!_react2.default.isValidElement(childElement)) {
-	            return elementFactory(childElement, parent);
-	          }
-	          return _this2.buildElementTree(childElement, optionsFactory, elementFactory, newElement);
-	        });
-	      }
-
-	      return _react2.default.cloneElement(newElement, newOptions, newChildren);
-	    }
-	  }, {
-	    key: 'getFormFieldMap',
-	    value: function getFormFieldMap(root, handler) {
-	      var fields = {};
-
-	      var tryMapField = function tryMapField(field, name) {
-	        if (field.props.ignore) {
-	          return;
-	        }
-
-	        if (field.props.fieldName) {
-	          name = elements.props.fieldName;
-	        }
-
-	        if (!('name' in fields)) {
-	          fields[name] = field;
-	        }
-	      };
-
-	      this.forEachChild(root, function (child) {
-	        if (!child.props) {
-	          return;
-	        }
-
-	        handler(child, tryMapField.bind(null, child));
-	      });
-
-	      var inverseMap = {};
-	      var defaultValues = {};
-
-	      for (var key in fields) {
-	        var field = fields[key];
-
-	        if (!(field.type in inverseMap)) {
-	          inverseMap[field.type] = {};
-	        }
-
-	        var defaultValue = field.props.value || '';
-	        defaultValues[key] = defaultValue;
-
-	        inverseMap[field.type][field.props.name] = {
-	          fieldName: key,
-	          field: field
-	        };
-	      }
-
-	      return {
-	        defaultValues: defaultValues,
-	        inverse: inverseMap
-	      };
-	    }
-	  }, {
-	    key: 'makeForm',
-	    value: function makeForm(source, fieldMapFn, spIfFn, spBindFn) {
-	      var _this3 = this;
-
-	      var root = _react2.default.cloneElement(_react2.default.createElement('div', null), {}, source.props.children);
-
-	      var fieldMap = this.getFormFieldMap(root, fieldMapFn);
-
-	      source.state.fields = source.state.fields || {};
-	      for (var key in fieldMap.defaultValues) {
-	        if (!(key in source.state.fields)) {
-	          source.state.fields[key] = fieldMap.defaultValues[key];
-	        }
-	      }
-
-	      var elementFactory = function elementFactory(element, parent) {
-	        if (element.props) {
-	          var spIf = element.props.spIf;
-
-	          if (spIf) {
-	            var test = null;
-	            var inverted = false;
-
-	            if (spIf[0] === '!') {
-	              inverted = true;
-	              spIf = spIf.substr(1);
-	            }
-
-	            test = spIfFn(spIf, element);
-
-	            if (test !== null) {
-	              if (inverted) {
-	                test = !test;
-	              }
-
-	              if (!test) {
-	                return _this3.nopElement;
-	              }
-	            }
-	          }
-
-	          var spBind = element.props.spBind;
-
-	          if (spBind) {
-	            var newElement = spBindFn(spBind, element);
-	            if (newElement !== false) {
-	              element = newElement;
-	            }
-	          }
-	        }
-	        return element;
-	      };
-
-	      var optionsFactory = function optionsFactory(element, parent) {
-	        var options = {};
-
-	        if (element.props) {
-	          var elementType = element.type;
-	          var elementAttributeName = element.props.name;
-
-	          if (elementType in fieldMap.inverse && elementAttributeName in fieldMap.inverse[elementType]) {
-	            var mappedField = fieldMap.inverse[elementType][elementAttributeName];
-	            options.onChange = function (e) {
-	              disabled: source.state.isFormProcessing;
-	              source.state.fields[mappedField.fieldName] = e.target.value;
-	            };
-	          }
-
-	          var elementAttributeType = element.props.type;
-
-	          if ((elementType === 'input' || elementType === 'button') && elementAttributeType === 'submit') {
-	            options.disabled = source.state.isFormProcessing;
-	          }
-	        }
-
-	        return options;
-	      };
-
-	      return this.buildElementTree(root, optionsFactory, elementFactory);
-	    }
-	  }]);
-
-	  return Utils;
-	})();
-
-	exports.default = new Utils();
-
-/***/ },
-/* 75 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _dec, _class;
+	var _dec, _class2;
 
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
@@ -7343,23 +8804,443 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactMixin = __webpack_require__(71);
+	var _reactMixin = __webpack_require__(80);
 
 	var _reactMixin2 = _interopRequireDefault(_reactMixin);
 
 	var _reactRouter = __webpack_require__(9);
 
-	var _utils = __webpack_require__(74);
+	var _utils = __webpack_require__(57);
 
 	var _utils2 = _interopRequireDefault(_utils);
 
-	var _LoginLink = __webpack_require__(68);
+	var _Context = __webpack_require__(7);
+
+	var _Context2 = _interopRequireDefault(_Context);
+
+	var _UserStore = __webpack_require__(66);
+
+	var _UserStore2 = _interopRequireDefault(_UserStore);
+
+	var _UserActions = __webpack_require__(74);
+
+	var _UserActions2 = _interopRequireDefault(_UserActions);
+
+	var _LoadingText = __webpack_require__(84);
+
+	var _LoadingText2 = _interopRequireDefault(_LoadingText);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var DefaultLoginForm = (function (_React$Component) {
+	  _inherits(DefaultLoginForm, _React$Component);
+
+	  function DefaultLoginForm() {
+	    var _Object$getPrototypeO;
+
+	    var _temp, _this, _ret;
+
+	    _classCallCheck(this, DefaultLoginForm);
+
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(DefaultLoginForm)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.state = {
+	      fields: null
+	    }, _temp), _possibleConstructorReturn(_this, _ret);
+	  }
+
+	  _createClass(DefaultLoginForm, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this2 = this;
+
+	      if (this.state.fields !== null) {
+	        return;
+	      }
+
+	      var defaultFields = [{
+	        label: 'Username or Email',
+	        name: 'login',
+	        placeholder: 'Username or Email',
+	        required: true,
+	        type: 'text'
+	      }, {
+	        label: 'Password',
+	        name: 'password',
+	        placeholder: 'Password',
+	        required: true,
+	        type: 'password'
+	      }];
+
+	      _UserStore2.default.getLoginViewData(function (err, data) {
+	        _this2.setState({
+	          fields: data && data.form ? data.form.fields : defaultFields
+	        });
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var fieldMarkup = null;
+
+	      if (this.state.fields !== null) {
+	        fieldMarkup = [];
+
+	        this.state.fields.forEach(function (field, index) {
+	          var fieldId = 'sp-' + field.name + '-' + index;
+	          fieldMarkup.push(_react2.default.createElement(
+	            'div',
+	            { key: fieldId, className: 'form-group' },
+	            _react2.default.createElement(
+	              'label',
+	              { htmlFor: fieldId, className: 'col-xs-12 col-sm-4 control-label' },
+	              field.label
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'col-xs-12 col-sm-4' },
+	              _react2.default.createElement('input', { type: field.type, className: 'form-control', id: fieldId, name: field.name, placeholder: field.placeholder, required: field.required })
+	            )
+	          ));
+	        });
+
+	        fieldMarkup.push(_react2.default.createElement(
+	          'div',
+	          { key: 'login-button', className: 'form-group' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'col-sm-offset-4 col-sm-4' },
+	            _react2.default.createElement(
+	              'p',
+	              { className: 'alert alert-danger', spIf: 'form.error' },
+	              _react2.default.createElement('span', { spBind: 'form.errorMessage' })
+	            ),
+	            _react2.default.createElement(
+	              'button',
+	              { type: 'submit', className: 'btn btn-primary' },
+	              'Login'
+	            ),
+	            _react2.default.createElement(
+	              _reactRouter.Link,
+	              { to: '/forgot', className: 'pull-right' },
+	              'Forgot Password'
+	            )
+	          )
+	        ));
+	      }
+
+	      return _react2.default.createElement(
+	        LoginForm,
+	        this.props,
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'sp-login-form' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'row' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'col-xs-12' },
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'form-horizontal' },
+	                fieldMarkup ? fieldMarkup : _react2.default.createElement(_LoadingText2.default, null)
+	              )
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return DefaultLoginForm;
+	})(_react2.default.Component);
+
+	var LoginForm = (_dec = _reactMixin2.default.decorate(_reactRouter.History), _dec(_class2 = (function (_React$Component2) {
+	  _inherits(LoginForm, _React$Component2);
+
+	  function LoginForm() {
+	    var _Object$getPrototypeO2;
+
+	    var _temp2, _this3, _ret2;
+
+	    _classCallCheck(this, LoginForm);
+
+	    for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+	      args[_key2] = arguments[_key2];
+	    }
+
+	    return _ret2 = (_temp2 = (_this3 = _possibleConstructorReturn(this, (_Object$getPrototypeO2 = Object.getPrototypeOf(LoginForm)).call.apply(_Object$getPrototypeO2, [this].concat(args))), _this3), _this3.state = {
+	      fields: {
+	        username: '',
+	        password: ''
+	      },
+	      errorMessage: null,
+	      isFormProcessing: false
+	    }, _temp2), _possibleConstructorReturn(_this3, _ret2);
+	  }
+
+	  _createClass(LoginForm, [{
+	    key: 'onFormSubmit',
+	    value: function onFormSubmit(e) {
+	      var _this4 = this;
+
+	      e.preventDefault();
+
+	      var next = function next(err, data) {
+	        if (err) {
+	          return _this4.setState({
+	            isFormProcessing: false,
+	            errorMessage: err.message
+	          });
+	        }
+
+	        // If the user didn't specify any data,
+	        // then simply default to what we have in state.
+	        data = data || _this4.state.fields;
+
+	        _UserActions2.default.login({
+	          username: data.username,
+	          password: data.password
+	        }, function (err, result) {
+	          if (err) {
+	            return _this4.setState({
+	              isFormProcessing: false,
+	              errorMessage: err.message
+	            });
+	          }
+
+	          _this4._performRedirect();
+	        });
+	      };
+
+	      this.setState({
+	        isFormProcessing: true
+	      });
+
+	      if (this.props.onSubmit) {
+	        e.data = this.state.fields;
+	        this.props.onSubmit(e, next);
+	      } else {
+	        next(null, this.state.fields);
+	      }
+	    }
+	  }, {
+	    key: '_performRedirect',
+	    value: function _performRedirect() {
+	      var router = _Context2.default.getInstance().getRouter();
+	      var homeRoute = router.getHomeRoute();
+	      var authenticatedHomeRoute = router.getAuthenticatedHomeRoute();
+	      var redirectTo = this.props.redirectTo || (authenticatedHomeRoute || {}).path || (homeRoute || {}).path || '/';
+
+	      this.history.pushState(null, redirectTo);
+	    }
+	  }, {
+	    key: '_mapFormFieldHandler',
+	    value: function _mapFormFieldHandler(element, tryMapField) {
+	      if (element.type === 'input' || element.type === 'textarea') {
+	        if (element.props.type !== 'submit') {
+	          switch (element.props.name) {
+	            case 'login':
+	            case 'username':
+	              tryMapField('username');
+	              break;
+	            case 'password':
+	              tryMapField('password');
+	              break;
+	          }
+	        }
+	      }
+	    }
+	  }, {
+	    key: '_spIfHandler',
+	    value: function _spIfHandler(action, element) {
+	      var test = null;
+
+	      switch (action) {
+	        case 'form.processing':
+	          test = this.state.isFormProcessing;
+	          break;
+	        case 'form.error':
+	          test = this.state.errorMessage !== null;
+	          break;
+	      }
+
+	      return test;
+	    }
+	  }, {
+	    key: '_spBindHandler',
+	    value: function _spBindHandler(action, element) {
+	      var element = false;
+
+	      switch (action) {
+	        case 'form.errorMessage':
+	          var className = element.props ? element.props.className : undefined;
+	          element = _react2.default.createElement(
+	            'span',
+	            { className: className },
+	            this.state.errorMessage
+	          );
+	          break;
+	      }
+
+	      return element;
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      if (this.props.children) {
+	        return _react2.default.createElement(
+	          'form',
+	          { onSubmit: this.onFormSubmit.bind(this) },
+	          _utils2.default.makeForm(this, this._mapFormFieldHandler.bind(this), this._spIfHandler.bind(this), this._spBindHandler.bind(this))
+	        );
+	      } else {
+	        return _react2.default.createElement(DefaultLoginForm, this.props);
+	      }
+	    }
+	  }]);
+
+	  return LoginForm;
+	})(_react2.default.Component)) || _class2);
+	exports.default = LoginForm;
+
+/***/ },
+/* 84 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = undefined;
+
+	var _react = __webpack_require__(12);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var LoadingText = (function (_React$Component) {
+	  _inherits(LoadingText, _React$Component);
+
+	  function LoadingText() {
+	    var _Object$getPrototypeO;
+
+	    var _temp, _this, _ret;
+
+	    _classCallCheck(this, LoadingText);
+
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(LoadingText)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.waitTimeout = null, _this.state = {
+	      text: null
+	    }, _temp), _possibleConstructorReturn(_this, _ret);
+	  }
+
+	  _createClass(LoadingText, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this2 = this;
+
+	      this.waitTimeout = setTimeout(function () {
+	        _this2.setState({
+	          text: _this2.props.text || 'Loading...'
+	        });
+	      }, this.props.showAfter || 250);
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      clearTimeout(this.waitTimeout);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      if (!this.state.text) {
+	        return null;
+	      }
+
+	      return _react2.default.createElement(
+	        'p',
+	        { style: { textAlign: 'center' } },
+	        this.state.text
+	      );
+	    }
+	  }]);
+
+	  return LoadingText;
+	})(_react2.default.Component);
+
+	exports.default = LoadingText;
+
+/***/ },
+/* 85 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _dec, _class2;
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = undefined;
+
+	var _react = __webpack_require__(12);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactMixin = __webpack_require__(80);
+
+	var _reactMixin2 = _interopRequireDefault(_reactMixin);
+
+	var _reactRouter = __webpack_require__(9);
+
+	var _utils = __webpack_require__(57);
+
+	var _utils2 = _interopRequireDefault(_utils);
+
+	var _Context = __webpack_require__(7);
+
+	var _Context2 = _interopRequireDefault(_Context);
+
+	var _LoginLink = __webpack_require__(78);
 
 	var _LoginLink2 = _interopRequireDefault(_LoginLink);
 
-	var _UserActions = __webpack_require__(59);
+	var _UserStore = __webpack_require__(66);
+
+	var _UserStore2 = _interopRequireDefault(_UserStore);
+
+	var _UserActions = __webpack_require__(74);
 
 	var _UserActions2 = _interopRequireDefault(_UserActions);
+
+	var _LoadingText = __webpack_require__(84);
+
+	var _LoadingText2 = _interopRequireDefault(_LoadingText);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7373,14 +9254,108 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _inherits(DefaultRegistrationForm, _React$Component);
 
 	  function DefaultRegistrationForm() {
+	    var _Object$getPrototypeO;
+
+	    var _temp, _this, _ret;
+
 	    _classCallCheck(this, DefaultRegistrationForm);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(DefaultRegistrationForm).apply(this, arguments));
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(DefaultRegistrationForm)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.state = {
+	      fields: null
+	    }, _temp), _possibleConstructorReturn(_this, _ret);
 	  }
 
 	  _createClass(DefaultRegistrationForm, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this2 = this;
+
+	      if (this.state.fields !== null) {
+	        return;
+	      }
+
+	      var defaultFields = [{
+	        label: 'First Name',
+	        name: 'givenName',
+	        placeholder: 'First Name',
+	        required: true,
+	        type: 'text'
+	      }, {
+	        label: 'Last Name',
+	        name: 'surname',
+	        placeholder: 'Last Name',
+	        required: true,
+	        type: 'text'
+	      }, {
+	        label: 'Email',
+	        name: 'email',
+	        placeholder: 'Email',
+	        required: true,
+	        type: 'email'
+	      }, {
+	        label: 'Password',
+	        name: 'password',
+	        placeholder: 'Password',
+	        required: true,
+	        type: 'password'
+	      }];
+
+	      _UserStore2.default.getRegisterViewData(function (err, data) {
+	        _this2.setState({
+	          fields: data && data.form ? data.form.fields : defaultFields
+	        });
+	      });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var fieldMarkup = null;
+
+	      if (this.state.fields !== null) {
+	        fieldMarkup = [];
+
+	        this.state.fields.forEach(function (field, index) {
+	          var fieldId = 'sp-' + field.name + '-' + index;
+	          fieldMarkup.push(_react2.default.createElement(
+	            'div',
+	            { key: fieldId, className: 'form-group' },
+	            _react2.default.createElement(
+	              'label',
+	              { htmlFor: fieldId, className: 'col-xs-12 col-sm-4 control-label' },
+	              field.label
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'col-xs-12 col-sm-4' },
+	              _react2.default.createElement('input', { type: field.type, className: 'form-control', id: fieldId, name: field.name, placeholder: field.placeholder, required: field.required })
+	            )
+	          ));
+	        });
+
+	        fieldMarkup.push(_react2.default.createElement(
+	          'div',
+	          { key: 'register-button', className: 'form-group' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'col-sm-offset-4 col-sm-4' },
+	            _react2.default.createElement(
+	              'p',
+	              { className: 'alert alert-danger', spIf: 'form.error' },
+	              _react2.default.createElement('span', { spBind: 'form.errorMessage' })
+	            ),
+	            _react2.default.createElement(
+	              'button',
+	              { type: 'submit', className: 'btn btn-primary' },
+	              'Register'
+	            )
+	          )
+	        ));
+	      }
+
 	      return _react2.default.createElement(
 	        RegistrationForm,
 	        this.props,
@@ -7433,80 +9408,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	              _react2.default.createElement(
 	                'div',
 	                { className: 'form-horizontal' },
-	                _react2.default.createElement(
-	                  'div',
-	                  { className: 'form-group' },
-	                  _react2.default.createElement(
-	                    'label',
-	                    { htmlFor: 'spFirstName', className: 'col-xs-12 col-sm-4 control-label' },
-	                    'First Name'
-	                  ),
-	                  _react2.default.createElement(
-	                    'div',
-	                    { className: 'col-xs-12 col-sm-4' },
-	                    _react2.default.createElement('input', { className: 'form-control', id: 'spFirstName', placeholder: 'First Name', name: 'givenName' })
-	                  )
-	                ),
-	                _react2.default.createElement(
-	                  'div',
-	                  { className: 'form-group' },
-	                  _react2.default.createElement(
-	                    'label',
-	                    { htmlFor: 'spLastName', className: 'col-xs-12 col-sm-4 control-label' },
-	                    'Last Name'
-	                  ),
-	                  _react2.default.createElement(
-	                    'div',
-	                    { className: 'col-xs-12 col-sm-4' },
-	                    _react2.default.createElement('input', { className: 'form-control', id: 'spLastName', placeholder: 'Last Name', name: 'surname' })
-	                  )
-	                ),
-	                _react2.default.createElement(
-	                  'div',
-	                  { className: 'form-group' },
-	                  _react2.default.createElement(
-	                    'label',
-	                    { htmlFor: 'spEmail', className: 'col-xs-12 col-sm-4 control-label' },
-	                    'Email'
-	                  ),
-	                  _react2.default.createElement(
-	                    'div',
-	                    { className: 'col-xs-12 col-sm-4' },
-	                    _react2.default.createElement('input', { className: 'form-control', id: 'spEmail', placeholder: 'Email', name: 'email' })
-	                  )
-	                ),
-	                _react2.default.createElement(
-	                  'div',
-	                  { className: 'form-group' },
-	                  _react2.default.createElement(
-	                    'label',
-	                    { htmlFor: 'spPassword', className: 'col-xs-12 col-sm-4 control-label' },
-	                    'Password'
-	                  ),
-	                  _react2.default.createElement(
-	                    'div',
-	                    { className: 'col-xs-12 col-sm-4' },
-	                    _react2.default.createElement('input', { type: 'password', className: 'form-control', id: 'spPassword', placeholder: 'Password', name: 'password' })
-	                  )
-	                ),
-	                _react2.default.createElement(
-	                  'div',
-	                  { className: 'form-group' },
-	                  _react2.default.createElement(
-	                    'div',
-	                    { className: 'col-sm-offset-4 col-sm-4' },
-	                    _react2.default.createElement(
-	                      'p',
-	                      { className: 'alert alert-danger', spIf: 'form.error' },
-	                      _react2.default.createElement('span', { spBind: 'form.errorMessage' })
-	                    ),
-	                    _react2.default.createElement(
-	                      'button',
-	                      { type: 'submit', className: 'btn btn-primary' },
-	                      'Register'
-	                    )
-	                  )
-	                )
+	                fieldMarkup ? fieldMarkup : _react2.default.createElement(_LoadingText2.default, null)
 	              )
 	            )
 	          )
@@ -7518,21 +9420,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return DefaultRegistrationForm;
 	})(_react2.default.Component);
 
-	var RegistrationForm = (_dec = _reactMixin2.default.decorate(_reactRouter.History), _dec(_class = (function (_React$Component2) {
+	var RegistrationForm = (_dec = _reactMixin2.default.decorate(_reactRouter.History), _dec(_class2 = (function (_React$Component2) {
 	  _inherits(RegistrationForm, _React$Component2);
 
 	  function RegistrationForm() {
-	    var _Object$getPrototypeO;
+	    var _Object$getPrototypeO2;
 
-	    var _temp, _this2, _ret;
+	    var _temp2, _this3, _ret2;
 
 	    _classCallCheck(this, RegistrationForm);
 
-	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-	      args[_key] = arguments[_key];
+	    for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+	      args[_key2] = arguments[_key2];
 	    }
 
-	    return _ret = (_temp = (_this2 = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(RegistrationForm)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this2), _this2.state = {
+	    return _ret2 = (_temp2 = (_this3 = _possibleConstructorReturn(this, (_Object$getPrototypeO2 = Object.getPrototypeOf(RegistrationForm)).call.apply(_Object$getPrototypeO2, [this].concat(args))), _this3), _this3.state = {
 	      fields: {
 	        givenName: '',
 	        surname: '',
@@ -7543,19 +9445,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	      isFormProcessing: false,
 	      isAccountCreated: false,
 	      isAccountEnabled: false
-	    }, _temp), _possibleConstructorReturn(_this2, _ret);
+	    }, _temp2), _possibleConstructorReturn(_this3, _ret2);
 	  }
 
 	  _createClass(RegistrationForm, [{
 	    key: 'onFormSubmit',
 	    value: function onFormSubmit(e) {
-	      var _this3 = this;
+	      var _this4 = this;
 
 	      e.preventDefault();
 
 	      var next = function next(err, data) {
 	        if (err) {
-	          return _this3.setState({
+	          return _this4.setState({
 	            isFormProcessing: false,
 	            errorMessage: err.message
 	          });
@@ -7563,11 +9465,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        // If the user didn't specify any data,
 	        // then simply default to what we have in state.
-	        data = data || _this3.state.fields;
+	        data = data || _this4.state.fields;
 
 	        _UserActions2.default.register(data, function (err, result) {
 	          if (err) {
-	            _this3.setState({
+	            _this4.setState({
 	              isFormProcessing: false,
 	              errorMessage: err.message
 	            });
@@ -7577,21 +9479,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	              password: data.password
 	            }, function (err) {
 	              if (err) {
-	                return _this3.setState({
+	                return _this4.setState({
 	                  isFormProcessing: false,
 	                  isAccountCreated: false,
 	                  errorMessage: err.message
 	                });
 	              }
 
-	              _this3.setState({
-	                isFormProcessing: false,
-	                isAccountCreated: true,
-	                isAccountEnabled: true
-	              });
+	              _this4._performRedirect();
 	            });
 	          } else {
-	            _this3.setState({
+	            _this4.setState({
 	              isFormProcessing: false,
 	              isAccountCreated: true,
 	              isAccountEnabled: false
@@ -7610,6 +9508,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	      } else {
 	        next(null, this.state.fields);
 	      }
+	    }
+	  }, {
+	    key: '_performRedirect',
+	    value: function _performRedirect() {
+	      var router = _Context2.default.getInstance().getRouter();
+	      var homeRoute = router.getHomeRoute();
+	      var authenticatedHomeRoute = router.getAuthenticatedHomeRoute();
+	      var redirectTo = this.props.redirectTo || (authenticatedHomeRoute || {}).path || (homeRoute || {}).path || '/';
+
+	      this.history.pushState(null, redirectTo);
 	    }
 	  }, {
 	    key: '_mapFormFieldHandler',
@@ -7695,11 +9603,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }]);
 
 	  return RegistrationForm;
-	})(_react2.default.Component)) || _class);
+	})(_react2.default.Component)) || _class2);
 	exports.default = RegistrationForm;
 
 /***/ },
-/* 76 */
+/* 86 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7717,21 +9625,21 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactMixin = __webpack_require__(71);
+	var _reactMixin = __webpack_require__(80);
 
 	var _reactMixin2 = _interopRequireDefault(_reactMixin);
 
 	var _reactRouter = __webpack_require__(9);
 
-	var _utils = __webpack_require__(74);
+	var _utils = __webpack_require__(57);
 
 	var _utils2 = _interopRequireDefault(_utils);
 
-	var _LoginLink = __webpack_require__(68);
+	var _LoginLink = __webpack_require__(78);
 
 	var _LoginLink2 = _interopRequireDefault(_LoginLink);
 
-	var _UserActions = __webpack_require__(59);
+	var _UserActions = __webpack_require__(74);
 
 	var _UserActions2 = _interopRequireDefault(_UserActions);
 
@@ -7971,7 +9879,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = ResetPasswordForm;
 
 /***/ },
-/* 77 */
+/* 87 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7987,11 +9895,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _LoginLink = __webpack_require__(68);
+	var _LoginLink = __webpack_require__(78);
 
 	var _LoginLink2 = _interopRequireDefault(_LoginLink);
 
-	var _UserActions = __webpack_require__(59);
+	var _UserActions = __webpack_require__(74);
 
 	var _UserActions2 = _interopRequireDefault(_UserActions);
 
@@ -8020,16 +9928,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _createClass(VerifyEmailView, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      var self = this;
+	      var _this2 = this;
+
 	      var spToken = this.props.spToken;
 
 	      _UserActions2.default.verifyEmail(spToken, function (err) {
 	        if (err) {
-	          self.setState({
+	          _this2.setState({
 	            status: 'ERROR'
 	          });
 	        } else {
-	          self.setState({
+	          _this2.setState({
 	            status: 'VERIFIED'
 	          });
 	        }
@@ -8077,7 +9986,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = VerifyEmailView;
 
 /***/ },
-/* 78 */
+/* 88 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8093,7 +10002,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _UserComponent2 = __webpack_require__(79);
+	var _UserComponent2 = __webpack_require__(89);
 
 	var _UserComponent3 = _interopRequireDefault(_UserComponent2);
 
@@ -8160,7 +10069,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = UserField;
 
 /***/ },
-/* 79 */
+/* 89 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8176,7 +10085,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _UserStore = __webpack_require__(63);
+	var _UserStore = __webpack_require__(66);
 
 	var _UserStore2 = _interopRequireDefault(_UserStore);
 
@@ -8210,10 +10119,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _createClass(UserComponent, [{
 	    key: 'onChange',
 	    value: function onChange() {
-	      var self = this;
+	      var _this2 = this;
+
 	      _UserStore2.default.resolveSession(function (err, user) {
-	        if (self.onChangeListener !== null) {
-	          self.setState({ user: user });
+	        if (_this2.onChangeListener !== null) {
+	          _this2.setState({ user: user });
 	        }
 	      });
 	    }
