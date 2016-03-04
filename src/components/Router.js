@@ -12,12 +12,12 @@ import AuthenticatedRoute from './AuthenticatedRoute';
 export default class Router extends ReactRouter {
   static childContextTypes = {
     authenticated: React.PropTypes.bool,
-    account: React.PropTypes.object
+    user: React.PropTypes.object
   };
 
   state = {
     authenticated: false,
-    account: undefined
+    user: undefined
   };
 
   markedRoutes = {
@@ -44,7 +44,7 @@ export default class Router extends ReactRouter {
     super(...arguments);
 
     this._mapMarkedRoutes();
-    this.accountChangeListener = this._setAccountState.bind(this);
+    this.sessionChangeListener = this._setSessionState.bind(this);
 
     context.setRouter(this);
   }
@@ -90,26 +90,26 @@ export default class Router extends ReactRouter {
     return this.markedRoutes.logout.props;
   }
 
-  _setAccountState(account) {
+  _setSessionState(user) {
     this.setState({
-      authenticated: account !== undefined,
-      account: account
+      authenticated: user !== undefined,
+      user: user
     });
   }
 
   componentDidMount() {
-    this._setAccountState(context.sessionStore.get());
-    context.sessionStore.addListener('changed', this.accountChangeListener);
+    this._setSessionState(context.sessionStore.get());
+    context.sessionStore.addListener('changed', this.sessionChangeListener);
   }
 
   componentWillUnmount() {
-    context.sessionStore.removeListener('changed', this.accountChangeListener);
+    context.sessionStore.removeListener('changed', this.sessionChangeListener);
   }
 
   getChildContext() {
     return {
       authenticated: this.state.authenticated,
-      account: this.state.account
+      user: this.state.user
     };
   }
 }
