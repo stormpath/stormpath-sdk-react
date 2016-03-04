@@ -95,7 +95,7 @@ Specify `redirectTo` to set the path to redirect to after logging out. If this i
 
 #### authenticated (bool)
 
-If you want to know if there's an authenticated account, then include the `authenticated` context.
+If you want to know if the user is authenticated or not, include the `authenticated context.
 
 ```javascript
 class AuthenticatedExample extends React.Component {
@@ -118,7 +118,7 @@ class AuthenticatedExample extends React.Component {
 
 #### account (object)
 
-If you want to retrieve the authenticated account, then include the `account` context. The value will be `undefined` if there's no authenticated account.
+If you want to retrieve the account, then include the `account` context. The value will be `undefined` if the user is not authenticated.
 
 ```javascript
 class AccountExample extends React.Component {

@@ -92,7 +92,7 @@ export default class Router extends ReactRouter {
 
   _setAccountState(account) {
     this.setState({
-      authenticated: account !== null,
+      authenticated: account !== undefined,
       account: account
     });
   }
@@ -110,6 +110,6 @@ export default class Router extends ReactRouter {
     return {
       authenticated: this.state.authenticated,
       account: this.state.account
-    }
+    };
   }
 }
