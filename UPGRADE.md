@@ -1,3 +1,11 @@
+## 1.0.0 to 1.1.0 (Mar 6, 2016)
+
+Notice:
+
+  - The UserComponent and UserField components have been deprecated and will be removed
+  in the future. So if you are using these, please take a look at our new context support
+  instead (see docs). It makes integrating user data into your components much easier.
+
 ## 0.5.0 to 1.0.0 (Mar 1, 2016)
 
 Breaking:

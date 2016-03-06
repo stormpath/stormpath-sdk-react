@@ -1,3 +1,10 @@
+## 1.1.0 (Mar 6, 2016)
+
+Features:
+
+  - Add Router context support ([#43](https://github.com/stormpath/stormpath-sdk-react/pull/43))
+  - Add support for updating the user profile ([#44](https://github.com/stormpath/stormpath-sdk-react/pull/44))
+
 ## 1.0.0 (Mar 1, 2016)
 
 Features:
