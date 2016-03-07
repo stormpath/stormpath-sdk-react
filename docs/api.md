@@ -369,12 +369,12 @@ app.post('/me', bodyParser.json(), stormpath.loginRequired, function (req, res) 
     res.json({ message: message, status: 400 });
     res.end();
   }
-  
+
   function saveAccount() {
     req.user.givenName = req.body.givenName;
     req.user.surname = req.body.surname;
     req.user.email = req.body.email;
-    
+
     req.user.save(function (err) {
       if (err) {
         return writeError(err.userMessage || err.message);
@@ -385,7 +385,7 @@ app.post('/me', bodyParser.json(), stormpath.loginRequired, function (req, res) 
 
   if (req.body.password) {
     var application = req.app.get('stormpathApplication');
-    
+
     application.authenticateAccount({
       username: req.user.username,
       password: req.body.existingPassword
@@ -393,9 +393,9 @@ app.post('/me', bodyParser.json(), stormpath.loginRequired, function (req, res) 
       if (err) {
         return writeError('The existing password that you entered was incorrect.');
       }
-      
+
       req.user.password = req.body.password();
-      
+
       saveAccount();
     });
   } else {
@@ -474,6 +474,52 @@ Renders a link that points to the LoginRoute or `/login` if no LoginRoute is spe
 <LoginLink />
 <LoginLink><img src="wrap-something-in-a-login-link.png" /></LoginLink>
 ```
+
+#### SocialLoginLink
+
+Renders a link that can be used to sign in with a social provider.
+
+```html
+<SocialLoginLink providerId='facebook' />
+<SocialLoginLink providerId='facebook'>Sign in with Facebook</SocialLoginLink>
+```
+
+Renders a link that can be used to sign into a social provider.
+
+```html
+<SocialLoginLink providerId='facebook' />
+```
+
+Set specific scopes by providing the `scope` option.
+
+```html
+<SocialLoginLink providerId='facebook' scope='email user_friends' />
+```
+
+Set your own redirect URI by providing the `redirectUri` option. If this isn't set then it defaults to `[protocol]://[host]/callbacks/[providerId]`.
+
+```html
+<SocialLoginLink providerId='facebook' redirectUri='http://www.my-domain.com/callbacks/facebook' />
+```
+
+#### SocialLoginButton
+
+Renders a button that can be used to sign in with a social provider.
+
+```html
+<SocialLoginButton providerId='facebook' />
+<SocialLoginButton providerId='facebook'>Sign in with Facebook</SocialLoginButton>
+```
+
+If you don't want the button to show an icon, then simply disable it by setting the `hideIcon` option.
+
+```html
+<SocialLoginButton providerId='facebook' hideIcon={ true } />
+```
+
+**Note:** The same options that are supported by the `SocialLoginLink` component are also supported by this.
+
+**Important:** This component relies on [Font Awesome](http://fortawesome.github.io/Font-Awesome/) in order to render icons for the various social providers. So if you want to use this button with icons, you also need to install Font Awesome on your site.
 
 #### LogoutLink
 

@@ -23,6 +23,9 @@ export RegistrationForm from './components/RegistrationForm';
 export ResetPasswordForm from './components/ResetPasswordForm';
 export VerifyEmailView from './components/VerifyEmailView';
 
+export SocialLoginLink from './components/SocialLoginLink';
+export SocialLoginButton from './components/SocialLoginButton';
+
 export UserField from './components/UserField';
 export UserComponent from './components/UserComponent';
 
