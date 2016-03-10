@@ -6,7 +6,9 @@ import UserStore from './../stores/UserStore';
 export default class AuthenticatedRoute extends Route {
   static defaultProps = {
     onEnter(nextState, replaceState, callback) {
-      UserStore.isAuthenticated((err, authenticated) => {
+      UserStore.isAuthenticated({
+        inGroup: this.inGroup
+      }, (err, authenticated) => {
         if (!authenticated) {
           var router = context.getRouter();
           var homeRoute = router.getHomeRoute();

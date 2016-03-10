@@ -66,8 +66,17 @@ Wrap the `HomeRoute` in an `AuthenticatedRoute` to specify the route you want to
 Route that when used, requires that a session is established before continuing. Else redirects the user to the `LoginRoute` path.
 
 ```html
-<AuthenticatedRoute path='/home/protected' component={RegisterPage} />
+<AuthenticatedRoute path='/profile' component={ProfilePage} />
 ```
+
+Specify the option `inGroup` to only allow users in a certain group to access the path.
+
+```html
+<AuthenticatedRoute path='/admin' inGroup="administrator" component={AdminPage} />
+<AuthenticatedRoute path='/admin/support' inGroup={["administrator", "support"]} component={SupportAdminPage} />
+```
+
+**Important:** In order to use the `inGroup` option, you must expand the `groups` resource for the `/me` endpoint.
 
 #### LoginRoute
 
@@ -148,6 +157,24 @@ Renders any child components if there is an established user session.
 </Authenticated>
 ```
 
+Specify the option `inGroup` to only show child components when a user is in a certain group.
+
+```html
+<Authenticated inGroup="administrator">
+  You are authenticated as an administrator!
+</Authenticated>
+```
+
+Specify an array of groups in order to only show the child components for a user in all of the specified groups.
+
+```html
+<Authenticated inGroup={["administrator", "support"]}>
+  You are authenticated as a support administrator!
+</Authenticated>
+```
+
+**Important:** In order to use the `inGroup` option, you must expand the `groups` resource for the `/me` endpoint.
+
 #### NotAuthenticated
 
 Renders any child components if there isn't an established user session.
@@ -157,6 +184,16 @@ Renders any child components if there isn't an established user session.
   You are not authenticated!
 </NotAuthenticated>
 ```
+
+Specify the option `inGroup` to only show child components when a user isn't in a certain group.
+
+```html
+<NotAuthenticated inGroup="administrator">
+  You are authenticated as an administrator!
+</NotAuthenticated>
+```
+
+**Important:** In order to use the `inGroup` option, you must expand the `groups` resource for the `/me` endpoint.
 
 #### LoginForm
 
@@ -369,12 +406,12 @@ app.post('/me', bodyParser.json(), stormpath.loginRequired, function (req, res) 
     res.json({ message: message, status: 400 });
     res.end();
   }
-  
+
   function saveAccount() {
     req.user.givenName = req.body.givenName;
     req.user.surname = req.body.surname;
     req.user.email = req.body.email;
-    
+
     req.user.save(function (err) {
       if (err) {
         return writeError(err.userMessage || err.message);
@@ -385,7 +422,7 @@ app.post('/me', bodyParser.json(), stormpath.loginRequired, function (req, res) 
 
   if (req.body.password) {
     var application = req.app.get('stormpathApplication');
-    
+
     application.authenticateAccount({
       username: req.user.username,
       password: req.body.existingPassword
@@ -393,9 +430,9 @@ app.post('/me', bodyParser.json(), stormpath.loginRequired, function (req, res) 
       if (err) {
         return writeError('The existing password that you entered was incorrect.');
       }
-      
+
       req.user.password = req.body.password();
-      
+
       saveAccount();
     });
   } else {

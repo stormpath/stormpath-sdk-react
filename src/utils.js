@@ -226,6 +226,57 @@ class Utils {
 
     return urlA.host === urlB.host;
   }
+
+  logWarning(message) {
+    console.error('[WARNING] Stormpath SDK: ' + message);
+  }
+
+  getEnabledGroups(groups) {
+    var enabledGroups = {};
+
+    if (groups && groups.items) {
+      groups.items.forEach((item) => {
+        if (item.status === 'ENABLED') {
+          enabledGroups[item.name] = undefined;
+        }
+      });
+    }
+
+    return enabledGroups;
+  }
+
+  isInGroup(groups, assertGroups) {
+    if (!groups) {
+      return false;
+    }
+
+    if (typeof assertGroups !== 'array') {
+      assertGroups = assertGroups ? [assertGroups] : [];
+    }
+
+    var authenticated = true;
+
+    assertGroups.forEach((group) => {
+      if (!(group in groups)) {
+        authenticated = false;
+      }
+    });
+
+    return authenticated;
+  }
+
+  isArray(object) {
+    var nativeIsArray = Array.isArray;
+    var toString = Object.prototype.toString;
+    return nativeIsArray(object) || toString.call(object) === '[object Array]';
+  }
+
+  enforceRootElement(object) {
+    if (typeof object === 'string' || this.isArray(object)) {
+      object = <span>{ object }</span>;
+    }
+    return object;
+  }
 }
 
 export default new Utils()

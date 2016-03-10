@@ -1,6 +1,7 @@
 import app from '../app';
 import context from '../context';
 
+import utils from '../utils';
 import BaseStore from './BaseStore';
 import SessionStore from './SessionStore';
 import UserService from '../services/UserService';
@@ -19,9 +20,24 @@ class UserStore extends BaseStore {
     this.resolveSession();
   }
 
-  isAuthenticated(callback) {
-    this.resolveSession((err, result) => {
-      callback(err, !err && !this.sessionStore.empty());
+  isAuthenticated(options, callback) {
+    if (typeof options === 'function') {
+      callback = options;
+      options = {};
+    }
+
+    this.resolveSession((err, user) => {
+      var authenticated = !err && !this.sessionStore.empty();
+
+      if (authenticated && options.inGroup) {
+        if (user.groups) {
+          authenticated = utils.isInGroup(user.groups, options.inGroup);
+        } else {
+          utils.logWarning('<AuthenticatedRoute> In order to use the inGroup option, you must expand the groups resource for the /me endpoint.');
+        }
+      }
+
+      callback(err, authenticated);
     });
   }
 
@@ -37,11 +53,7 @@ class UserStore extends BaseStore {
         return callback(err);
       }
 
-      this.sessionError = null;
-      this.sessionStore.set(result);
-      this.emitChange();
-
-      callback(null, result);
+      this.resolveSession(callback);
     });
   }
 
@@ -82,8 +94,8 @@ class UserStore extends BaseStore {
     });
   }
 
-  resolveSession(callback) {
-    if (this.sessionError || !this.sessionStore.empty()) {
+  resolveSession(callback, force) {
+    if (!force && (this.sessionError || !this.sessionStore.empty())) {
       return callback && callback(this.sessionError, this.sessionStore.get());
     }
 
@@ -97,7 +109,7 @@ class UserStore extends BaseStore {
       }
 
       if (callback) {
-        callback(this.sessionError, this.session);
+        callback(this.sessionError, this.sessionStore.get());
       }
 
       this.emitChange();
