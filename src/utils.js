@@ -13,17 +13,15 @@ class Utils {
   }
 
   translateProviderIdToName(providerId) {
-    var newName;
+    var providerNames = {
+      github: 'GitHub',
+      linkedin: 'LinkedIn'
+    };
 
-    switch (providerId) {
-      case 'github':
-        newName = 'GitHub';
-        break;
-      case 'linkedin':
-        newName = 'LinkedIn';
-        break;
-      default:
-        newName = providerId[0].toUpperCase() + providerId.slice(1);
+    var newName = providerNames[providerId];
+
+    if (!newName) {
+      newName = providerId[0].toUpperCase() + providerId.slice(1);
     }
 
     return newName;
