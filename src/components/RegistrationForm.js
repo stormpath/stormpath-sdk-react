@@ -61,7 +61,7 @@ class DefaultRegistrationForm extends React.Component {
 
       if (data && data.form) {
         fields = data.form.fields;
-        if (!this.props.hideSocialLogin) {
+        if (!this.props.hideSocial) {
           data.accountStores.forEach((accountStore) => {
             if (!accountStore.provider) {
               return;

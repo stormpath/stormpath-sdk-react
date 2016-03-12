@@ -172,6 +172,12 @@ Specify `redirectTo` to set the path to redirect to after logging in. If this is
 <LoginForm redirectTo='/pathToRedirectTo' />
 ```
 
+Specify `hideSocial` to hide the ability to sign in with a social provider.
+
+```html
+<LoginForm hideSocial={true} />
+```
+
 Customize the form by providing your own markup.
 
 ```html
@@ -231,6 +237,12 @@ Specify `redirectTo` to set the path to redirect to after registering.  If this 
 
 ```html
 <RegistrationForm redirectTo='/pathToRedirectTo' />
+```
+
+Specify `hideSocial` to hide the ability to register with a social provider.
+
+```html
+<RegistrationForm hideSocial={true} />
 ```
 
 Customize the form by providing your own markup.
@@ -484,7 +496,7 @@ Renders a link that can be used to sign in with a social provider.
 <SocialLoginLink providerId='facebook'>Sign in with Facebook</SocialLoginLink>
 ```
 
-Renders a link that can be used to sign into a social provider.
+Renders a link that can be used to sign in using a social provider.
 
 ```html
 <SocialLoginLink providerId='facebook' />
@@ -499,7 +511,7 @@ Set specific scopes by providing the `scope` option.
 Set your own redirect URI by providing the `redirectUri` option. If this isn't set then it defaults to `[protocol]://[host]/callbacks/[providerId]`.
 
 ```html
-<SocialLoginLink providerId='facebook' redirectUri='http://www.my-domain.com/callbacks/facebook' />
+<SocialLoginLink providerId='facebook' redirectUri='http://www.example.com/callbacks/facebook' />
 ```
 
 #### SocialLoginButton
