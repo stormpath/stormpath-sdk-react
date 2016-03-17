@@ -21,6 +21,7 @@ export LoginForm from './components/LoginForm';
 export UserProfileForm from './components/UserProfileForm';
 export RegistrationForm from './components/RegistrationForm';
 export ResetPasswordForm from './components/ResetPasswordForm';
+export ChangePasswordForm from './components/ChangePasswordForm';
 export VerifyEmailView from './components/VerifyEmailView';
 
 export UserField from './components/UserField';

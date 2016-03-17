@@ -8,10 +8,6 @@ export default class VerifyEmailView extends React.Component {
     status: 'VERIFYING'
   };
 
-  constructor() {
-    super(...arguments);
-  }
-
   componentDidMount() {
     var spToken = this.props.spToken;
 
