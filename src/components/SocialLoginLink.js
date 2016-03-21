@@ -88,7 +88,7 @@ export default class SocialLoginLink extends React.Component {
     var providerId = this.props.providerId;
 
     return (
-      <a {...this.props} href='#' className={this.props.className} onClick={this._onClick.bind(this)} disabled={this.state.disabled}>
+      <a {...this.props} href='#' onClick={this._onClick.bind(this)} disabled={this.state.disabled}>
         { this.props.children ? this.props.children : 'Login with ' + utils.translateProviderIdToName(providerId)}
       </a>
     );
