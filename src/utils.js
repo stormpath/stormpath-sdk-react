@@ -4,6 +4,42 @@ import React from 'react';
 class Utils {
   nopElement = <span />;
 
+  uuid() {
+    var s4 = () => Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16).substring(1);
+
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+      s4() + '-' + s4() + s4() + s4();
+  }
+
+  translateProviderIdToName(providerId) {
+    var providerNames = {
+      github: 'GitHub',
+      linkedin: 'LinkedIn'
+    };
+
+    var newName = providerNames[providerId];
+
+    if (!newName) {
+      newName = providerId[0].toUpperCase() + providerId.slice(1);
+    }
+
+    return newName;
+  }
+
+  encodeQueryString(query) {
+    var result = '';
+
+    for (var key in query) {
+      if (result !== '') {
+        result += '&';
+      }
+      result += key + '=' + encodeURIComponent(query[key]);
+    }
+
+    return result;
+  }
+
   deepForEach(node, handler) {
     handler(node);
     if (node.props.children) {

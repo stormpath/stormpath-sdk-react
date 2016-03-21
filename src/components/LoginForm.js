@@ -8,10 +8,12 @@ import context from '../context';
 import UserStore from '../stores/UserStore';
 import UserActions from '../actions/UserActions';
 import LoadingText from '../components/LoadingText';
+import SocialLoginButton from '../components/SocialLoginButton';
 
 class DefaultLoginForm extends React.Component {
   state = {
-    fields: null
+    fields: null,
+    socialProviders: null
   };
 
   componentDidMount() {
@@ -36,8 +38,31 @@ class DefaultLoginForm extends React.Component {
     ];
 
     UserStore.getLoginViewData((err, data) => {
+      var fields = null;
+      var socialProviders = null;
+
+      if (data && data.form) {
+        fields = data.form.fields;
+        if (!this.props.hideSocial) {
+          data.accountStores.forEach((accountStore) => {
+            if (!accountStore.provider) {
+              return;
+            }
+
+            if (socialProviders === null) {
+              socialProviders = [];
+            }
+
+            socialProviders.push({
+              id: accountStore.provider.providerId
+            });
+          });
+        }
+      }
+
       this.setState({
-        fields: data && data.form ? data.form.fields : defaultFields
+        fields: fields,
+        socialProviders: socialProviders
       });
     });
   }
@@ -69,6 +94,31 @@ class DefaultLoginForm extends React.Component {
           </div>
         </div>
       );
+    }
+
+    if (this.state.socialProviders !== null) {
+      var providerButtons = [];
+
+      this.state.socialProviders.forEach((provider, index) => {
+        var providerKey = `sp-${provider.id}-${index}`;
+
+        providerButtons.push(
+          <SocialLoginButton key={ providerKey } providerId={ provider.id } style={{ marginRight: '5px', marginBottom: '5px' }} />
+        );
+      });
+
+      if (providerButtons.length) {
+        fieldMarkup.push(
+          <div key="provider-buttons" className="form-group" style={{ paddingTop: '20px' }}>
+            <div className="col-sm-offset-4 col-sm-4" style={{ marginBottom: '10px' }}>
+              Or sign in using...
+            </div>
+            <div className="col-sm-offset-4 col-sm-4">
+              { providerButtons }
+            </div>
+          </div>
+        );
+      }
     }
 
     return (
