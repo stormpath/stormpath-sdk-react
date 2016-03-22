@@ -75,7 +75,9 @@ export default class BaseService {
       if (result.status === 200) {
         callback(null, data);
       } else {
-        callback(new Error(data.message || data.error || 'A request to the API failed.'));
+        var error = new Error(data.message || data.error || 'A request to the API failed.');
+        error.status = result.status;
+        callback(error);
       }
     });
   }

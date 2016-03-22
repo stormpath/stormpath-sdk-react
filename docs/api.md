@@ -363,9 +363,7 @@ Customize the form by providing your own markup.
 ```html
 <ChangePasswordForm>
   <div spIf="form.sent">
-    <p spIf="form.processing">We are verifying your change password request...</p>
-    <p spIf="form.success">Your new password has been set. Please <LoginLink />.</p>
-    <p spIf="form.error">The reset password token is not valid. Please try resetting your password again.</p>
+    <p>Your new password has been set. Please <LoginLink />.</p>
   </div>
   <div spIf="!form.sent">
     <p>

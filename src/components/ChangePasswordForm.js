@@ -14,13 +14,7 @@ class DefaultChangePasswordForm extends React.Component {
         <div className='sp-change-password-form'>
           <div className="row" >
             <div className="col-sm-offset-4 col-xs-12 col-sm-4" spIf="form.sent">
-              <p className="alert alert-warning text-center" spIf="form.processing">
-                We are verifying your change password request...
-              </p>
-              <p className="alert alert-success" spIf="form.success">Your new password has been set. Please <LoginLink />.</p>
-              <div className="alert alert-danger" spIf="form.error">
-                This password reset link is not valid.  You may request another link by <a href="/forgot">clicking here</a>.
-              </div>
+              <p className="alert alert-success">Your new password has been set. Please <LoginLink />.</p>
             </div>
             <div className="col-xs-12" spIf="!form.sent">
               <div className="form-horizontal">
@@ -39,7 +33,10 @@ class DefaultChangePasswordForm extends React.Component {
                 <div className="form-group">
                   <div className="col-sm-offset-4 col-sm-4">
                     <p className="alert alert-danger" spIf="form.error"><span spBind="form.errorMessage" /></p>
-                    <button type="submit" className="btn btn-primary">Set New Password</button>
+                    <button type="submit" className="btn btn-primary">
+                      <span spIf="form.processing">Setting New Password...</span>
+                      <span spIf="!form.processing">Set New Password</span>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -57,11 +54,11 @@ export default class ChangePasswordForm extends React.Component {
     spToken: null,
     fields: {
       password: '',
-      confirmPassword: ''
+      confirmPassword: undefined
     },
     errorMessage: null,
-    isFormProcessing: false,
-    isFormSent: false
+    isFormSent: false,
+    isFormProcessing: false
   };
 
   constructor(...args) {
@@ -84,29 +81,36 @@ export default class ChangePasswordForm extends React.Component {
       // then simply default to what we have in state.
       data = data || this.state.fields;
 
-      if (data.confirmPassword && data.password !== data.confirmPassword) {
+      if (data.confirmPassword !== undefined && data.password !== data.confirmPassword) {
         return this.setState({
           isFormProcessing: false,
           errorMessage: 'Passwords does not match.'
         });
       }
 
-      this.setState({
-        isFormSent: true
-      });
+      UserActions.changePassword(data, (err) => {
+        if (err) {
+          if (err.status === 404) {
+            err.message = 'The reset password token is not valid. Please try resetting your password again.';
+          }
 
-      UserActions.changePassword(this.state.fields, (err) => {
+          return this.setState({
+            isFormProcessing: false,
+            errorMessage: err.message
+          });
+        }
+
         this.setState({
           isFormProcessing: false,
-          errorMessage: err ? err.message : null
+          isFormSent: true
         });
       });
     };
 
     this.setState({
+      errorMessage: null,
       isFormSent: false,
-      isFormProcessing: true,
-      errorMessage: null
+      isFormProcessing: true
     });
 
     var data = this.state.fields;
@@ -142,14 +146,11 @@ export default class ChangePasswordForm extends React.Component {
     var test = null;
 
     switch (action) {
-      case 'form.success':
-        test = this.state.isFormSent && !this.state.isFormProcessing && this.state.errorMessage === null;
+      case 'form.sent':
+        test = this.state.isFormSent;
         break;
       case 'form.processing':
         test = this.state.isFormProcessing;
-        break;
-      case 'form.sent':
-        test = this.state.isFormSent;
         break;
       case 'form.error':
         test = this.state.errorMessage !== null;
