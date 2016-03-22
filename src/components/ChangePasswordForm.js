@@ -53,8 +53,7 @@ export default class ChangePasswordForm extends React.Component {
   state = {
     spToken: null,
     fields: {
-      password: '',
-      confirmPassword: undefined
+      password: ''
     },
     errorMessage: null,
     isFormSent: false,
@@ -86,7 +85,7 @@ export default class ChangePasswordForm extends React.Component {
       // then simply default to what we have in state.
       data = data || this.state.fields;
 
-      if (data.confirmPassword !== undefined && data.password !== data.confirmPassword) {
+      if ('confirmPassword' in data && data.password !== data.confirmPassword) {
         return this.setState({
           isFormProcessing: false,
           errorMessage: 'Passwords does not match.'
