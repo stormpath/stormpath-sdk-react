@@ -63,6 +63,11 @@ export default class ChangePasswordForm extends React.Component {
 
   constructor(...args) {
     super(...args);
+
+    if (!this.props || !('spToken' in this.props)) {
+      throw new Error('[Stormpath SDK/Error] ChangePasswordForm: Property \'spToken\' is required.');
+    }
+
     this.state.spToken = this.props.spToken;
   }
 

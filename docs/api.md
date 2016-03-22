@@ -361,7 +361,7 @@ Renders a change password form. The parameter `spToken` is required in order for
 Customize the form by providing your own markup.
 
 ```html
-<ChangePasswordForm>
+<ChangePasswordForm spToken={requiredSpToken}>
   <div spIf="form.sent">
     <p>Your new password has been set. Please <LoginLink />.</p>
   </div>
@@ -405,7 +405,7 @@ class ChangePasswordPage extends React.Component {
   }
 
   render() {
-    return <ChangePasswordForm onSubmit={this.onFormSubmit.bind(this)} />;
+    return <ChangePasswordForm spToken={requiredSpToken} onSubmit={this.onFormSubmit.bind(this)} />;
   }
 }
 ```
