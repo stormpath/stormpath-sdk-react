@@ -10,7 +10,7 @@ export default class SessionStore extends BaseStore {
   }
 
   set(session) {
-    if (session && session.groups) {
+    if (session && session.groups && session.groups.href) {
       session.groups = utils.getEnabledGroups(session.groups);
     }
 
