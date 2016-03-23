@@ -31,7 +31,7 @@ class UserStore extends BaseStore {
 
       if (authenticated && options.inGroup) {
         if (user.groups) {
-          authenticated = utils.isInGroup(user.groups, options.inGroup);
+          authenticated = utils.groupsMatchExpression(user.groups, options.inGroup);
         } else {
           utils.logWarning('<AuthenticatedRoute> In order to use the inGroup option, you must expand the groups resource for the /me endpoint.');
         }

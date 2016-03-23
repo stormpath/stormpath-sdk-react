@@ -73,8 +73,9 @@ Specify the option `inGroup` to only allow users in a certain group to access th
 
 ```html
 <AuthenticatedRoute path='/admin' inGroup="administrator" component={AdminPage} />
-<AuthenticatedRoute path='/admin/support' inGroup={["administrator", "support"]} component={SupportAdminPage} />
 ```
+
+If you want to specify more complex groups, please see section [Group Expressions](#group-expressions).
 
 **Important:** In order to use the `inGroup` option, you must expand the `groups` resource for the `/me` endpoint.
 
@@ -165,13 +166,7 @@ Specify the option `inGroup` to only show child components when a user is in a c
 </Authenticated>
 ```
 
-Specify an array of groups in order to only show the child components for a user in all of the specified groups.
-
-```html
-<Authenticated inGroup={["administrator", "support"]}>
-  You are authenticated as a support administrator!
-</Authenticated>
-```
+If you want to specify more complex groups, please see section [Group Expressions](#group-expressions).
 
 **Important:** In order to use the `inGroup` option, you must expand the `groups` resource for the `/me` endpoint.
 
@@ -192,6 +187,8 @@ Specify the option `inGroup` to only show child components when a user isn't in 
   You are authenticated as an administrator!
 </NotAuthenticated>
 ```
+
+If you want to specify more complex groups, please see section [Group Expressions](#group-expressions).
 
 **Important:** In order to use the `inGroup` option, you must expand the `groups` resource for the `/me` endpoint.
 
@@ -519,4 +516,27 @@ Renders a link that points to the LogoutRoute or `/logout` if no LogoutRoute is 
 ```html
 <LogoutLink />
 <LogoutLink><img src="wrap-something-in-a-logout-link.png" /></LogoutLink>
+```
+
+## Other
+
+### Group Expressions
+
+Group expressions are expressions that can be applied to components that support groups.
+These expressions are plain JavaScript boolean statements but with the exception that they are scoped so that the groups are global variables.
+
+This means that you can write dynamic expressions such as:
+
+```javascript
+(administrator || support) && !engineer
+```
+
+Which when executed would roughly translate into:
+
+```javascript
+if ((administrator || support) && !engineer) {
+  return true;
+} else {
+  return false;
+}
 ```
