@@ -15,8 +15,7 @@ export default class Authenticated extends React.Component {
       if (user.groups) {
         authenticated = utils.isInGroup(user.groups, this.props.inGroup);
       } else {
-        console.log(authenticated, user, user.groups);
-        utils.logWarning('<Authenticated> In order to use the inGroup option, you must expand the groups resource for the /me endpoint.');
+        utils.logWarning('<Authenticated>', 'In order to use the inGroup property, you must expand the groups resource for the /me endpoint.');
       }
     }
 

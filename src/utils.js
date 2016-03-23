@@ -227,8 +227,21 @@ class Utils {
     return urlA.host === urlB.host;
   }
 
-  logWarning(message) {
-    console.error('[WARNING] Stormpath SDK: ' + message);
+  logWarning(group, message) {
+    if (message === undefined) {
+      message = group;
+      group = undefined;
+    }
+
+    var result = '[Stormpath SDK]';
+
+    if (group) {
+      result += ' ' + group;
+    }
+
+    result += ': ' + message;
+
+    console.warn(result);
   }
 
   getEnabledGroups(groups) {
