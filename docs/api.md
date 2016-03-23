@@ -362,6 +362,66 @@ class ResetPasswordPage extends React.Component {
 }
 ```
 
+#### ChangePasswordForm
+
+Renders a change password form. The parameter `spToken` is required in order for the token to be validated.
+
+```html
+<ChangePasswordForm spToken={this.props.location.query.sptoken} />
+```
+
+Customize the form by providing your own markup.
+
+```html
+<ChangePasswordForm spToken={requiredSpToken}>
+  <div spIf="form.sent">
+    <p>Your new password has been set. Please <LoginLink />.</p>
+  </div>
+  <div spIf="!form.sent">
+    <p>
+      <label htmlFor="password">Password</label><br />
+      <input id="password" type="password" name="password" required />
+    </p>
+    <p>
+      <label htmlFor="confirmPassword">Password (again)</label><br />
+      <input id="confirmPassword" type="password" name="confirmPassword" required />
+    </p>
+    <p spIf="form.error">
+      <strong>Error:</strong><br />
+      <span spBind="form.errorMessage" />
+    </p>
+    <p>
+      <input type="submit" value="Change Password" />
+    </p>
+  </div>
+</ChangePasswordForm>
+```
+
+If you want to handle the form `onSubmit()` event, then simply provide a callback for it.
+
+```javascript
+class ChangePasswordPage extends React.Component {
+  onFormSubmit(e, next) {
+    // e.data will contain the data mapped from your form.
+    console.log("Form submitted", e.data);
+
+    // To return an error message, call next() as:
+    // next(new Error('Something in the form is wrong.'));
+
+    // Or if you want to change the data being sent, call it as:
+    // next(null, { myNewData: '123' });
+
+    // If you call next without any arguments,
+    // it will simply proceed processing the form.
+    next();
+  }
+
+  render() {
+    return <ChangePasswordForm spToken={requiredSpToken} onSubmit={this.onFormSubmit.bind(this)} />;
+  }
+}
+```
+
 #### UserProfileForm
 
 Renders a form that allows you to update the user profile.

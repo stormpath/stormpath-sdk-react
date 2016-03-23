@@ -25,7 +25,9 @@ export default class LoadingText extends React.Component {
     }
 
     return (
-      <p style={{ textAlign: 'center' }}>{ this.state.text }</p>
+      <p {...this.props} style={{ textAlign: 'center' }}>
+        { this.props.children ? this.props.children : this.state.text }
+      </p>
     );
   }
 }
