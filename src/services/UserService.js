@@ -40,7 +40,7 @@ export default class UserService extends BaseService {
   }
 
   getLoginViewData(callback) {
-    this._makeRequest('get', this._buildEndpoint(this.endpoints.login), null, callback);
+    this._makeRequest('get', this.endpoints.login, null, callback);
   }
 
 	login(options, callback) {
