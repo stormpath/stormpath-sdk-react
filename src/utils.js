@@ -250,7 +250,13 @@ class Utils {
     if (groups && groups.items) {
       groups.items.forEach((item) => {
         if (item.status === 'ENABLED') {
-          enabledGroups[item.name] = true;
+          var name = item.name;
+
+          if (name.indexOf(' ') !== -1) {
+            name = name.replace(/ /g, '_');
+          }
+
+          enabledGroups[name] = true;
         }
       });
     }

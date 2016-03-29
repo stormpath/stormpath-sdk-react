@@ -540,3 +540,9 @@ if ((administrator || support) && !engineer) {
   return false;
 }
 ```
+
+Note: If a group name contains a space, then that space should be replaced with a underscore. I.e. group `super administrator` should be `super_administrator` as illustrated below:
+
+```javascript
+super_administrator || engineer
+```
