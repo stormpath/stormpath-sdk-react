@@ -4,7 +4,6 @@ import { History, Link } from 'react-router';
 
 import utils from '../utils';
 import context from './../context';
-import UserStore from '../stores/UserStore';
 import UserActions from '../actions/UserActions';
 
 class DefaultUserProfileForm extends React.Component {

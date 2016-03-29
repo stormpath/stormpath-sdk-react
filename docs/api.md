@@ -13,8 +13,16 @@ If you want to configure it, simply pass an object with the configuration you wa
 
 ```javascript
 ReactStormpath.init({
-  // Optional: Set if you want to use your own Flux dispatcher.
-  dispatcher: instanceOfYourOwnFluxDispatcher,
+  // Optional: Set if you want to use your own dispatcher or configure one such as 'redux'.
+  // When no dispatcher is set, the default is 'flux'.
+  dispatcher: {
+    // Optional: Can either be 'flux' or 'redux'. Defaults to 'flux'.
+    type: 'flux',
+
+    // Required when you use type 'redux'.
+    // The store that you wish to dispatch events to.
+    store: yourReduxStore
+  },
 
   // Optional: Set if you want to to use another API endpoint.
   // Values shown below are the defaults.

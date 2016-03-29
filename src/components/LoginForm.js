@@ -5,7 +5,6 @@ import { History, Link } from 'react-router';
 import utils from '../utils';
 import context from '../context';
 
-import UserStore from '../stores/UserStore';
 import UserActions from '../actions/UserActions';
 import LoadingText from '../components/LoadingText';
 import SocialLoginButton from '../components/SocialLoginButton';
@@ -37,7 +36,7 @@ class DefaultLoginForm extends React.Component {
       }
     ];
 
-    UserStore.getLoginViewData((err, data) => {
+    context.userStore.getLoginViewData((err, data) => {
       var fields = null;
       var socialProviders = null;
 

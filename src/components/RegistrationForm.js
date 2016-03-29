@@ -6,7 +6,6 @@ import utils from '../utils';
 import context from './../context';
 
 import LoginLink from '../components/LoginLink';
-import UserStore from '../stores/UserStore';
 import UserActions from '../actions/UserActions';
 import LoadingText from '../components/LoadingText';
 import SocialLoginButton from '../components/SocialLoginButton';
@@ -53,7 +52,7 @@ class DefaultRegistrationForm extends React.Component {
       }
     ];
 
-    UserStore.getRegisterViewData((err, data) => {
+    context.userStore.getRegisterViewData((err, data) => {
       var fields = null;
       var socialProviders = null;
 
