@@ -1,3 +1,12 @@
+## 1.1.0 (Mar 31, 2016)
+
+Features:
+
+  - Add Router context support ([#43](https://github.com/stormpath/stormpath-sdk-react/pull/43))
+  - Add support for updating the user profile ([#44](https://github.com/stormpath/stormpath-sdk-react/pull/44))
+  - Add group support ([#47](https://github.com/stormpath/stormpath-sdk-react/pull/47))
+  - Add ChangePasswordForm to support changing password ([#50](https://github.com/stormpath/stormpath-sdk-react/pull/50))
+
 ## 1.0.0 (Mar 1, 2016)
 
 Features:
