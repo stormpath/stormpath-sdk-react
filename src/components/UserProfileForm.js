@@ -94,7 +94,7 @@ export default class UserProfileForm extends React.Component {
     isFormSuccessful: false
   };
 
-  _updateSessionData = (data) => {
+  _updateSessionData = (data, callback) => {
     var sessionStore = context.sessionStore;
 
     if (!sessionStore.empty()) {
@@ -111,7 +111,9 @@ export default class UserProfileForm extends React.Component {
       }
 
       if (hasChanged) {
-        sessionStore.set(updatedSession);
+        UserStore.resolveSession(callback, true);
+      } else {
+        callback();
       }
     }
   };
@@ -132,7 +134,7 @@ export default class UserProfileForm extends React.Component {
       // then simply default to what we have in state.
       data = data || this.state.fields;
 
-      UserActions.updateProfile(data, (err, result) => {
+      UserActions.updateProfile(data, (err) => {
         if (err) {
           return this.setState({
             isFormProcessing: false,
@@ -141,12 +143,12 @@ export default class UserProfileForm extends React.Component {
           });
         }
 
-        this._updateSessionData(data);
-
-        this.setState({
-          isFormProcessing: false,
-          isFormSuccessful: true,
-          errorMessage: null
+        this._updateSessionData(data, () => {
+          this.setState({
+            isFormProcessing: false,
+            isFormSuccessful: true,
+            errorMessage: null
+          });
         });
       });
     };

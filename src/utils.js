@@ -262,6 +262,93 @@ class Utils {
 
     return urlA.host === urlB.host;
   }
+
+  logWarning(group, message) {
+    if (message === undefined) {
+      message = group;
+      group = undefined;
+    }
+
+    var result = '[Stormpath SDK]';
+
+    if (group) {
+      result += ' ' + group;
+    }
+
+    result += ': ' + message;
+
+    console.warn(result);
+  }
+
+  getEnabledGroups(groups) {
+    var enabledGroups = {};
+
+    if (groups && groups.items) {
+      groups.items.forEach((item) => {
+        if (item.status === 'ENABLED') {
+          var name = item.name;
+
+          if (name.indexOf(' ') !== -1) {
+            name = name.replace(/ /g, '_');
+          }
+
+          enabledGroups[name] = true;
+        }
+      });
+    }
+
+    return enabledGroups;
+  }
+
+  makePredicateFunction(statement) {
+    return new Function(`
+      var scope = arguments[0];
+
+      var maskingScope = {};
+
+      for (var key in window) {
+        maskingScope[key] = undefined;
+      }
+
+      for (var key in scope) {
+        maskingScope[key] = scope[key];
+      }
+
+      with (maskingScope) {
+        return (${statement});
+      }
+    `);
+  }
+
+  groupsMatchExpression(groups, expression) {
+    if (!groups) {
+      return false;
+    }
+
+    var scope = JSON.parse(JSON.stringify(groups));
+    var expressionFn = this.makePredicateFunction(expression);
+
+    expression.match(/(\w+)/gmi).forEach((wordMatch) => {
+      if (!(wordMatch in scope)) {
+        scope[wordMatch] = false;
+      }
+    });
+
+    return expressionFn(scope);
+  }
+
+  isArray(object) {
+    var nativeIsArray = Array.isArray;
+    var toString = Object.prototype.toString;
+    return nativeIsArray(object) || toString.call(object) === '[object Array]';
+  }
+
+  enforceRootElement(object) {
+    if (typeof object === 'string' || this.isArray(object)) {
+      object = <span>{ object }</span>;
+    }
+    return object;
+  }
 }
 
 export default new Utils()

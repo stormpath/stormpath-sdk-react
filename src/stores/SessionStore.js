@@ -1,5 +1,7 @@
 import BaseStore from './BaseStore';
 
+import utils from '../utils';
+
 export default class SessionStore extends BaseStore {
   session = undefined;
 
@@ -8,6 +10,10 @@ export default class SessionStore extends BaseStore {
   }
 
   set(session) {
+    if (session && session.groups && session.groups.href) {
+      session.groups = utils.getEnabledGroups(session.groups);
+    }
+
     if (JSON.stringify(this.session) !== JSON.stringify(session)) {
       this.session = session;
       this.emitChange(session);

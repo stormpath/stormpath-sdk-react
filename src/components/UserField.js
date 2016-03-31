@@ -1,10 +1,12 @@
 import React from 'react';
+
+import utils from '../utils';
 import UserComponent from './UserComponent';
 
 export default class UserField extends UserComponent {
   constructor() {
     super(...arguments);
-    console.error('Stormpath SDK: Warning! The UserField component has been deprecated. Please use the user context instead. See: https://github.com/stormpath/stormpath-sdk-react/blob/master/docs/api.md#contexts');
+    utils.logWarning('The UserField component has been deprecated. Please use the user context instead. See: https://github.com/stormpath/stormpath-sdk-react/blob/master/docs/api.md#contexts');
   }
 
   _resolveFieldValue(name) {
