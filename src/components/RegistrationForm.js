@@ -53,13 +53,13 @@ class DefaultRegistrationForm extends React.Component {
       }
     ];
 
-
-
     UserStore.getRegisterViewData((err, data) => {
       var fields = null;
       var socialProviders = null;
 
-      if (data && data.form) {
+      if (err) {
+        fields = defaultFields;
+      } else if (data && data.form) {
         fields = data.form.fields;
         if (!this.props.hideSocial) {
           data.accountStores.forEach((accountStore) => {
