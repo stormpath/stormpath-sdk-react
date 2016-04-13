@@ -1,3 +1,9 @@
+## 1.1.1 (Mar 31, 2016)
+
+Fixes:
+
+  - Rebuilt dist files.
+
 ## 1.1.0 (Mar 31, 2016)
 
 Features:
