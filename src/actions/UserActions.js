@@ -2,7 +2,9 @@ import context from './../context';
 import UserConstants from './../constants/UserConstants';
 
 function dispatch(event) {
-  context.getDispatcher().dispatch(event);
+  setTimeout(() => {
+    context.getDispatcher().dispatch(event);
+  }, 0);
 }
 
 class UserActions {
