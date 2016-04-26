@@ -4,8 +4,8 @@ class Context {
   constructor() {
     this.router = null;
     this.dispatcher = null;
-    this.endpoints = null;
-    this.sessionStore = new SessionStore();
+    this.sessionStore = null;
+    this.userStore = null;
   }
 
   setRouter(router) {
@@ -24,12 +24,20 @@ class Context {
     return this.dispatcher;
   }
 
-  setEndpoints(endpoints) {
-    this.endpoints = endpoints;
+  setSessionStore(sessionStore) {
+    this.sessionStore = sessionStore;
   }
 
-  getEndpoints() {
-    return this.endpoints || {};
+  getSessionStore() {
+    return this.sessionStore;
+  }
+
+  setUserStore(userStore) {
+    this.userStore = userStore;
+  }
+
+  getUserStore() {
+    return this.userStore;
   }
 }
 

@@ -1,12 +1,11 @@
 import { Route } from 'react-router';
 
 import context from './../context';
-import UserStore from './../stores/UserStore';
 
 export default class AuthenticatedRoute extends Route {
   static defaultProps = {
     onEnter(nextState, replaceState, callback) {
-      UserStore.isAuthenticated({
+      context.userStore.isAuthenticated({
         inGroup: this.inGroup
       }, (err, authenticated) => {
         if (!authenticated) {

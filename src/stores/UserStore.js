@@ -1,22 +1,13 @@
-import app from '../app';
-import context from '../context';
-
 import utils from '../utils';
 import BaseStore from './BaseStore';
-import SessionStore from './SessionStore';
-import UserService from '../services/UserService';
-import UserConstants from '../constants/UserConstants';
+import UserActions from '../actions/UserActions';
 
-class UserStore extends BaseStore {
-  constructor(sessionStore) {
+export default class UserStore extends BaseStore {
+  constructor(userService, sessionStore) {
     super();
-    this.service = null;
+    this.service = userService;
     this.sessionError = null;
     this.sessionStore = sessionStore;
-  }
-
-  init() {
-    this.service = new UserService(context.getEndpoints());
     this.resolveSession();
   }
 
@@ -53,7 +44,12 @@ class UserStore extends BaseStore {
         return callback(err);
       }
 
-      this.resolveSession(callback);
+      this.sessionError = null;
+      this.sessionStore.set(result);
+      UserActions.set(result);
+      this.emitChange();
+
+      callback(null, result);
     });
   }
 
@@ -103,9 +99,11 @@ class UserStore extends BaseStore {
       if (err) {
         this.sessionError = err;
         this.sessionStore.reset();
+        UserActions.set(null);
       } else {
         this.sessionError = null;
         this.sessionStore.set(result);
+        UserActions.set(result);
       }
 
       if (callback) {
@@ -119,39 +117,6 @@ class UserStore extends BaseStore {
   reset() {
     this.sessionError = null;
     this.sessionStore.reset();
+    UserActions.set(null);
   }
 }
-
-var userStore = new UserStore(context.sessionStore);
-
-app.on('ready', () => {
-  userStore.init();
-  context.getDispatcher().register((payload) => {
-    switch(payload.actionType) {
-      case UserConstants.USER_LOGIN:
-        userStore.login(payload.options, payload.callback);
-        break;
-      case UserConstants.USER_LOGOUT:
-        userStore.logout(payload.callback);
-        break;
-      case UserConstants.USER_REGISTER:
-        userStore.register(payload.options, payload.callback);
-        break;
-      case UserConstants.USER_FORGOT_PASSWORD:
-        userStore.forgotPassword(payload.options, payload.callback);
-        break;
-      case UserConstants.USER_CHANGE_PASSWORD:
-        userStore.changePassword(payload.options, payload.callback);
-        break;
-      case UserConstants.USER_UPDATE_PROFILE:
-        userStore.updateProfile(payload.data, payload.callback);
-        break;
-      case UserConstants.USER_VERIFY_EMAIL:
-        userStore.verifyEmail(payload.options.spToken, payload.callback);
-        break;
-    }
-    return true;
-  });
-});
-
-module.exports = userStore;

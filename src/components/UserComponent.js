@@ -1,7 +1,6 @@
 import React from 'react';
-
 import utils from '../utils';
-import UserStore from '../stores/UserStore';
+import context from '../context';
 
 export default class UserComponent extends React.Component {
   onChangeListener = null;
@@ -16,7 +15,7 @@ export default class UserComponent extends React.Component {
   };
 
   onChange() {
-    UserStore.resolveSession((err, user) => {
+    context.userStore.resolveSession((err, user) => {
       if (this.onChangeListener !== null) {
         this.setState({ user: user });
       }
@@ -25,12 +24,12 @@ export default class UserComponent extends React.Component {
 
   componentDidMount() {
     this.onChangeListener = this.onChange.bind(this);
-    UserStore.addChangeListener(this.onChangeListener);
+    context.userStore.addChangeListener(this.onChangeListener);
     this.onChange();
   }
 
   componentWillUnmount() {
-    UserStore.removeChangeListener(this.onChangeListener);
+    context.userStore.removeChangeListener(this.onChangeListener);
     this.onChangeListener = null;
   }
 }
