@@ -1,3 +1,9 @@
+## 1.1.2 (Apr 26, 2016)
+
+Features:
+
+  - Redux support.
+
 ## 1.1.1 (Mar 31, 2016)
 
 Fixes:
