@@ -4,7 +4,7 @@ import context from './../context';
 
 export default class AuthenticatedRoute extends Route {
   static defaultProps = {
-    onEnter(nextState, replaceState, callback) {
+    onEnter(nextState, replace, callback) {
       context.userStore.isAuthenticated({
         inGroup: this.inGroup
       }, (err, authenticated) => {
@@ -14,7 +14,7 @@ export default class AuthenticatedRoute extends Route {
           var loginRoute = router.getLoginRoute();
           var redirectTo = (loginRoute || {}).path || (homeRoute || {}).path || '/';
 
-          replaceState({ nextPathname: nextState.location.pathname }, redirectTo);
+          replace(redirectTo);
         }
         callback();
       });

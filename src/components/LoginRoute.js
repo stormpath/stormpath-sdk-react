@@ -4,7 +4,7 @@ import context from './../context';
 
 export default class LoginRoute extends Route {
   static defaultProps = {
-    onEnter(nextState, replaceState, callback) {
+    onEnter(nextState, replace, callback) {
       context.userStore.isAuthenticated((err, authenticated) => {
         if (authenticated) {
           var router = context.getRouter();
@@ -12,7 +12,7 @@ export default class LoginRoute extends Route {
           var authenticatedHomeRoute = router.getAuthenticatedHomeRoute();
           var redirectTo = (authenticatedHomeRoute || {}).path || (homeRoute || {}).path || '/';
 
-          replaceState({ nextPathname: nextState.location.pathname }, redirectTo);
+          replace(redirectTo);
         }
         callback();
       });
