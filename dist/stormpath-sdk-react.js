@@ -2695,7 +2695,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      // Only set the X-Stormpath-Agent header if we're on the same domain as the requested URI.
 	      // This because we want to avoid CORS requests that require you to have to whitelist the X-Stormpath-Agent header.
 	      if (_utils2.default.isRelativeUri(uri) || _utils2.default.isSameHost(uri, window.location.href)) {
-	        headers['X-Stormpath-Agent'] = ("react-stormpath") + '/' + ("1.2.0") + ' react/' + _react2.default.version;
+	        headers['X-Stormpath-Agent'] = ("react-stormpath") + '/' + ("1.2.1") + ' react/' + _react2.default.version;
 	      }
 
 	      makeHttpRequest(method, uri, body, headers, function (err, result) {
@@ -9683,7 +9683,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  return LoginRoute;
 	}(_reactRouter.Route), _class.defaultProps = {
-	  onEnter: function onEnter(nextState, replaceState, callback) {
+	  onEnter: function onEnter(nextState, replace, callback) {
 	    _context2.default.userStore.isAuthenticated(function (err, authenticated) {
 	      if (authenticated) {
 	        var router = _context2.default.getRouter();
@@ -9691,7 +9691,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var authenticatedHomeRoute = router.getAuthenticatedHomeRoute();
 	        var redirectTo = (authenticatedHomeRoute || {}).path || (homeRoute || {}).path || '/';
 
-	        replaceState({ nextPathname: nextState.location.pathname }, redirectTo);
+	        replace(redirectTo);
 	      }
 	      callback();
 	    });
@@ -9747,7 +9747,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  return LogoutRoute;
 	}(_reactRouter.Route), _class.defaultProps = {
-	  onEnter: function onEnter(nextState, replaceState, callback) {
+	  onEnter: function onEnter(nextState, replace, callback) {
 	    var _this2 = this;
 
 	    _UserActions2.default.logout(function () {
@@ -9756,7 +9756,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var loginRoute = router.getLoginRoute();
 	      var redirectTo = _this2.redirectTo || (homeRoute || {}).path || (loginRoute || {}).path || '/';
 
-	      replaceState({ nextPathname: nextState.location.pathname }, redirectTo);
+	      replace(redirectTo);
 
 	      callback();
 	    });
@@ -9802,7 +9802,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  return AuthenticatedRoute;
 	}(_reactRouter.Route), _class.defaultProps = {
-	  onEnter: function onEnter(nextState, replaceState, callback) {
+	  onEnter: function onEnter(nextState, replace, callback) {
 	    _context2.default.userStore.isAuthenticated({
 	      inGroup: this.inGroup
 	    }, function (err, authenticated) {
@@ -9812,7 +9812,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var loginRoute = router.getLoginRoute();
 	        var redirectTo = (loginRoute || {}).path || (homeRoute || {}).path || '/';
 
-	        replaceState({ nextPathname: nextState.location.pathname }, redirectTo);
+	        replace(redirectTo);
 	      }
 	      callback();
 	    });
