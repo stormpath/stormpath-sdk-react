@@ -79,7 +79,7 @@ export default class SocialLoginLink extends React.Component {
           return console.error('Error: Unable to login. Social provider ' + utils.translateProviderIdToName(providerId) + ' not configured.');
         }
 
-        window.location.href = this._buildAuthorizationUri(provider, this.props.scope, this.props.redirectTo);
+        window.location.href = this._buildAuthorizationUri(provider, this.props.scope, this.props.redirectUri);
       });
     }
   }
