@@ -53,7 +53,9 @@ class UserActions {
   updateProfile(data, callback) {
     dispatch({
       type: UserConstants.USER_UPDATE_PROFILE,
-      data: data,
+      options: {
+        data: data
+      },
       callback: callback
     });
   }
@@ -61,7 +63,9 @@ class UserActions {
   set(data) {
     dispatch({
       type: UserConstants.USER_SET,
-      data: data
+      options: {
+        data: data
+      }
     });
   }
 

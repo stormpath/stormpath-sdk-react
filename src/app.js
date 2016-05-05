@@ -55,7 +55,7 @@ class App extends EventEmitter {
           userStore.changePassword(payload.options, payload.callback);
           break;
         case UserConstants.USER_UPDATE_PROFILE:
-          userStore.updateProfile(payload.data, payload.callback);
+          userStore.updateProfile(payload.options.data, payload.callback);
           break;
         case UserConstants.USER_VERIFY_EMAIL:
           userStore.verifyEmail(payload.options.spToken, payload.callback);
