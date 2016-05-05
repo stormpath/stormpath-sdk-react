@@ -1,3 +1,11 @@
+## 1.1.1 to 1.2.0 (May 5, 2016)
+
+Important:
+
+  - We've updated to React v15 and React-Router v2. So when upgrading, please see
+  the [React v15 upgrade guide](https://facebook.github.io/react/blog/2016/04/07/react-v15.html) and
+  the [React-Router v2 upgrade guide](https://github.com/reactjs/react-router/blob/master/upgrade-guides/v2.0.0.md).
+
 ## 1.1.1 to 1.1.2 (Apr 26, 2016)
 
 Nothing to do.

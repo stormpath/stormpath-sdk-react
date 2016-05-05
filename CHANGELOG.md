@@ -1,3 +1,14 @@
+## 1.2.0 (May 5, 2016)
+
+Notes:
+
+  - Updated dependencies to their latest versions. Most notably `react` to
+  version `15.0.2` and `react-router` to version `2.4.0`.
+
+Fixes:
+
+  - Fix issue with SocialLoginLink `redirectUri` being named `redirectTo`.
+
 ## 1.1.2 (Apr 26, 2016)
 
 Features:
