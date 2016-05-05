@@ -1,3 +1,9 @@
+## 1.2.1 (May 5, 2016)
+
+Fixes:
+
+  - Fix issue with deprecated onEnter replaceState in react-router v2.
+
 ## 1.2.0 (May 5, 2016)
 
 Notes:
