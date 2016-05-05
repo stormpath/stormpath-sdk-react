@@ -114,43 +114,43 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _LogoutLink3 = _interopRequireDefault(_LogoutLink2);
 
-	var _LoginForm2 = __webpack_require__(104);
+	var _LoginForm2 = __webpack_require__(101);
 
 	var _LoginForm3 = _interopRequireDefault(_LoginForm2);
 
-	var _UserProfileForm2 = __webpack_require__(108);
+	var _UserProfileForm2 = __webpack_require__(105);
 
 	var _UserProfileForm3 = _interopRequireDefault(_UserProfileForm2);
 
-	var _RegistrationForm2 = __webpack_require__(109);
+	var _RegistrationForm2 = __webpack_require__(106);
 
 	var _RegistrationForm3 = _interopRequireDefault(_RegistrationForm2);
 
-	var _ResetPasswordForm2 = __webpack_require__(110);
+	var _ResetPasswordForm2 = __webpack_require__(107);
 
 	var _ResetPasswordForm3 = _interopRequireDefault(_ResetPasswordForm2);
 
-	var _ChangePasswordForm2 = __webpack_require__(111);
+	var _ChangePasswordForm2 = __webpack_require__(108);
 
 	var _ChangePasswordForm3 = _interopRequireDefault(_ChangePasswordForm2);
 
-	var _VerifyEmailView2 = __webpack_require__(112);
+	var _VerifyEmailView2 = __webpack_require__(109);
 
 	var _VerifyEmailView3 = _interopRequireDefault(_VerifyEmailView2);
 
-	var _SocialLoginLink2 = __webpack_require__(107);
+	var _SocialLoginLink2 = __webpack_require__(104);
 
 	var _SocialLoginLink3 = _interopRequireDefault(_SocialLoginLink2);
 
-	var _SocialLoginButton2 = __webpack_require__(106);
+	var _SocialLoginButton2 = __webpack_require__(103);
 
 	var _SocialLoginButton3 = _interopRequireDefault(_SocialLoginButton2);
 
-	var _UserField2 = __webpack_require__(113);
+	var _UserField2 = __webpack_require__(110);
 
 	var _UserField3 = _interopRequireDefault(_UserField2);
 
-	var _UserComponent2 = __webpack_require__(114);
+	var _UserComponent2 = __webpack_require__(111);
 
 	var _UserComponent3 = _interopRequireDefault(_UserComponent2);
 
@@ -282,7 +282,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            userStore.changePassword(payload.options, payload.callback);
 	            break;
 	          case _constants.UserConstants.USER_UPDATE_PROFILE:
-	            userStore.updateProfile(payload.data, payload.callback);
+	            userStore.updateProfile(payload.options.data, payload.callback);
 	            break;
 	          case _constants.UserConstants.USER_VERIFY_EMAIL:
 	            userStore.verifyEmail(payload.options.spToken, payload.callback);
@@ -2695,7 +2695,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      // Only set the X-Stormpath-Agent header if we're on the same domain as the requested URI.
 	      // This because we want to avoid CORS requests that require you to have to whitelist the X-Stormpath-Agent header.
 	      if (_utils2.default.isRelativeUri(uri) || _utils2.default.isSameHost(uri, window.location.href)) {
-	        headers['X-Stormpath-Agent'] = ("react-stormpath") + '/' + ("1.1.2") + ' react/' + _react2.default.version;
+	        headers['X-Stormpath-Agent'] = ("react-stormpath") + '/' + ("1.2.0") + ' react/' + _react2.default.version;
 	      }
 
 	      makeHttpRequest(method, uri, body, headers, function (err, result) {
@@ -3222,7 +3222,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function updateProfile(data, callback) {
 	      dispatch({
 	        type: _UserConstants2.default.USER_UPDATE_PROFILE,
-	        data: data,
+	        options: {
+	          data: data
+	        },
 	        callback: callback
 	      });
 	    }
@@ -3231,7 +3233,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function set(data) {
 	      dispatch({
 	        type: _UserConstants2.default.USER_SET,
-	        data: data
+	        options: {
+	          data: data
+	        }
 	      });
 	    }
 	  }, {
@@ -10021,17 +10025,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _dec, _class;
+	var _class, _temp2;
 
 	var _react = __webpack_require__(12);
 
 	var _react2 = _interopRequireDefault(_react);
-
-	var _reactMixin = __webpack_require__(101);
-
-	var _reactMixin2 = _interopRequireDefault(_reactMixin);
-
-	var _reactRouter = __webpack_require__(32);
 
 	var _context = __webpack_require__(22);
 
@@ -10049,7 +10047,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var LogoutLink = (_dec = _reactMixin2.default.decorate(_reactRouter.History), _dec(_class = function (_React$Component) {
+	var LogoutLink = (_temp2 = _class = function (_React$Component) {
 	  _inherits(LogoutLink, _React$Component);
 
 	  function LogoutLink() {
@@ -10076,7 +10074,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var loginRoute = router.getLoginRoute();
 	      var redirectTo = this.props.redirectTo || (homeRoute || {}).path || (loginRoute || {}).path || '/';
 
-	      this.history.pushState(null, redirectTo);
+	      this.context.router.push(redirectTo);
 	    }
 	  }, {
 	    key: 'onClick',
@@ -10105,436 +10103,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }]);
 
 	  return LogoutLink;
-	}(_react2.default.Component)) || _class);
+	}(_react2.default.Component), _class.contextTypes = {
+	  router: _react2.default.PropTypes.object.isRequired
+	}, _temp2);
 	exports.default = LogoutLink;
 
 /***/ },
 /* 101 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var mixin = __webpack_require__(102);
-	var assign = __webpack_require__(103);
-
-	var mixinProto = mixin({
-	  // lifecycle stuff is as you'd expect
-	  componentDidMount: mixin.MANY,
-	  componentWillMount: mixin.MANY,
-	  componentWillReceiveProps: mixin.MANY,
-	  shouldComponentUpdate: mixin.ONCE,
-	  componentWillUpdate: mixin.MANY,
-	  componentDidUpdate: mixin.MANY,
-	  componentWillUnmount: mixin.MANY,
-	  getChildContext: mixin.MANY_MERGED
-	});
-
-	function setDefaultProps(reactMixin) {
-	  var getDefaultProps = reactMixin.getDefaultProps;
-
-	  if (getDefaultProps) {
-	    reactMixin.defaultProps = getDefaultProps();
-
-	    delete reactMixin.getDefaultProps;
-	  }
-	}
-
-	function setInitialState(reactMixin) {
-	  var getInitialState = reactMixin.getInitialState;
-	  var componentWillMount = reactMixin.componentWillMount;
-
-	  function applyInitialState(instance) {
-	    var state = instance.state || {};
-	    assign(state, getInitialState.call(instance));
-	    instance.state = state;
-	  }
-
-	  if (getInitialState) {
-	    if (!componentWillMount) {
-	      reactMixin.componentWillMount = function() {
-	        applyInitialState(this);
-	      };
-	    } else {
-	      reactMixin.componentWillMount = function() {
-	        applyInitialState(this);
-	        componentWillMount.call(this);
-	      };
-	    }
-
-	    delete reactMixin.getInitialState;
-	  }
-	}
-
-	function mixinClass(reactClass, reactMixin) {
-	  setDefaultProps(reactMixin);
-	  setInitialState(reactMixin);
-
-	  var prototypeMethods = {};
-	  var staticProps = {};
-
-	  Object.keys(reactMixin).forEach(function(key) {
-	    if (key === 'mixins') {
-	      return; // Handled below to ensure proper order regardless of property iteration order
-	    }
-	    if (key === 'statics') {
-	      return; // gets special handling
-	    } else if (typeof reactMixin[key] === 'function') {
-	      prototypeMethods[key] = reactMixin[key];
-	    } else {
-	      staticProps[key] = reactMixin[key];
-	    }
-	  });
-
-	  mixinProto(reactClass.prototype, prototypeMethods);
-
-	  var mergePropTypes = function(left, right, key) {
-	    if (!left) return right;
-	    if (!right) return left;
-
-	    var result = {};
-	    Object.keys(left).forEach(function(leftKey) {
-	      if (!right[leftKey]) {
-	        result[leftKey] = left[leftKey];
-	      }
-	    });
-
-	    Object.keys(right).forEach(function(rightKey) {
-	      if (left[rightKey]) {
-	        result[rightKey] = function checkBothContextTypes() {
-	          return right[rightKey].apply(this, arguments) && left[rightKey].apply(this, arguments);
-	        };
-	      } else {
-	        result[rightKey] = right[rightKey];
-	      }
-	    });
-
-	    return result;
-	  };
-
-	  mixin({
-	    childContextTypes: mergePropTypes,
-	    contextTypes: mergePropTypes,
-	    propTypes: mixin.MANY_MERGED_LOOSE,
-	    defaultProps: mixin.MANY_MERGED_LOOSE
-	  })(reactClass, staticProps);
-
-	  // statics is a special case because it merges directly onto the class
-	  if (reactMixin.statics) {
-	    Object.getOwnPropertyNames(reactMixin.statics).forEach(function(key) {
-	      var left = reactClass[key];
-	      var right = reactMixin.statics[key];
-
-	      if (left !== undefined && right !== undefined) {
-	        throw new TypeError('Cannot mixin statics because statics.' + key + ' and Component.' + key + ' are defined.');
-	      }
-
-	      reactClass[key] = left !== undefined ? left : right;
-	    });
-	  }
-
-	  // If more mixins are defined, they need to run. This emulate's react's behavior.
-	  // See behavior in code at:
-	  // https://github.com/facebook/react/blob/41aa3496aa632634f650edbe10d617799922d265/src/isomorphic/classic/class/ReactClass.js#L468
-	  // Note the .reverse(). In React, a fresh constructor is created, then all mixins are mixed in recursively,
-	  // then the actual spec is mixed in last.
-	  //
-	  // With ES6 classes, the properties are already there, so smart-mixin mixes functions (a, b) -> b()a(), which is
-	  // the opposite of how React does it. If we reverse this array, we basically do the whole logic in reverse,
-	  // which makes the result the same. See the test for more.
-	  // See also:
-	  // https://github.com/facebook/react/blob/41aa3496aa632634f650edbe10d617799922d265/src/isomorphic/classic/class/ReactClass.js#L853
-	  if (reactMixin.mixins) {
-	    reactMixin.mixins.reverse().forEach(mixinClass.bind(null, reactClass));
-	  }
-
-	  return reactClass;
-	}
-
-	module.exports = (function() {
-	  var reactMixin = mixinProto;
-
-	  reactMixin.onClass = function(reactClass, mixin) {
-	    // we mutate the mixin so let's clone it
-	    mixin = assign({}, mixin);
-	    return mixinClass(reactClass, mixin);
-	  };
-
-	  reactMixin.decorate = function(mixin) {
-	    return function(reactClass) {
-	      return reactMixin.onClass(reactClass, mixin);
-	    };
-	  };
-
-	  return reactMixin;
-	})();
-
-
-/***/ },
-/* 102 */
-/***/ function(module, exports) {
-
-	function objToStr(x){ return Object.prototype.toString.call(x); };
-
-	function returner(x) { return x; }
-
-	function wrapIfFunction(thing){
-	    return typeof thing !== "function" ? thing
-	    : function(){
-	        return thing.apply(this, arguments);
-	    };
-	}
-
-	function setNonEnumerable(target, key, value){
-	    if (key in target){
-	        target[key] = value;
-	    }
-	    else {
-	        Object.defineProperty(target, key, {
-	            value: value,
-	            writable: true,
-	            configurable: true
-	        });
-	    }
-	}
-
-	function defaultNonFunctionProperty(left, right, key){
-	    if (left !== undefined && right !== undefined) {
-	        var getTypeName = function(obj){
-	            if (obj && obj.constructor && obj.constructor.name) {
-	                return obj.constructor.name;
-	            }
-	            else {
-	                return objToStr(obj).slice(8, -1);
-	            }
-	        };
-	        throw new TypeError('Cannot mixin key ' + key + ' because it is provided by multiple sources, '
-	                + 'and the types are ' + getTypeName(left) + ' and ' + getTypeName(right));
-	    }
-	    return left === undefined ? right : left;
-	};
-
-	function assertObject(obj, obj2){
-	    var type = objToStr(obj);
-	    if (type !== '[object Object]') {
-	        var displayType = obj.constructor ? obj.constructor.name : 'Unknown';
-	        var displayType2 = obj2.constructor ? obj2.constructor.name : 'Unknown';
-	        throw new Error('cannot merge returned value of type ' + displayType + ' with an ' + displayType2);
-	    }
-	};
-
-
-	var mixins = module.exports = function makeMixinFunction(rules, _opts){
-	    var opts = _opts || {};
-
-	    if (!opts.unknownFunction) {
-	        opts.unknownFunction = mixins.ONCE;
-	    }
-
-	    if (!opts.nonFunctionProperty) {
-	        opts.nonFunctionProperty = defaultNonFunctionProperty;
-	    }
-
-	    return function applyMixin(source, mixin){
-	        Object.keys(mixin).forEach(function(key){
-	            var left = source[key], right = mixin[key], rule = rules[key];
-
-	            // this is just a weird case where the key was defined, but there's no value
-	            // behave like the key wasn't defined
-	            if (left === undefined && right === undefined) return;
-
-	            // do we have a rule for this key?
-	            if (rule) {
-	                // may throw here
-	                var fn = rule(left, right, key);
-	                setNonEnumerable(source, key, wrapIfFunction(fn));
-	                return;
-	            }
-
-	            var leftIsFn = typeof left === "function";
-	            var rightIsFn = typeof right === "function";
-
-	            // check to see if they're some combination of functions or undefined
-	            // we already know there's no rule, so use the unknown function behavior
-	            if (leftIsFn && right === undefined
-	             || rightIsFn && left === undefined
-	             || leftIsFn && rightIsFn) {
-	                // may throw, the default is ONCE so if both are functions
-	                // the default is to throw
-	                setNonEnumerable(source, key, wrapIfFunction(opts.unknownFunction(left, right, key)));
-	                return;
-	            }
-
-	            // we have no rule for them, one may be a function but one or both aren't
-	            // our default is MANY_MERGED_LOOSE which will merge objects, concat arrays
-	            // and throw if there's a type mismatch or both are primitives (how do you merge 3, and "foo"?)
-	            source[key] = opts.nonFunctionProperty(left, right, key);
-	        });
-	    };
-	};
-
-	mixins._mergeObjects = function(obj1, obj2) {
-	    if (Array.isArray(obj1) && Array.isArray(obj2)) {
-	        return obj1.concat(obj2);
-	    }
-
-	    assertObject(obj1, obj2);
-	    assertObject(obj2, obj1);
-
-	    var result = {};
-	    Object.keys(obj1).forEach(function(k){
-	        if (Object.prototype.hasOwnProperty.call(obj2, k)) {
-	            throw new Error('cannot merge returns because both have the ' + JSON.stringify(k) + ' key');
-	        }
-	        result[k] = obj1[k];
-	    });
-
-	    Object.keys(obj2).forEach(function(k){
-	        // we can skip the conflict check because all conflicts would already be found
-	        result[k] = obj2[k];
-	    });
-	    return result;
-	};
-
-	// define our built-in mixin types
-	mixins.ONCE = function(left, right, key){
-	    if (left && right) {
-	        throw new TypeError('Cannot mixin ' + key + ' because it has a unique constraint.');
-	    }
-	    return left || right;
-	};
-
-	mixins.MANY = function(left, right, key){
-	    return function(){
-	        if (right) right.apply(this, arguments);
-	        return left ? left.apply(this, arguments) : undefined;
-	    };
-	};
-
-	mixins.MANY_MERGED_LOOSE = function(left, right, key) {
-	    if (left && right) {
-	        return mixins._mergeObjects(left, right);
-	    }
-	    return left || right;
-	};
-
-	mixins.MANY_MERGED = function(left, right, key){
-	    return function(){
-	        var res1 = right && right.apply(this, arguments);
-	        var res2 = left && left.apply(this, arguments);
-	        if (res1 && res2) {
-	            return mixins._mergeObjects(res1, res2)
-	        }
-	        return res2 || res1;
-	    };
-	};
-
-	mixins.REDUCE_LEFT = function(_left, _right, key){
-	    var left = _left || returner;
-	    var right = _right || returner;
-	    return function(){
-	        return right.call(this, left.apply(this, arguments));
-	    };
-	};
-
-	mixins.REDUCE_RIGHT = function(_left, _right, key){
-	    var left = _left || returner;
-	    var right = _right || returner;
-	    return function(){
-	        return left.call(this, right.apply(this, arguments));
-	    };
-	};
-
-
-
-/***/ },
-/* 103 */
-/***/ function(module, exports) {
-
-	'use strict';
-	/* eslint-disable no-unused-vars */
-	var hasOwnProperty = Object.prototype.hasOwnProperty;
-	var propIsEnumerable = Object.prototype.propertyIsEnumerable;
-
-	function toObject(val) {
-		if (val === null || val === undefined) {
-			throw new TypeError('Object.assign cannot be called with null or undefined');
-		}
-
-		return Object(val);
-	}
-
-	function shouldUseNative() {
-		try {
-			if (!Object.assign) {
-				return false;
-			}
-
-			// Detect buggy property enumeration order in older V8 versions.
-
-			// https://bugs.chromium.org/p/v8/issues/detail?id=4118
-			var test1 = new String('abc');  // eslint-disable-line
-			test1[5] = 'de';
-			if (Object.getOwnPropertyNames(test1)[0] === '5') {
-				return false;
-			}
-
-			// https://bugs.chromium.org/p/v8/issues/detail?id=3056
-			var test2 = {};
-			for (var i = 0; i < 10; i++) {
-				test2['_' + String.fromCharCode(i)] = i;
-			}
-			var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
-				return test2[n];
-			});
-			if (order2.join('') !== '0123456789') {
-				return false;
-			}
-
-			// https://bugs.chromium.org/p/v8/issues/detail?id=3056
-			var test3 = {};
-			'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
-				test3[letter] = letter;
-			});
-			if (Object.keys(Object.assign({}, test3)).join('') !==
-					'abcdefghijklmnopqrst') {
-				return false;
-			}
-
-			return true;
-		} catch (e) {
-			// We don't expect any of the above to throw, but better to be safe.
-			return false;
-		}
-	}
-
-	module.exports = shouldUseNative() ? Object.assign : function (target, source) {
-		var from;
-		var to = toObject(target);
-		var symbols;
-
-		for (var s = 1; s < arguments.length; s++) {
-			from = Object(arguments[s]);
-
-			for (var key in from) {
-				if (hasOwnProperty.call(from, key)) {
-					to[key] = from[key];
-				}
-			}
-
-			if (Object.getOwnPropertySymbols) {
-				symbols = Object.getOwnPropertySymbols(from);
-				for (var i = 0; i < symbols.length; i++) {
-					if (propIsEnumerable.call(from, symbols[i])) {
-						to[symbols[i]] = from[symbols[i]];
-					}
-				}
-			}
-		}
-
-		return to;
-	};
-
-
-/***/ },
-/* 104 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -10544,17 +10119,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.default = undefined;
 
-	var _dec, _class2;
+	var _class2, _temp3;
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(12);
 
 	var _react2 = _interopRequireDefault(_react);
-
-	var _reactMixin = __webpack_require__(101);
-
-	var _reactMixin2 = _interopRequireDefault(_reactMixin);
 
 	var _reactRouter = __webpack_require__(32);
 
@@ -10570,11 +10141,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _UserActions2 = _interopRequireDefault(_UserActions);
 
-	var _LoadingText = __webpack_require__(105);
+	var _LoadingText = __webpack_require__(102);
 
 	var _LoadingText2 = _interopRequireDefault(_LoadingText);
 
-	var _SocialLoginButton = __webpack_require__(106);
+	var _SocialLoginButton = __webpack_require__(103);
 
 	var _SocialLoginButton2 = _interopRequireDefault(_SocialLoginButton);
 
@@ -10765,7 +10336,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return DefaultLoginForm;
 	}(_react2.default.Component);
 
-	var LoginForm = (_dec = _reactMixin2.default.decorate(_reactRouter.History), _dec(_class2 = function (_React$Component2) {
+	var LoginForm = (_temp3 = _class2 = function (_React$Component2) {
 	  _inherits(LoginForm, _React$Component2);
 
 	  function LoginForm() {
@@ -10842,7 +10413,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var authenticatedHomeRoute = router.getAuthenticatedHomeRoute();
 	      var redirectTo = this.props.redirectTo || (authenticatedHomeRoute || {}).path || (homeRoute || {}).path || '/';
 
-	      this.history.pushState(null, redirectTo);
+	      this.context.router.push(redirectTo);
 	    }
 	  }, {
 	    key: '_mapFormFieldHandler',
@@ -10911,11 +10482,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }]);
 
 	  return LoginForm;
-	}(_react2.default.Component)) || _class2);
+	}(_react2.default.Component), _class2.contextTypes = {
+	  router: _react2.default.PropTypes.object.isRequired
+	}, _temp3);
 	exports.default = LoginForm;
 
 /***/ },
-/* 105 */
+/* 102 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -10997,7 +10570,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = LoadingText;
 
 /***/ },
-/* 106 */
+/* 103 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11019,7 +10592,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _utils2 = _interopRequireDefault(_utils);
 
-	var _SocialLoginLink = __webpack_require__(107);
+	var _SocialLoginLink = __webpack_require__(104);
 
 	var _SocialLoginLink2 = _interopRequireDefault(_SocialLoginLink);
 
@@ -11060,7 +10633,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = SocialLoginButton;
 
 /***/ },
-/* 107 */
+/* 104 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11192,7 +10765,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return console.error('Error: Unable to login. Social provider ' + _utils2.default.translateProviderIdToName(providerId) + ' not configured.');
 	          }
 
-	          window.location.href = _this2._buildAuthorizationUri(provider, _this2.props.scope, _this2.props.redirectTo);
+	          window.location.href = _this2._buildAuthorizationUri(provider, _this2.props.scope, _this2.props.redirectUri);
 	        });
 	      }
 	    }
@@ -11215,7 +10788,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = SocialLoginLink;
 
 /***/ },
-/* 108 */
+/* 105 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11225,17 +10798,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.default = undefined;
 
-	var _dec, _class2, _class3, _temp3;
+	var _class2, _temp3;
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(12);
 
 	var _react2 = _interopRequireDefault(_react);
-
-	var _reactMixin = __webpack_require__(101);
-
-	var _reactMixin2 = _interopRequireDefault(_reactMixin);
 
 	var _reactRouter = __webpack_require__(32);
 
@@ -11420,7 +10989,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return DefaultUserProfileForm;
 	}(_react2.default.Component);
 
-	var UserProfileForm = (_dec = _reactMixin2.default.decorate(_reactRouter.History), _dec(_class2 = (_temp3 = _class3 = function (_React$Component2) {
+	var UserProfileForm = (_temp3 = _class2 = function (_React$Component2) {
 	  _inherits(UserProfileForm, _React$Component2);
 
 	  function UserProfileForm() {
@@ -11457,7 +11026,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 
 	        if (hasChanged) {
-	          UserStore.resolveSession(callback, true);
+	          _context2.default.userStore.resolveSession(callback, true);
 	        } else {
 	          callback();
 	        }
@@ -11582,13 +11151,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }]);
 
 	  return UserProfileForm;
-	}(_react2.default.Component), _class3.contextTypes = {
+	}(_react2.default.Component), _class2.contextTypes = {
 	  user: _react2.default.PropTypes.object
-	}, _temp3)) || _class2);
+	}, _temp3);
 	exports.default = UserProfileForm;
 
 /***/ },
-/* 109 */
+/* 106 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11598,17 +11167,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.default = undefined;
 
-	var _dec, _class2;
+	var _class2, _temp3;
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(12);
 
 	var _react2 = _interopRequireDefault(_react);
-
-	var _reactMixin = __webpack_require__(101);
-
-	var _reactMixin2 = _interopRequireDefault(_reactMixin);
 
 	var _reactRouter = __webpack_require__(32);
 
@@ -11628,11 +11193,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _UserActions2 = _interopRequireDefault(_UserActions);
 
-	var _LoadingText = __webpack_require__(105);
+	var _LoadingText = __webpack_require__(102);
 
 	var _LoadingText2 = _interopRequireDefault(_LoadingText);
 
-	var _SocialLoginButton = __webpack_require__(106);
+	var _SocialLoginButton = __webpack_require__(103);
 
 	var _SocialLoginButton2 = _interopRequireDefault(_SocialLoginButton);
 
@@ -11867,7 +11432,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return DefaultRegistrationForm;
 	}(_react2.default.Component);
 
-	var RegistrationForm = (_dec = _reactMixin2.default.decorate(_reactRouter.History), _dec(_class2 = function (_React$Component2) {
+	var RegistrationForm = (_temp3 = _class2 = function (_React$Component2) {
 	  _inherits(RegistrationForm, _React$Component2);
 
 	  function RegistrationForm() {
@@ -11964,7 +11529,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var authenticatedHomeRoute = router.getAuthenticatedHomeRoute();
 	      var redirectTo = this.props.redirectTo || (authenticatedHomeRoute || {}).path || (homeRoute || {}).path || '/';
 
-	      this.history.pushState(null, redirectTo);
+	      this.context.router.push(redirectTo);
 	    }
 	  }, {
 	    key: '_mapFormFieldHandler',
@@ -12050,11 +11615,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }]);
 
 	  return RegistrationForm;
-	}(_react2.default.Component)) || _class2);
+	}(_react2.default.Component), _class2.contextTypes = {
+	  router: _react2.default.PropTypes.object.isRequired
+	}, _temp3);
 	exports.default = RegistrationForm;
 
 /***/ },
-/* 110 */
+/* 107 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12064,17 +11631,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.default = undefined;
 
-	var _dec, _class;
-
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(12);
 
 	var _react2 = _interopRequireDefault(_react);
-
-	var _reactMixin = __webpack_require__(101);
-
-	var _reactMixin2 = _interopRequireDefault(_reactMixin);
 
 	var _reactRouter = __webpack_require__(32);
 
@@ -12186,7 +11747,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return DefaultResetPasswordForm;
 	}(_react2.default.Component);
 
-	var ResetPasswordForm = (_dec = _reactMixin2.default.decorate(_reactRouter.History), _dec(_class = function (_React$Component2) {
+	var ResetPasswordForm = function (_React$Component2) {
 	  _inherits(ResetPasswordForm, _React$Component2);
 
 	  function ResetPasswordForm() {
@@ -12322,11 +11883,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }]);
 
 	  return ResetPasswordForm;
-	}(_react2.default.Component)) || _class);
+	}(_react2.default.Component);
+
 	exports.default = ResetPasswordForm;
 
 /***/ },
-/* 111 */
+/* 108 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12336,17 +11898,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.default = undefined;
 
-	var _dec, _class;
-
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(12);
 
 	var _react2 = _interopRequireDefault(_react);
-
-	var _reactMixin = __webpack_require__(101);
-
-	var _reactMixin2 = _interopRequireDefault(_reactMixin);
 
 	var _reactRouter = __webpack_require__(32);
 
@@ -12358,7 +11914,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _LoginLink2 = _interopRequireDefault(_LoginLink);
 
-	var _LoadingText = __webpack_require__(105);
+	var _LoadingText = __webpack_require__(102);
 
 	var _LoadingText2 = _interopRequireDefault(_LoadingText);
 
@@ -12478,7 +12034,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return DefaultChangePasswordForm;
 	}(_react2.default.Component);
 
-	var ChangePasswordForm = (_dec = _reactMixin2.default.decorate(_reactRouter.History), _dec(_class = function (_React$Component2) {
+	var ChangePasswordForm = function (_React$Component2) {
 	  _inherits(ChangePasswordForm, _React$Component2);
 
 	  function ChangePasswordForm() {
@@ -12644,11 +12200,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }]);
 
 	  return ChangePasswordForm;
-	}(_react2.default.Component)) || _class);
+	}(_react2.default.Component);
+
 	exports.default = ChangePasswordForm;
 
 /***/ },
-/* 112 */
+/* 109 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12760,7 +12317,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = VerifyEmailView;
 
 /***/ },
-/* 113 */
+/* 110 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12780,7 +12337,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _utils2 = _interopRequireDefault(_utils);
 
-	var _UserComponent2 = __webpack_require__(114);
+	var _UserComponent2 = __webpack_require__(111);
 
 	var _UserComponent3 = _interopRequireDefault(_UserComponent2);
 
@@ -12850,7 +12407,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = UserField;
 
 /***/ },
-/* 114 */
+/* 111 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
