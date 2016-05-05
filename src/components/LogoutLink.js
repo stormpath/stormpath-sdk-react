@@ -1,12 +1,13 @@
 import React from 'react';
-import ReactMixin from 'react-mixin';
-import { History } from 'react-router';
 
 import context from './../context';
 import UserActions from './../actions/UserActions';
 
-@ReactMixin.decorate(History)
 export default class LogoutLink extends React.Component {
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  };
+
   state = {
     disabled: false
   };
@@ -17,7 +18,7 @@ export default class LogoutLink extends React.Component {
     var loginRoute = router.getLoginRoute();
     var redirectTo = this.props.redirectTo || (homeRoute || {}).path || (loginRoute || {}).path || '/';
 
-    this.history.pushState(null, redirectTo);
+    this.context.router.push(redirectTo);
   }
 
   onClick(e) {

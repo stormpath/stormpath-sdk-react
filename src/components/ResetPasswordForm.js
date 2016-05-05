@@ -1,6 +1,5 @@
 import React from 'react';
-import ReactMixin from 'react-mixin';
-import { History, Link } from 'react-router';
+import { Link } from 'react-router';
 
 import utils from '../utils';
 import LoginLink from '../components/LoginLink';
@@ -44,7 +43,6 @@ class DefaultResetPasswordForm extends React.Component {
   }
 }
 
-@ReactMixin.decorate(History)
 export default class ResetPasswordForm extends React.Component {
   state = {
     fields: {

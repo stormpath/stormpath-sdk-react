@@ -1,6 +1,5 @@
 import React from 'react';
-import ReactMixin from 'react-mixin';
-import { History, Link } from 'react-router';
+import { Link } from 'react-router';
 
 import utils from '../utils';
 import context from './../context';
@@ -166,8 +165,11 @@ class DefaultRegistrationForm extends React.Component {
   }
 }
 
-@ReactMixin.decorate(History)
 export default class RegistrationForm extends React.Component {
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  };
+
   state = {
     fields: {
       givenName: '',
@@ -245,7 +247,7 @@ export default class RegistrationForm extends React.Component {
     var authenticatedHomeRoute = router.getAuthenticatedHomeRoute();
     var redirectTo = this.props.redirectTo || (authenticatedHomeRoute || {}).path || (homeRoute || {}).path || '/';
 
-    this.history.pushState(null, redirectTo);
+    this.context.router.push(redirectTo);
   }
 
   _mapFormFieldHandler(element, tryMapField) {

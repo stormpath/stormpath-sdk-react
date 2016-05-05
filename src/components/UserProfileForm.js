@@ -1,6 +1,5 @@
 import React from 'react';
-import ReactMixin from 'react-mixin';
-import { History, Link } from 'react-router';
+import { Link } from 'react-router';
 
 import utils from '../utils';
 import context from './../context';
@@ -79,7 +78,6 @@ class DefaultUserProfileForm extends React.Component {
   }
 }
 
-@ReactMixin.decorate(History)
 export default class UserProfileForm extends React.Component {
   static contextTypes = {
     user: React.PropTypes.object
@@ -110,7 +108,7 @@ export default class UserProfileForm extends React.Component {
       }
 
       if (hasChanged) {
-        UserStore.resolveSession(callback, true);
+        context.userStore.resolveSession(callback, true);
       } else {
         callback();
       }
