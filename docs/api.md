@@ -577,7 +577,7 @@ class ProfilePage extends React.Component {
 Renders an email verification view. The parameter `spToken` is required in order for the token to be validated.
 
 ```html
-<EmailVerificationView spToken={this.props.location.query.sptoken} />
+<VerifyEmailView spToken={this.props.location.query.sptoken} />
 ```
 
 #### LoginLink
