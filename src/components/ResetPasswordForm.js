@@ -55,6 +55,7 @@ export default class ResetPasswordForm extends React.Component {
 
   onFormSubmit(e) {
     e.preventDefault();
+    e.persist();
 
     var next = (err, data) => {
       if (err) {
