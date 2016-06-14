@@ -345,7 +345,7 @@ class Utils {
 
   enforceRootElement(object) {
     if (typeof object === 'string' || this.isArray(object)) {
-      object = <span>{ object }</span>;
+      object = <div style={{display: 'inline-block'}}>{ object }</div>;
     }
     return object;
   }
