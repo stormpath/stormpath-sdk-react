@@ -117,6 +117,7 @@ export default class UserProfileForm extends React.Component {
 
   _onFormSubmit(e) {
     e.preventDefault();
+    e.persist();
 
     var next = (err, data) => {
       if (err) {

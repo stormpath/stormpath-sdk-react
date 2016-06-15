@@ -70,6 +70,7 @@ export default class ChangePasswordForm extends React.Component {
 
   onFormSubmit(e) {
     e.preventDefault();
+    e.persist();
 
     var next = (err, data) => {
       if (err) {
