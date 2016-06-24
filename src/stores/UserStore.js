@@ -39,17 +39,12 @@ export default class UserStore extends BaseStore {
   login(options, callback) {
     this.reset();
 
-    this.service.login(options, (err, result) => {
+    this.service.login(options, (err) => {
       if (err) {
         return callback(err);
       }
 
-      this.sessionError = null;
-      this.sessionStore.set(result);
-      UserActions.set(result);
-      this.emitChange();
-
-      callback(null, result);
+      this.resolveSession(callback, true);
     });
   }
 
