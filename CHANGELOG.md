@@ -1,3 +1,9 @@
+## 1.2.2 (June 30, 2016)
+
+Fixes:
+
+  - Fix so that login retrieves session data from the `/me` endpoint instead of the `/login` endpoint result.
+
 ## 1.2.1 (May 5, 2016)
 
 Fixes:
