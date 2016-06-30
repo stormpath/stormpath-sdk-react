@@ -1153,8 +1153,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function enforceRootElement(object) {
 	      if (typeof object === 'string' || this.isArray(object)) {
 	        object = _react2.default.createElement(
-	          'span',
-	          null,
+	          'div',
+	          { style: { display: 'inline-block' } },
 	          object
 	        );
 	      }
@@ -2695,7 +2695,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      // Only set the X-Stormpath-Agent header if we're on the same domain as the requested URI.
 	      // This because we want to avoid CORS requests that require you to have to whitelist the X-Stormpath-Agent header.
 	      if (_utils2.default.isRelativeUri(uri) || _utils2.default.isSameHost(uri, window.location.href)) {
-	        headers['X-Stormpath-Agent'] = ("react-stormpath") + '/' + ("1.2.1") + ' react/' + _react2.default.version;
+	        headers['X-Stormpath-Agent'] = ("react-stormpath") + '/' + ("1.2.2") + ' react/' + _react2.default.version;
 	      }
 
 	      makeHttpRequest(method, uri, body, headers, function (err, result) {
@@ -2984,17 +2984,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      this.reset();
 
-	      this.service.login(options, function (err, result) {
+	      this.service.login(options, function (err) {
 	        if (err) {
 	          return callback(err);
 	        }
 
-	        _this3.sessionError = null;
-	        _this3.sessionStore.set(result);
-	        _UserActions2.default.set(result);
-	        _this3.emitChange();
-
-	        callback(null, result);
+	        _this3.resolveSession(callback, true);
 	      });
 	    }
 	  }, {
@@ -10366,6 +10361,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var _this4 = this;
 
 	      e.preventDefault();
+	      e.persist();
 
 	      var next = function next(err, data) {
 	        if (err) {
@@ -11040,6 +11036,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var _this3 = this;
 
 	      e.preventDefault();
+	      e.persist();
 
 	      var next = function next(err, data) {
 	        if (err) {
@@ -11466,6 +11463,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var _this4 = this;
 
 	      e.preventDefault();
+	      e.persist();
 
 	      var next = function next(err, data) {
 	        if (err) {
@@ -11777,6 +11775,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var _this3 = this;
 
 	      e.preventDefault();
+	      e.persist();
 
 	      var next = function next(err, data) {
 	        if (err) {
@@ -12073,6 +12072,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var _this3 = this;
 
 	      e.preventDefault();
+	      e.persist();
 
 	      var next = function next(err, data) {
 	        if (err) {
