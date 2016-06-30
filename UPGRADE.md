@@ -1,3 +1,7 @@
+## 1.2.1 to 1.2.2 (June 30, 2016)
+
+Nothing to do.
+
 ## 1.2.0 to 1.2.1 (May 5, 2016)
 
 Nothing to do.
