@@ -25,8 +25,10 @@ export default class VerifyEmailView extends React.Component {
   }
 
   render() {
+    let selectedProps = utils.excludeProps(['className'], this.props);
+
     return (
-      <div className="row">
+      <div className={"row " + this.props.className} {...selectedProps}>
         <div className="col-sm-offset-4 col-xs-12 col-sm-4">
           {{
             VERIFYING: (

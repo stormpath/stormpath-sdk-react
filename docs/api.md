@@ -232,9 +232,9 @@ Customize the form by providing your own markup.
     <label htmlFor="password">Password</label><br />
     <input id="password" type="password" name="password" />
   </p>
-  <p spIf="form.error">
+  <p data-spIf="form.error">
     <strong>Error:</strong><br />
-    <span spBind="form.errorMessage" />
+    <span data-spBind="form.errorMessage" />
   </p>
   <p>
     <input type="submit" value="Login" />
@@ -291,10 +291,10 @@ Customize the form by providing your own markup.
 
 ```html
 <RegistrationForm>
-  <div spIf="account.created">
-    <span spIf="!account.enabled">To verify your account, click the verification link that we sent to your email then proceed to login by going to <LoginLink />.</span>
+  <div data-spIf="account.created">
+    <span data-spIf="!account.enabled">To verify your account, click the verification link that we sent to your email then proceed to login by going to <LoginLink />.</span>
   </div>
-  <div spIf="!account.created">
+  <div data-spIf="!account.created">
     <p>
       <label htmlFor="firstName">First name</label><br />
       <input id="firstName" type="text" name="givenName" />
@@ -311,9 +311,9 @@ Customize the form by providing your own markup.
       <label htmlFor="password">Password</label><br />
       <input id="password" type="password" name="password" />
     </p>
-    <p spIf="form.error">
+    <p data-spIf="form.error">
       <strong>Error:</strong><br />
-      <span spBind="form.errorMessage" />
+      <span data-spBind="form.errorMessage" />
     </p>
     <p>
       <input type="submit" value="Register" />
@@ -359,18 +359,18 @@ Customize the form by providing your own markup.
 
 ```html
 <ResetPasswordForm>
-  <div spIf="form.sent">
+  <div data-spIf="form.sent">
     <p>We have sent a password reset link to the email address of the account that you specified.<br />
     Please check your email for this message, then click on the link.</p>
   </div>
-  <div spIf="!form.sent">
+  <div data-spIf="!form.sent">
     <p>
       <label htmlFor="email">Email</label><br />
       <input id="email" type="text" name="email" />
     </p>
-    <p spIf="form.error">
+    <p data-spIf="form.error">
       <strong>Error:</strong><br />
-      <span spBind="form.errorMessage" />
+      <span data-spBind="form.errorMessage" />
     </p>
     <p>
       <input type="submit" value="Request Password reset" />
@@ -416,10 +416,10 @@ Customize the form by providing your own markup.
 
 ```html
 <ChangePasswordForm spToken={requiredSpToken}>
-  <div spIf="form.sent">
+  <div data-spIf="form.sent">
     <p>Your new password has been set. Please <LoginLink />.</p>
   </div>
-  <div spIf="!form.sent">
+  <div data-spIf="!form.sent">
     <p>
       <label htmlFor="password">Password</label><br />
       <input id="password" type="password" name="password" required />
@@ -428,9 +428,9 @@ Customize the form by providing your own markup.
       <label htmlFor="confirmPassword">Password (again)</label><br />
       <input id="confirmPassword" type="password" name="confirmPassword" required />
     </p>
-    <p spIf="form.error">
+    <p data-spIf="form.error">
       <strong>Error:</strong><br />
-      <span spBind="form.errorMessage" />
+      <span data-spBind="form.errorMessage" />
     </p>
     <p>
       <input type="submit" value="Change Password" />
@@ -534,11 +534,11 @@ Customize the form by providing your own markup.
     <label htmlFor="email">Email</label><br />
     <input id="email" type="text" name="email" />
   </p>
-  <p spIf="form.error">
+  <p data-spIf="form.error">
     <strong>Error:</strong><br />
-    <span spBind="form.errorMessage" />
+    <span data-spBind="form.errorMessage" />
   </p>
-  <p spIf="form.successful">
+  <p data-spIf="form.successful">
     Profile updated.
   </p>
   <p>

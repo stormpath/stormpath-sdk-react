@@ -11,6 +11,10 @@ let providerAuthorizationUris = {
 };
 
 export default class SocialLoginLink extends React.Component {
+  availableProps = {
+    providerId: null
+  };
+
   state = {
     disabled: false
   };
@@ -86,9 +90,10 @@ export default class SocialLoginLink extends React.Component {
 
   render() {
     var providerId = this.props.providerId;
+    var selectedProps = utils.excludeProps(['providerId', 'scope', 'redirectUri', 'children', 'disabled', 'onClick', 'href'], this.props);
 
     return (
-      <a {...this.props} href='#' onClick={this._onClick.bind(this)} disabled={this.state.disabled}>
+      <a {...selectedProps} href='#' onClick={this._onClick.bind(this)} disabled={this.state.disabled}>
         { this.props.children ? this.props.children : 'Login with ' + utils.translateProviderIdToName(providerId)}
       </a>
     );

@@ -12,10 +12,10 @@ class DefaultChangePasswordForm extends React.Component {
       <ChangePasswordForm {...this.props}>
         <div className='sp-change-password-form'>
           <div className="row" >
-            <div className="col-sm-offset-4 col-xs-12 col-sm-4" spIf="form.sent">
+            <div className="col-sm-offset-4 col-xs-12 col-sm-4" data-spIf="form.sent">
               <p className="alert alert-success">Your new password has been set. Please <LoginLink />.</p>
             </div>
-            <div className="col-xs-12" spIf="!form.sent">
+            <div className="col-xs-12" data-spIf="!form.sent">
               <div className="form-horizontal">
                 <div className="form-group">
                   <label htmlFor="spPassword" className="col-xs-12 col-sm-4 control-label">New Password</label>
@@ -31,10 +31,10 @@ class DefaultChangePasswordForm extends React.Component {
                 </div>
                 <div className="form-group">
                   <div className="col-sm-offset-4 col-sm-4">
-                    <p className="alert alert-danger" spIf="form.error"><span spBind="form.errorMessage" /></p>
+                    <p className="alert alert-danger" data-spIf="form.error"><span data-spBind="form.errorMessage" /></p>
                     <button type="submit" className="btn btn-primary">
-                      <span spIf="form.processing">Setting New Password...</span>
-                      <span spIf="!form.processing">Set New Password</span>
+                      <span data-spIf="form.processing">Setting New Password...</span>
+                      <span data-spIf="!form.processing">Set New Password</span>
                     </button>
                   </div>
                 </div>

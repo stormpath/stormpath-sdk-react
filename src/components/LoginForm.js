@@ -88,7 +88,7 @@ class DefaultLoginForm extends React.Component {
       fieldMarkup.push(
         <div key="login-button" className="form-group">
           <div className="col-sm-offset-4 col-sm-4">
-            <p className="alert alert-danger" spIf="form.error"><span spBind="form.errorMessage" /></p>
+            <p className="alert alert-danger" data-spIf="form.error"><span data-spBind="form.errorMessage" /></p>
             <button type="submit" className="btn btn-primary">Login</button>
             <Link to="/forgot" className="pull-right">Forgot Password</Link>
           </div>
@@ -249,8 +249,10 @@ export default class LoginForm extends React.Component {
 
   render() {
     if (this.props.children) {
+      let selectedProps = utils.excludeProps(['onSubmit', 'children'], this.props);
+
       return (
-        <form onSubmit={this.onFormSubmit.bind(this)}>
+        <form onSubmit={this.onFormSubmit.bind(this)} {...selectedProps}>
           {utils.makeForm(this, this._mapFormFieldHandler.bind(this), this._spIfHandler.bind(this), this._spBindHandler.bind(this))}
         </form>
       );

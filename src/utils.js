@@ -12,6 +12,31 @@ class Utils {
       s4() + '-' + s4() + s4() + s4();
   }
 
+  takeProp(source, ...fields) {
+    for (let i = 0; i < fields.length; i++) {
+      let fieldName = fields[i];
+      if (fieldName in source) {
+        return source[fieldName];
+      }
+    }
+
+    return undefined;
+  }
+
+  excludeProps(exclude, source) {
+    var result = {};
+
+    if (source) {
+      for (var key in source) {
+        if (exclude.indexOf(key) === -1) {
+          result[key] = source[key];
+        }
+      }
+    }
+
+    return result;
+  }
+
   translateProviderIdToName(providerId) {
     var providerNames = {
       github: 'GitHub',
@@ -146,7 +171,7 @@ class Utils {
 
     var elementFactory = (element, parent) => {
       if (element.props) {
-        var spIf = element.props.spIf;
+        var spIf = this.takeProp(element.props, 'spIf', 'data-spIf');
 
         if (spIf) {
           var test = null;
@@ -170,7 +195,7 @@ class Utils {
           }
         }
 
-        var spBind = element.props.spBind;
+        var spBind = this.takeProp(element.props, 'spBind', 'data-spBind');
 
         if (spBind) {
           var newElement = spBindFn(spBind, element);
