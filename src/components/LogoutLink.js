@@ -1,5 +1,6 @@
 import React from 'react';
 
+import utils from './../utils';
 import context from './../context';
 import UserActions from './../actions/UserActions';
 
