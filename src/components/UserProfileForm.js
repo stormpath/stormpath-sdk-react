@@ -61,11 +61,11 @@ class DefaultUserProfileForm extends React.Component {
                 </div>
                 <div key="update-button" className="form-group">
                   <div className="col-sm-offset-4 col-sm-4">
-                    <p className="alert alert-danger" spIf="form.error"><span spBind="form.errorMessage" /></p>
-                    <p className="alert alert-success" spIf="form.successful">Profile updated.</p>
+                    <p className="alert alert-danger" data-spIf="form.error"><span data-spBind="form.errorMessage" /></p>
+                    <p className="alert alert-success" data-spIf="form.successful">Profile updated.</p>
                     <button type="submit" className="btn btn-primary">
-                      <span spIf="!form.processing">Update</span>
-                      <span spIf="form.processing">Updating...</span>
+                      <span data-spIf="!form.processing">Update</span>
+                      <span data-spIf="form.processing">Updating...</span>
                     </button>
                   </div>
                 </div>
@@ -209,8 +209,10 @@ export default class UserProfileForm extends React.Component {
 
   render() {
     if (this.props.children) {
+      let selectedProps = utils.excludeProps(['onSubmit', 'children'], this.props);
+
       return (
-        <form onSubmit={this._onFormSubmit.bind(this)}>
+        <form onSubmit={this._onFormSubmit.bind(this)} {...selectedProps}>
           {utils.makeForm(this, this._mapFormFieldHandler.bind(this), this._spIfHandler.bind(this), this._spBindHandler.bind(this))}
         </form>
       );

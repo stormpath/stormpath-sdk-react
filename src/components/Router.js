@@ -103,6 +103,7 @@ export default class Router extends ReactRouter {
   }
 
   componentWillUnmount() {
+    super.componentWillUnmount();
     context.sessionStore.removeListener('changed', this.sessionChangeListener);
   }
 

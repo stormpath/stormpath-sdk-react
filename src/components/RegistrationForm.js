@@ -104,7 +104,7 @@ class DefaultRegistrationForm extends React.Component {
       fieldMarkup.push(
         <div key="register-button" className="form-group">
           <div className="col-sm-offset-4 col-sm-4">
-            <p className="alert alert-danger" spIf="form.error"><span spBind="form.errorMessage" /></p>
+            <p className="alert alert-danger" data-spIf="form.error"><span data-spBind="form.errorMessage" /></p>
             <button type="submit" className="btn btn-primary">Register</button>
           </div>
         </div>
@@ -139,12 +139,12 @@ class DefaultRegistrationForm extends React.Component {
     return (
       <RegistrationForm {...this.props}>
         <div className='sp-login-form'>
-          <div className="row" spIf="account.created">
+          <div className="row" data-spIf="account.created">
             <div className="col-sm-offset-4 col-xs-12 col-sm-4">
-              <p className="alert alert-success" spIf="account.enabled">
+              <p className="alert alert-success" data-spIf="account.enabled">
                 Your account has been created. <LoginLink>Login Now</LoginLink>.
               </p>
-              <div spIf="!account.enabled">
+              <div data-spIf="!account.enabled">
                 <p className="alert alert-success">Your account has been created. Please check your email for a verification link.</p>
                 <p className="pull-right">
                   <LoginLink>Back to Login</LoginLink>
@@ -152,7 +152,7 @@ class DefaultRegistrationForm extends React.Component {
               </div>
             </div>
           </div>
-          <div className="row" spIf="!account.created">
+          <div className="row" data-spIf="!account.created">
             <div className="col-xs-12">
               <div className="form-horizontal">
                 { fieldMarkup ? fieldMarkup : <LoadingText /> }
@@ -314,8 +314,10 @@ export default class RegistrationForm extends React.Component {
 
   render() {
     if (this.props.children) {
+      var selectedProps = utils.excludeProps(['onSubmit', 'children'], this.props);
+
       return (
-        <form onSubmit={this.onFormSubmit.bind(this)}>
+        <form onSubmit={this.onFormSubmit.bind(this)} {...selectedProps}>
           {utils.makeForm(this, this._mapFormFieldHandler.bind(this), this._spIfHandler.bind(this), this._spBindHandler.bind(this))}
         </form>
       );
