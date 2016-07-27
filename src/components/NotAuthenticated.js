@@ -1,5 +1,4 @@
 import React from 'react';
-
 import utils from '../utils';
 
 export default class NotAuthenticated extends React.Component {
@@ -8,8 +7,8 @@ export default class NotAuthenticated extends React.Component {
   };
 
   render() {
-    var user = this.context.user;
-    var authenticated = user !== undefined;
+    let user = this.context.user;
+    let authenticated = user !== undefined;
 
     if (this.props.inGroup) {
       if (authenticated) {
@@ -23,6 +22,8 @@ export default class NotAuthenticated extends React.Component {
       }
     }
 
-    return !authenticated ? utils.enforceRootElement(this.props.children) : null;
+    let propsToForward = utils.excludeProps(['inGroup'], this.props);
+
+    return !authenticated ? utils.enforceRootElement(this.props.children, propsToForward) : null;
   }
 }
