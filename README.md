@@ -138,7 +138,7 @@ Stormpath already integrated!*
   <LoginLink>Login</LoginLink>
   ```
   
-  Use the [`LogoutLink`][] component to navigate your users to the [`LogoutLink`][] route and thereby end your session:
+  Use the [`LogoutLink`][] component to end the session and navigate to your specified [`HomeRoute`][].
 
   ```html
   <LogoutLink>Logout</LogoutLink>
