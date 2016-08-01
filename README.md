@@ -181,6 +181,31 @@ Stormpath already integrated!*
 
   Access user state in your components by requesting the [authenticated][] and [user][] context types:
 
+  ```javascript
+  class ContextExample extends React.Component {
+    static contextTypes = {
+      authenticated: React.PropTypes.bool,
+      user: React.PropTypes.object
+    };
+
+    render() {
+      if (!this.context.authenticated) {
+        return (
+          <div>
+            You need to <LoginLink />.
+          </div>
+        );
+      }
+
+      return (
+        <div>
+          Welcome {this.context.user.username}!
+        </div>
+      );
+    }
+  }
+  ```
+
 12. **That's It!**
 
   You just added user authentication to your app with Stormpath. See the [API Documentation][] for further information on how Stormpath can be used with your React app.
