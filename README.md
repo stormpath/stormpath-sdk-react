@@ -25,7 +25,7 @@ Stormpath already integrated!*
 
   In the application directory, create a file named stormpath.yml and place the configuration below in the file:
 
-```yaml
+  ```yaml
 client:
   apiKey:
     id: YOUR_API_KEY_ID
