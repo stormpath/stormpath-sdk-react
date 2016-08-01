@@ -31,7 +31,7 @@ Stormpath already integrated!*
       id: YOUR_API_KEY_ID
       secret: YOUR_API_KEY_SECRET
     application:
-    href: https://api.stormpath.com/v1/applications/XXXX <-- YOUR APP HREF
+      href: https://api.stormpath.com/v1/applications/XXXX <-- YOUR APP HREF
 ```
 
 2. **Install React Router**
