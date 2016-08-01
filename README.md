@@ -222,6 +222,7 @@ Apache 2.0, see [LICENSE](LICENSE).
 [`LoginLink`]: https://github.com/stormpath/stormpath-sdk-react/blob/master/docs/api.md#loginlink
 [`LoginRoute`]: https://github.com/stormpath/stormpath-sdk-react/blob/master/docs/api.md#loginroute
 [`LogoutLink`]: https://github.com/stormpath/stormpath-sdk-react/blob/master/docs/api.md#logoutlink
+[`HomeRoute`]: https://github.com/stormpath/stormpath-sdk-react/blob/master/docs/api.md#homeroute
 [`NotAuthenticated`]: https://github.com/stormpath/stormpath-sdk-react/blob/master/docs/api.md#notauthenticated
 [`ReactRouter.Route`]: https://github.com/rackt/react-router/blob/master/docs/API.md#route
 [`ReactRouter.Router`]: https://github.com/rackt/react-router/blob/master/docs/API.md#router
