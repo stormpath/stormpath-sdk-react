@@ -204,7 +204,7 @@ Stormpath already integrated!*
       );
     }
   }
-  ```
+```
 
 12. **That's It!**
 
