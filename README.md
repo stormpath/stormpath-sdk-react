@@ -89,8 +89,7 @@ Stormpath already integrated!*
   
   ```javascript
   ReactStormpath.init({
-    // Optional: Set if you want to use your own Flux dispatcher.
-    dispatcher: instanceOfYourFluxDispatcher
+    // See the API docs for available configuration options.
   });
   ```
 
