@@ -179,7 +179,7 @@ Stormpath already integrated!*
   
 11. **User State in Components**
 
-  Access user state in your components by requesting the [`authenticated`][] and [`user`][] context types:
+  Access user state in your components by requesting the [authenticated][] and [user][] context types:
 
 12. **That's It!**
 
@@ -220,8 +220,8 @@ we love your input!
 
 Apache 2.0, see [LICENSE](LICENSE).
 
-[`authenticated`]: https://github.com/stormpath/stormpath-sdk-react/blob/master/docs/api.md#authenticated-bool
-[`user`]: https://github.com/stormpath/stormpath-sdk-react/blob/master/docs/api.md#user-object
+[authenticated]: https://github.com/stormpath/stormpath-sdk-react/blob/master/docs/api.md#authenticated-bool
+[user]: https://github.com/stormpath/stormpath-sdk-react/blob/master/docs/api.md#user-object
 [`Authenticated`]: https://github.com/stormpath/stormpath-sdk-react/blob/master/docs/api.md#authenticated
 [`AuthenticatedRoute`]: https://github.com/stormpath/stormpath-sdk-react/blob/master/docs/api.md#authenticatedroute
 [`LoginForm`]: https://github.com/stormpath/stormpath-sdk-react/blob/master/docs/api.md#loginform
