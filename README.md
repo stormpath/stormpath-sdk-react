@@ -23,7 +23,7 @@ Stormpath already integrated!*
 
 1. **Configure Stormpath**
 
-  In the application directory, create a file named stormpath.yml and place the configuration below in the file:
+  In your application directory, create a file named `stormpath.yml` with the contents below:
 
   ```yaml
   client:
