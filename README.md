@@ -21,18 +21,31 @@ Follow these steps to add Stormpath user authentication to your React app.
 *Don't have an app? Use our [example app][] as a boilerplate - it has
 Stormpath already integrated!*
 
-1. **Install React Router**
+1. **Configure Stormpath**
+
+  In the application directory, create a file named stormpath.yml and place the configuration below in the file:
+
+```yaml
+client:
+  apiKey:
+    id: YOUR_API_KEY_ID
+    secret: YOUR_API_KEY_SECRET
+application:
+  href: https://api.stormpath.com/v1/applications/XXXX <-- YOUR APP HREF
+```
+
+2. **Install React Router**
 
   The Stormpath module is only compatible with [React Router][], so ensure that your application is using it.
   
-2. **Integrate Your Back-End**
+3. **Integrate Your Back-End**
 
   This module requires Stormpath on your back-end to work properly. At the moment we
   have a fully-featured integration for **Express.js**, [express-stormpath][].
 
   For a **quick setup**, use our [Stormpath SPA Development Server][].
 
-3. **Install the SDK**
+4. **Install the SDK**
 
   Download and include [stormpath-sdk-react.min.js][] in your *index.html* file.
   
@@ -70,7 +83,7 @@ Stormpath already integrated!*
   var LoginLink = ReactStormpath.LoginLink;
   ```
 
-4. **Initialize the SDK**
+5. **Initialize the SDK**
 
   Before calling `React.render()` be sure to call [`ReactStormpath.init()`][].  This sets up the SDK so that it's ready to be used.
   
@@ -81,7 +94,7 @@ Stormpath already integrated!*
   });
   ```
 
-5. **Configure the Router**
+6. **Configure the Router**
 
   In the file where you setup your [React Router][] routes, change your [`ReactRouter.Router`][] to [`ReactStormpath.Router`][] as shown below:
   
@@ -96,7 +109,7 @@ Stormpath already integrated!*
   );
   ```
 
-6. **Setup your Routes**
+7. **Setup your Routes**
 
   Start by adding a route that people can go to in order to sign up. This will just be a regular [`ReactRouter.Route`][]. Then once you've done this, create a view for your route called `RegistrationPage` and add the [`RegistrationForm`][] component to it. This will render a registration form and allow people to sign up.
   
@@ -130,7 +143,7 @@ Stormpath already integrated!*
   </AuthenticatedRoute>
   ```
 
-7. **Add Login and Logout Links**
+8. **Add Login and Logout Links**
 
   Use the [`LoginLink`][] component to create a link that will navigate your users to the [`LoginRoute`][] route:
 
@@ -144,7 +157,7 @@ Stormpath already integrated!*
   <LogoutLink>Logout</LogoutLink>
   ```
 
-8. **Show Elements When Logged In**
+9. **Show Elements When Logged In**
 
   Use the [`Authenticated`][] component:
 
@@ -154,7 +167,7 @@ Stormpath already integrated!*
   </Authenticated>
   ```
 
-9. **Hide Elements When Logged Out**
+10. **Hide Elements When Logged Out**
 
   Use the [`NotAuthenticated`][] component:
 
@@ -164,7 +177,7 @@ Stormpath already integrated!*
   </NotAuthenticated>
   ```
 
-10. **That's It!**
+11. **That's It!**
 
   You just added user authentication to your app with Stormpath. See the [API Documentation][] for further information on how Stormpath can be used with your React app.
 
