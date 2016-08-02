@@ -62,7 +62,7 @@ export default class BaseService {
     // Only set the X-Stormpath-Agent header if we're on the same domain as the requested URI.
     // This because we want to avoid CORS requests that require you to have to whitelist the X-Stormpath-Agent header.
     if (utils.isRelativeUri(uri) || utils.isSameHost(uri, window.location.href)) {
-      headers['X-Stormpath-Agent'] = `${pkg.name}/${pkg.version} react/${React.version}`;
+      headers['X-Stormpath-Agent'] = `stormpath-sdk-react/${pkg.version} react/${React.version}`;
     }
 
     makeHttpRequest(method, uri, body, headers, function (err, result) {
