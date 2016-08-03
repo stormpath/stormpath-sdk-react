@@ -43,16 +43,22 @@ export default class Router extends ReactRouter {
   constructor() {
     super(...arguments);
 
-    this._mapMarkedRoutes();
+    if (this.props.routes) {
+      // The reason we wrap in a div is because we just need to have a root element.
+      this._mapMarkedRoutes(<div>{this.props.routes}</div>);
+    } else {
+      this._mapMarkedRoutes(this);
+    }
+
     this.sessionChangeListener = this._setSessionState.bind(this);
 
     context.setRouter(this);
   }
 
-  _mapMarkedRoutes() {
-    var markedRoutes = this.markedRoutes;
+  _mapMarkedRoutes(routes) {
+    let markedRoutes = this.markedRoutes;
 
-    utils.deepForEach(this, (node, parent) => {
+    utils.deepForEach(routes, (node, parent) => {
       // Try and map the route node to a marked route.
       for (var routeName in markedRoutes) {
         var route = markedRoutes[routeName];
