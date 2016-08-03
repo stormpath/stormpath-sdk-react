@@ -13,6 +13,12 @@ function makeHttpRequest(method, uri, body, headers, callback) {
     }
   }
 
+  // If the URI is different than the URI of the domain we're on,
+  // then set withCredentials to true so that we enable CORS.
+  if (!utils.isRelativeUri(uri) && !utils.isSameHost(uri, window.location.href)) {
+    request.withCredentials = true;
+  }
+
   request.onreadystatechange = function () {
     // 4 = Request finished and response is ready.
     // Ignore everything else.
@@ -54,7 +60,6 @@ export default class BaseService {
 
   _makeRequest(method, path, body, callback) {
     var uri = this._buildEndpoint(path);
-
     var headers = {
       'Accept': 'application/json'
     };

@@ -24,10 +24,12 @@ ReactStormpath.init({
     store: yourReduxStore
   },
 
-  // Optional: Set if you want to to use another API endpoint.
-  // Values shown below are the defaults.
+  // Optional: If your are running our framework integration
+  // (e.g. express-stormpath) on a different domain, or you have
+  // changed the default endpoints in the framework integration.
+  // Values shown are the defaults.
   endpoints: {
-    baseUri: null,
+    baseUri: null, // E.g. https://api.example.com
     me: '/me',
     login: '/login',
     register: '/register',
