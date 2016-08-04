@@ -178,7 +178,7 @@ export default class ChangePasswordForm extends React.Component {
 
   render() {
     if (this.props.children) {
-      let selectedProps = utils.excludeProps(['onSubmit', 'children'], this.props);
+      let selectedProps = utils.excludeProps(['onSubmit', 'children', 'spToken'], this.props);
 
       return (
         <form onSubmit={this.onFormSubmit.bind(this)} {...selectedProps}>
