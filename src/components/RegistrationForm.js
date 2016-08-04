@@ -207,7 +207,7 @@ export default class RegistrationForm extends React.Component {
           });
         } else if (result.status === 'ENABLED') {
           UserActions.login({
-            username: data.email || data.username,
+            login: data.email || data.username,
             password: data.password
           }, (err) => {
             if (err) {
