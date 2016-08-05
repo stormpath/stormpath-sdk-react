@@ -187,6 +187,8 @@ export default class RegistrationForm extends React.Component {
     e.preventDefault();
     e.persist();
 
+    let primaryRedirectTo = this.props.redirectTo;
+
     var next = (err, data) => {
       if (err) {
         return this.setState({
@@ -218,7 +220,7 @@ export default class RegistrationForm extends React.Component {
               });
             }
 
-            this._performRedirect();
+            this._performRedirect(primaryRedirectTo);
           });
         } else {
           this.setState({
@@ -242,11 +244,11 @@ export default class RegistrationForm extends React.Component {
     }
   }
 
-  _performRedirect() {
+  _performRedirect(primaryRedirectTo) {
     var router = context.getRouter();
     var homeRoute = router.getHomeRoute();
     var authenticatedHomeRoute = router.getAuthenticatedHomeRoute();
-    var redirectTo = this.props.redirectTo || (authenticatedHomeRoute || {}).path || (homeRoute || {}).path || '/';
+    var redirectTo = primaryRedirectTo || (authenticatedHomeRoute || {}).path || (homeRoute || {}).path || '/';
 
     this.context.router.push(redirectTo);
   }
@@ -314,7 +316,7 @@ export default class RegistrationForm extends React.Component {
 
   render() {
     if (this.props.children) {
-      var selectedProps = utils.excludeProps(['onSubmit', 'children'], this.props);
+      var selectedProps = utils.excludeProps(['redirectTo', 'hideSocial', 'onSubmit', 'children'], this.props);
 
       return (
         <form onSubmit={this.onFormSubmit.bind(this)} {...selectedProps}>
