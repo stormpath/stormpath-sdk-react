@@ -168,7 +168,7 @@ export default class LoginForm extends React.Component {
       data = data || this.state.fields;
 
       UserActions.login({
-        username: data.username,
+        login: data.username,
         password: data.password
       }, (err, result) => {
         if (err) {
