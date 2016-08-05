@@ -1,5 +1,6 @@
 import React from 'react';
 
+import utils from '../utils';
 import LoginLink from '../components/LoginLink';
 import UserActions from '../actions/UserActions';
 
@@ -25,7 +26,7 @@ export default class VerifyEmailView extends React.Component {
   }
 
   render() {
-    let selectedProps = utils.excludeProps(['className'], this.props);
+    let selectedProps = utils.excludeProps(['className','spToken'], this.props);
 
     return (
       <div className={"row " + this.props.className} {...selectedProps}>

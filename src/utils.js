@@ -368,11 +368,40 @@ class Utils {
     return nativeIsArray(object) || toString.call(object) === '[object Array]';
   }
 
-  enforceRootElement(object) {
+  enforceRootElement(object, props) {
+    let newObject = undefined;
+
     if (typeof object === 'string' || this.isArray(object)) {
-      object = <div style={{display: 'inline-block'}}>{ object }</div>;
+      if (!props) {
+        props = {};
+      }
+
+      if (!props.style) {
+        props.style = {};
+      }
+
+      props.style.display = 'inline-block';
+
+      newObject = <div {...props}>{ object }</div>;
+    } else {
+      let newProps = props;
+      let newChildren = [];
+
+      if (object.props) {
+        for (let key in object.props) {
+          let value = object.props[key];;
+          if (key === 'children') {
+            newChildren = value;
+          } else {
+            newProps[key] = value;
+          }
+        }
+      }
+
+      newObject = React.cloneElement(object, newProps, newChildren);
     }
-    return object;
+
+    return newObject;
   }
 }
 
