@@ -1,3 +1,15 @@
+## 1.3.0 (August 8, 2016)
+
+Fixes:
+
+  - Fix: Login request should use login instead of username field.
+  - Fix: Support routes as property to Router.
+  - Fix: redirectTo should be unchanged after state change.
+  - Fix: Always forward props from components to child elements.
+  - Fix: Change the user-agent to have stormpath-sdk-react as a fixed name.
+  - Fix: Set withCredentials if the requested domain differs from the one we're.
+  - Fix: React unknown prop.
+
 ## 1.2.2 (June 30, 2016)
 
 Fixes:
