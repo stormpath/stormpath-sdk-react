@@ -1,3 +1,10 @@
+## 1.2.2 to 1.3.0 (August 8, 2016)
+
+Important:
+
+  - Due to React's new "Unkonwn Prop" warning (see https://facebook.github.io/react/warnings/unknown-prop.html) all `spIf` and `spBind` element attributes should be prefixed with `data-`.
+    I.e. `spIf` should be `data-spIf` and `spBind` should be `data-spBind`. Adding the `data-` prefix will remove the the "Unkonwn Prop" warnings and guarantee future compatibility.
+
 ## 1.2.1 to 1.2.2 (June 30, 2016)
 
 Nothing to do.
