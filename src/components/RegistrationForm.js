@@ -297,35 +297,41 @@ export default class RegistrationForm extends React.Component {
   }
 
   _mapFormFieldHandler(element, tryMapField) {
-    if (['input', 'textarea'].indexOf(element.type) > -1) {
+    let tryMapFormField = (name) => {
+      if (name.indexOf('customData.') === 0) {
+        tryMapField(name);
+        return;
+      }
+
+      switch(name) {
+        case 'email':
+          tryMapField('email');
+          break;
+        case 'login':
+        case 'username':
+          tryMapField('username');
+          break;
+        case 'givenName':
+        case 'firstName':
+          tryMapField('givenName');
+          break;
+        case 'surname':
+        case 'lastName':
+          tryMapField('surname');
+          break;
+        case 'password':
+          tryMapField('password');
+          break;
+      }
+    };
+
+    if (typeof element.type === 'function' && utils.containsWord(element.type.name, ['input', 'field', 'text'])) {
+      if (element.props && element.props.name) {
+        tryMapFormField(element.props.name);
+      }
+    } else if (['input', 'textarea'].indexOf(element.type) > -1) {
       if (element.props.type !== 'submit') {
-        let name = element.props.name;
-
-        if (name.indexOf('customData.') === 0) {
-          tryMapField(name);
-          return;
-        }
-
-        switch(name) {
-          case 'email':
-            tryMapField('email');
-            break;
-          case 'login':
-          case 'username':
-            tryMapField('username');
-            break;
-          case 'givenName':
-          case 'firstName':
-            tryMapField('givenName');
-            break;
-          case 'surname':
-          case 'lastName':
-            tryMapField('surname');
-            break;
-          case 'password':
-            tryMapField('password');
-            break;
-        }
+        tryMapFormField(element.props.name);
       }
     }
   }
