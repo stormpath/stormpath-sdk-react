@@ -164,7 +164,9 @@ export default class UserProfileForm extends React.Component {
   }
 
   _mapFormFieldHandler(element, tryMapField) {
-    var defaultValue = this.state.defaultFields[element.props.name];
+    var defaultValue = element.props.name ?
+      utils.getFieldValue(this.state.defaultFields, element.props.name) :
+      undefined;
 
     // Only support input fields, to begin with.
     if (element.type === 'input') {
