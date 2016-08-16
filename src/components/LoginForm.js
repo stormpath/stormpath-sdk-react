@@ -156,13 +156,26 @@ export default class LoginForm extends React.Component {
     e.persist();
 
     let primaryRedirectTo = this.props.redirectTo;
+    let onSubmitSuccess = this.props.onSubmitSuccess;
+    let onSubmitError = this.props.onSubmitError;
+
+    let setErrorState = (recentError, newError) => {
+      this.setState({
+        isFormProcessing: false,
+        errorMessage: (newError || recentError).message
+      });
+    };
 
     var next = (err, data) => {
       if (err) {
-        return this.setState({
-          isFormProcessing: false,
-          errorMessage: err.message
-        });
+        if (onSubmitError) {
+          return onSubmitError({
+            data: data,
+            error: err
+          }, setErrorState.bind(this, err));
+        }
+
+        return setErrorState(err);
       }
 
       // If the user didn't specify any data,
@@ -174,13 +187,26 @@ export default class LoginForm extends React.Component {
         password: data.password
       }, (err, result) => {
         if (err) {
-          return this.setState({
-            isFormProcessing: false,
-            errorMessage: err.message
-          });
+          if (onSubmitError) {
+            return onSubmitError({
+              data: data,
+              error: err
+            }, setErrorState.bind(this, err));
+          }
+
+          return setErrorState(err);
         }
 
-        this._performRedirect(primaryRedirectTo);
+        let performRedirect = this._performRedirect.bind(this, primaryRedirectTo);
+
+        if (onSubmitSuccess) {
+          return onSubmitSuccess({
+            data: data,
+            result: result
+          }, performRedirect);
+        }
+
+        performRedirect();
       });
     };
 
@@ -251,7 +277,7 @@ export default class LoginForm extends React.Component {
 
   render() {
     if (this.props.children) {
-      let selectedProps = utils.excludeProps(['redirectTo', 'hideSocial', 'onSubmit', 'children'], this.props);
+      let selectedProps = utils.excludeProps(['redirectTo', 'hideSocial', 'onSubmit', 'onSubmitError', 'onSubmitSuccess', 'children'], this.props);
 
       return (
         <form onSubmit={this.onFormSubmit.bind(this)} {...selectedProps}>
