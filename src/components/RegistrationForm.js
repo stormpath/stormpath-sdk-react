@@ -188,13 +188,27 @@ export default class RegistrationForm extends React.Component {
     e.persist();
 
     let primaryRedirectTo = this.props.redirectTo;
+    let onSubmitSuccess = this.props.onSubmitSuccess;
+    let onSubmitError = this.props.onSubmitError;
 
-    var next = (err, data) => {
+    let setErrorState = (recentError, newError) => {
+      this.setState({
+        isFormProcessing: false,
+        isAccountCreated: false,
+        errorMessage: (newError || recentError).message
+      });
+    };
+
+    let next = (err, data) => {
       if (err) {
-        return this.setState({
-          isFormProcessing: false,
-          errorMessage: err.message
-        });
+        if (onSubmitError) {
+          return onSubmitError({
+            data: data,
+            error: err
+          }, setErrorState.bind(this, err));
+        }
+
+        return setErrorState(err);
       }
 
       // If the user didn't specify any data,
@@ -203,31 +217,60 @@ export default class RegistrationForm extends React.Component {
 
       UserActions.register(data, (err, result) => {
         if (err) {
-          this.setState({
-            isFormProcessing: false,
-            errorMessage: err.message
-          });
+          if (onSubmitError) {
+            return onSubmitError({
+              data: data,
+              result: result,
+              error: err
+            }, setErrorState.bind(this, err));
+          }
+
+          setErrorState(err);
         } else if (result.status === 'ENABLED') {
           UserActions.login({
             login: data.email || data.username,
             password: data.password
           }, (err) => {
             if (err) {
-              return this.setState({
-                isFormProcessing: false,
-                isAccountCreated: false,
-                errorMessage: err.message
-              });
+              if (onSubmitError) {
+                return onSubmitError({
+                  data: data,
+                  result: result,
+                  error: err
+                }, setErrorState.bind(this, err));
+              }
+
+              return setErrorState(err);
             }
 
-            this._performRedirect(primaryRedirectTo);
+            let performRedirect = this._performRedirect.bind(this, primaryRedirectTo);
+
+            if (onSubmitSuccess) {
+              return onSubmitSuccess({
+                data: data,
+                result: result
+              }, performRedirect);
+            }
+
+            performRedirect();
           });
         } else {
-          this.setState({
-            isFormProcessing: false,
-            isAccountCreated: true,
-            isAccountEnabled: false
-          });
+          let setSuccessState = () => {
+            this.setState({
+              isFormProcessing: false,
+              isAccountCreated: true,
+              isAccountEnabled: false
+            });
+          };
+
+          if (onSubmitSuccess) {
+            return onSubmitSuccess({
+              data: data,
+              result: result
+            }, setSuccessState);
+          }
+
+          setSuccessState();
         }
       });
     };
@@ -323,7 +366,7 @@ export default class RegistrationForm extends React.Component {
 
   render() {
     if (this.props.children) {
-      var selectedProps = utils.excludeProps(['redirectTo', 'hideSocial', 'onSubmit', 'children'], this.props);
+      var selectedProps = utils.excludeProps(['redirectTo', 'hideSocial', 'onSubmit', 'onSubmitError', 'onSubmitSuccess', 'children'], this.props);
 
       return (
         <form onSubmit={this.onFormSubmit.bind(this)} {...selectedProps}>

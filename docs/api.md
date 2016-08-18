@@ -269,6 +269,43 @@ class LoginPage extends React.Component {
 }
 ```
 
+Use the `onSubmitError()` event to perform an action when the form submits erroneously.
+
+```javascript
+class LoginPage extends React.Component {
+  onFormSubmitError(e, next) {
+    // e will contain values about the event.
+    console.log('Form submitted erroneously', e.data, e.error);
+
+    // The function next() must be called in order for the form to continue processing.
+    // Override with a new error by calling next(newError).
+    next();
+  }
+
+  render() {
+    return <LoginForm onSubmitError={this.onFormSubmitError.bind(this)} />;
+  }
+}
+```
+
+Use the `onSubmitSuccess()` event to perform an action when the form submits successfully.
+
+```javascript
+class LoginPage extends React.Component {
+  onFormSubmitSuccess(e, next) {
+    // e will contain values about the event.
+    console.log('Form submitted succesfully', e.data, e.result);
+
+    // The function next() must be called in order for the form to continue processing.
+    next();
+  }
+
+  render() {
+    return <LoginForm onSubmitSuccess={this.onFormSubmitSuccess.bind(this)} />;
+  }
+}
+```
+
 #### RegistrationForm
 
 Renders a registration form.
@@ -353,6 +390,43 @@ class RegistrationPage extends React.Component {
 
   render() {
     return <RegistrationForm onSubmit={this.onFormSubmit.bind(this)} />;
+  }
+}
+
+```
+Use the `onSubmitError()` event to perform an action when the form submits erroneously.
+
+```javascript
+class RegistrationPage extends React.Component {
+  onFormSubmitError(e, next) {
+    // e will contain values about the event.
+    console.log('Form submitted erroneously', e.data, e.error);
+
+    // The function next() must be called in order for the form to continue processing.
+    // Override with a new error by calling next(newError).
+    next();
+  }
+
+  render() {
+    return <RegistrationForm onSubmitError={this.onFormSubmitError.bind(this)} />;
+  }
+}
+```
+
+Use the `onSubmitSuccess()` event to perform an action when the form submits successfully.
+
+```javascript
+class RegistrationPage extends React.Component {
+  onFormSubmitSuccess(e, next) {
+    // e will contain values about the event.
+    console.log('Form submitted succesfully', e.data, e.result);
+
+    // The function next() must be called in order for the form to continue processing.
+    next();
+  }
+
+  render() {
+    return <RegistrationForm onSubmitSuccess={this.onFormSubmitSuccess.bind(this)} />;
   }
 }
 ```
