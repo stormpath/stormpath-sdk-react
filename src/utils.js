@@ -157,16 +157,56 @@ class Utils {
     };
   }
 
+  getFieldValue(source, name) {
+    let cursor = source;
+    let segments = name.split('.');
+
+    for (let i = 0; i < segments.length; i++) {
+      let key = segments[i];
+
+      if (!(key in cursor)) {
+        return undefined;
+      }
+
+      cursor = cursor[key];
+    }
+
+    return cursor;
+  }
+
+  setFieldValue(source, name, value, force) {
+    let ref = source;
+    let segments = name.split('.');
+
+    for (let i = 0; i < segments.length; i++) {
+      let key = segments[i];
+
+      if (i === segments.length - 1) {
+        if (!force && key in ref) {
+          return;
+        }
+
+        ref[key] = value;
+
+        return;
+      }
+
+      if (!(key in ref)) {
+        ref[key] = {};
+      }
+
+      ref = ref[key];
+    }
+  }
+
   makeForm(source, fieldMapFn, spIfFn, spBindFn) {
     var root = React.cloneElement(<div />, {}, source.props.children);
-
     var fieldMap = this.getFormFieldMap(root, fieldMapFn);
 
     source.state.fields = source.state.fields || {};
+
     for (var key in fieldMap.defaultValues) {
-      if (!(key in source.state.fields)) {
-        source.state.fields[key] = fieldMap.defaultValues[key];
-      }
+      this.setFieldValue(source.state.fields, key, fieldMap.defaultValues[key]);
     }
 
     var elementFactory = (element, parent) => {
@@ -224,7 +264,7 @@ class Utils {
           var originalOnChange = element.props.onChange;
           options.onChange = (e, ...args) => {
             options.disabled = source.state.isFormProcessing;
-            source.state.fields[mappedField.fieldName] = e.target.value;
+            this.setFieldValue(source.state.fields, mappedField.fieldName, e.target.value, true);
 
             // Honor the original onChange event.
             if (originalOnChange) {

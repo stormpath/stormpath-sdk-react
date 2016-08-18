@@ -256,7 +256,14 @@ export default class RegistrationForm extends React.Component {
   _mapFormFieldHandler(element, tryMapField) {
     if (['input', 'textarea'].indexOf(element.type) > -1) {
       if (element.props.type !== 'submit') {
-        switch(element.props.name) {
+        let name = element.props.name;
+
+        if (name.indexOf('customData.') === 0) {
+          tryMapField(name);
+          return;
+        }
+
+        switch(name) {
           case 'email':
             tryMapField('email');
             break;

@@ -324,6 +324,14 @@ Customize the form by providing your own markup.
 </RegistrationForm>
 ```
 
+Set custom data fields by prefixing field names with `customData`.
+
+```html
+<input type="text" name="customData.color" />
+```
+
+**Important:** If you use the Node SDK, then all custom data fields during registration must be white listed as shown in the section [Creating Custom Fields](http://docs.stormpath.com/nodejs/express/latest/registration.html#creating-custom-fields).
+
 If you want to handle the form `onSubmit()` event, then simply provide a callback for it.
 
 ```javascript
@@ -548,6 +556,14 @@ Customize the form by providing your own markup.
   </p>
 </UserProfileForm>
 ```
+
+Access custom data fields by prefixing field names with `customData`.
+
+```html
+<input type="text" name="customData.color" />
+```
+
+**Important:** Set the `web.me.expand.customData` config to `true` in order to have the custom data fields populated.
 
 If you want to handle the form `onSubmit()` event, then simply provide a callback for it.
 
