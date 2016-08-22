@@ -1,3 +1,10 @@
+## 1.3.1 (August 22, 2016)
+
+Features:
+
+  - Custom data support.
+  - Support for additional `LoginForm` and `RegistrationForm` events.
+
 ## 1.3.0 (August 8, 2016)
 
 Fixes:
