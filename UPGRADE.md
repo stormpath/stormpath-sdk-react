@@ -1,3 +1,7 @@
+## 1.3.0 to 1.3.1 (August 22, 2016)
+
+Nothing to do.
+
 ## 1.2.2 to 1.3.0 (August 8, 2016)
 
 Important:
