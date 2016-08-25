@@ -232,17 +232,25 @@ export default class LoginForm extends React.Component {
   }
 
   _mapFormFieldHandler(element, tryMapField) {
-    if (element.type === 'input' || element.type === 'textarea') {
+    let tryMapFormField = (name) => {
+      switch(element.props.name) {
+        case 'login':
+        case 'username':
+          tryMapField('username');
+          break;
+        case 'password':
+          tryMapField('password');
+          break;
+      }
+    };
+
+    if (typeof element.type === 'function' && utils.containsWord(element.type.name, ['input', 'field', 'text'])) {
+      if (element.props && element.props.name) {
+        tryMapFormField(element.props.name);
+      }
+    } else if (['input', 'textarea'].indexOf(element.type) > -1) {
       if (element.props.type !== 'submit') {
-        switch(element.props.name) {
-          case 'login':
-          case 'username':
-            tryMapField('username');
-            break;
-          case 'password':
-            tryMapField('password');
-            break;
-        }
+        tryMapFormField(element.props.name);
       }
     }
   }

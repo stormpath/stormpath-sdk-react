@@ -244,6 +244,10 @@ Customize the form by providing your own markup.
 </LoginForm>
 ```
 
+**Important:** To use a custom field component the name of the component must contain one of these three words: `text`, `input` or `field`.
+The component must also support the properties `name` and `onChange`. The property `name` should represent the name of the field, and the
+`onChange` property a handler for the field's `onChange` event.
+
 If you want to handle the form `onSubmit()` event, then simply provide a callback for it.
 
 ```javascript
@@ -369,6 +373,10 @@ Set custom data fields by prefixing field names with `customData`.
 
 **Important:** If you use the Node SDK, then all custom data fields during registration must be white listed as shown in the section [Creating Custom Fields](http://docs.stormpath.com/nodejs/express/latest/registration.html#creating-custom-fields).
 
+**Important:** To use a custom field component the name of the component must contain one of these three words: `text`, `input` or `field`.
+The component must also support the properties `name` and `onChange`. The property `name` should represent the name of the field, and the
+`onChange` property a handler for the field's `onChange` event.
+
 If you want to handle the form `onSubmit()` event, then simply provide a callback for it.
 
 ```javascript
@@ -463,6 +471,10 @@ Customize the form by providing your own markup.
 </ResetPasswordForm>
 ```
 
+**Important:** To use a custom field component the name of the component must contain one of these three words: `text`, `input` or `field`.
+The component must also support the properties `name` and `onChange`. The property `name` should represent the name of the field, and the
+`onChange` property a handler for the field's `onChange` event.
+
 If you want to handle the form `onSubmit()` event, then simply provide a callback for it.
 
 ```javascript
@@ -522,6 +534,10 @@ Customize the form by providing your own markup.
   </div>
 </ChangePasswordForm>
 ```
+
+**Important:** To use a custom field component the name of the component must contain one of these three words: `text`, `input` or `field`.
+The component must also support the properties `name` and `onChange`. The property `name` should represent the name of the field, and the
+`onChange` property a handler for the field's `onChange` event.
 
 If you want to handle the form `onSubmit()` event, then simply provide a callback for it.
 
@@ -638,6 +654,10 @@ Access custom data fields by prefixing field names with `customData`.
 ```
 
 **Important:** Set the `web.me.expand.customData` config to `true` in order to have the custom data fields populated.
+
+**Important:** To use a custom field component the name of the component must contain one of these three words: `text`, `input` or `field`.
+The component must also support the properties `name` and `onChange`. The property `name` should represent the name of the field, and the
+`onChange` property a handler for the field's `onChange` event.
 
 If you want to handle the form `onSubmit()` event, then simply provide a callback for it.
 

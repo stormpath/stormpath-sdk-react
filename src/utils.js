@@ -12,6 +12,19 @@ class Utils {
       s4() + '-' + s4() + s4() + s4();
   }
 
+  containsWord(testWord, words) {
+    testWord = testWord.toLowerCase();
+
+    for (let i = 0; i < words.length; i++) {
+      let word = words[i].toLowerCase();
+      if (testWord.indexOf(word) > -1) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   takeProp(source, ...fields) {
     for (let i = 0; i < fields.length; i++) {
       let fieldName = fields[i];
@@ -137,15 +150,16 @@ class Utils {
     for (var key in fields) {
       var field = fields[key];
       var element = field.element;
+      var elementType = typeof element.type === 'function' ? element.type.name : element.type;
 
-      if (!(element.type in inverseMap)) {
-        inverseMap[element.type] = {};
+      if (!(elementType in inverseMap)) {
+        inverseMap[elementType] = {};
       }
 
       defaultValues[key] = field.defaultValue !== undefined ?
         field.defaultValue : (element.props.value || '');
 
-      inverseMap[element.type][element.props.name] = {
+      inverseMap[elementType][element.props.name] = {
         fieldName: key,
         field: element
       };
@@ -251,7 +265,7 @@ class Utils {
       var options = {};
 
       if (element.props) {
-        var elementType = element.type;
+        var elementType = typeof element.type === 'function' ? element.type.name : element.type;
         var elementAttributeName = element.props.name;
 
         if (elementType in fieldMap.inverse && elementAttributeName in fieldMap.inverse[elementType]) {
