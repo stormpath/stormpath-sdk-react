@@ -371,7 +371,7 @@ Set custom data fields by prefixing field names with `customData`.
 <input type="text" name="customData.color" />
 ```
 
-**Important:** If you use the Node SDK, then all custom data fields during registration must be white listed as shown in the section [Creating Custom Fields](http://docs.stormpath.com/nodejs/express/latest/registration.html#creating-custom-fields).
+**Important:** If you use the Node SDK, then all custom data fields during registration must be white listed as shown in the section *Creating Custom Fields* (see [Express](http://docs.stormpath.com/nodejs/express/latest/registration.html#creating-custom-fields) or [ASP.NET](https://docs.stormpath.com/dotnet/aspnet/latest/registration.html#adding-custom-fields)).
 
 **Important:** To use a custom field component the name of the component must contain one of these three words: `text`, `input` or `field`.
 The component must also support the properties `name` and `onChange`. The property `name` should represent the name of the field, and the
