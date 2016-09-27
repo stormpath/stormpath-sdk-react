@@ -371,7 +371,12 @@ Set custom data fields by prefixing field names with `customData`.
 <input type="text" name="customData.color" />
 ```
 
-**Important:** If you use the Node SDK, then all custom data fields during registration must be white listed as shown in the section [Creating Custom Fields](http://docs.stormpath.com/nodejs/express/latest/registration.html#creating-custom-fields).
+**Important:** If you are using one of our framework integrations, then all custom data fields during registration must be white listed in the framework configuration.  For specific examples, please see:
+* [Express-Stormpath -- Creating Custom Fields](http://docs.stormpath.com/nodejs/express/latest/registration.html#creating-custom-fields)
+* [Stormpath ASP.NET -- Adding Custom Fields](https://docs.stormpath.com/dotnet/aspnet/latest/registration.html#adding-custom-fields).
+* [Stormpath ASP.NET Core -- Adding Custom Fields](https://docs.stormpath.com/dotnet/aspnetcore/latest/registration.html#adding-custom-fields).
+* [Stormpath Laravel (PHP) -- Modifying Default Fields](https://docs.stormpath.com/php/laravel/latest/registration.html#modifying-default-fields).
+* [Stormpath Spring Boot Web Starter -- Custom Data](https://docs.stormpath.com/java/spring-boot-web/registration.html#custom-data).
 
 **Important:** To use a custom field component the name of the component must contain one of these three words: `text`, `input` or `field`.
 The component must also support the properties `name` and `onChange`. The property `name` should represent the name of the field, and the
