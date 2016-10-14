@@ -26,19 +26,26 @@ function makeHttpRequest(method, uri, body, headers, callback) {
       return;
     }
 
-    var result = {
+    let result = {
       status: request.status,
       responseJSON: null
     };
+
+    let thrownError;
 
     try {
       if (request.responseText) {
         result.responseJSON = JSON.parse(request.responseText);
       }
-      callback(null, result);
-    } catch(e) {
-      callback(e);
+    } catch(err) {
+      thrownError = err;
     }
+
+    if (thrownError) {
+      return callback(thrownError);
+    }
+
+    callback(null, result);
   };
 
   if (body && typeof body === 'object') {
