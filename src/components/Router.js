@@ -15,6 +15,8 @@ export default class Router extends ReactRouter {
     user: React.PropTypes.object
   };
 
+  static defaultProps = ReactRouter.defaultProps;
+
   state = {
     authenticated: false,
     user: undefined
