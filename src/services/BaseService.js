@@ -1,6 +1,8 @@
 import React from 'react';
 import utils from '../utils';
 
+const validStatus = [200, 201, 202, 204]
+
 function makeHttpRequest(method, uri, body, headers, callback) {
   var request = new XMLHttpRequest();
 
@@ -77,7 +79,7 @@ export default class BaseService {
 
       var data = result.responseJSON || {};
 
-      if (result.status === 200) {
+      if (validStatus.indexOf(result.status) != -1) {
         callback(null, data);
       } else {
         var error = new Error(data.message || data.error || 'A request to the API failed.');
