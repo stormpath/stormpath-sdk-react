@@ -7,7 +7,13 @@
   "plugins": [
     [
       "transform-decorators-legacy",
-      "dev-expression"
+      "dev-expression",
+      "transform-proto-to-assign",
+      [
+        "transform-es2015-classes", {
+          "loose": true
+        }
+      ]
     ]
   ]
 }

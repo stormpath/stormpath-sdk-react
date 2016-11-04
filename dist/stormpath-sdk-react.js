@@ -232,7 +232,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function App() {
 	    _classCallCheck(this, App);
 
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(App).call(this));
+	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this));
 
 	    _this.initialized = false;
 	    return _this;
@@ -697,7 +697,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      logout: '/logout'
 	    };
 
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(UserService).call(this, _utils2.default.mergeObjects(defaultEndpoints, endpoints)));
+	    var _this = _possibleConstructorReturn(this, (UserService.__proto__ || Object.getPrototypeOf(UserService)).call(this, _utils2.default.mergeObjects(defaultEndpoints, endpoints)));
 
 	    _this.meRequestPool = new _RequestPool2.default();
 	    return _this;
@@ -814,6 +814,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	      };
 
 	      return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+	    }
+	  }, {
+	    key: 'containsWord',
+	    value: function containsWord(testWord, words) {
+	      testWord = testWord.toLowerCase();
+
+	      for (var i = 0; i < words.length; i++) {
+	        var word = words[i].toLowerCase();
+	        if (testWord.indexOf(word) > -1) {
+	          return true;
+	        }
+	      }
+
+	      return false;
 	    }
 	  }, {
 	    key: 'takeProp',
@@ -954,14 +968,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	      for (var key in fields) {
 	        var field = fields[key];
 	        var element = field.element;
+	        var elementType = typeof element.type === 'function' ? element.type.name : element.type;
 
-	        if (!(element.type in inverseMap)) {
-	          inverseMap[element.type] = {};
+	        if (!(elementType in inverseMap)) {
+	          inverseMap[elementType] = {};
 	        }
 
 	        defaultValues[key] = field.defaultValue !== undefined ? field.defaultValue : element.props.value || '';
 
-	        inverseMap[element.type][element.props.name] = {
+	        inverseMap[elementType][element.props.name] = {
 	          fieldName: key,
 	          field: element
 	        };
@@ -1072,7 +1087,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var options = {};
 
 	        if (element.props) {
-	          var elementType = element.type;
+	          var elementType = typeof element.type === 'function' ? element.type.name : element.type;
 	          var elementAttributeName = element.props.name;
 
 	          if (elementType in fieldMap.inverse && elementAttributeName in fieldMap.inverse[elementType]) {
@@ -3050,7 +3065,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function UserStore(userService, sessionStore) {
 	    _classCallCheck(this, UserStore);
 
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(UserStore).call(this));
+	    var _this = _possibleConstructorReturn(this, (UserStore.__proto__ || Object.getPrototypeOf(UserStore)).call(this));
 
 	    _this.service = userService;
 	    _this.sessionError = null;
@@ -3216,7 +3231,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function BaseStore() {
 	    _classCallCheck(this, BaseStore);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(BaseStore).apply(this, arguments));
+	    return _possibleConstructorReturn(this, (BaseStore.__proto__ || Object.getPrototypeOf(BaseStore)).apply(this, arguments));
 	  }
 
 	  _createClass(BaseStore, [{
@@ -3469,7 +3484,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _inherits(SessionStore, _BaseStore);
 
 	  function SessionStore() {
-	    var _Object$getPrototypeO;
+	    var _ref;
 
 	    var _temp, _this, _ret;
 
@@ -3479,7 +3494,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      args[_key] = arguments[_key];
 	    }
 
-	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(SessionStore)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.session = undefined, _temp), _possibleConstructorReturn(_this, _ret);
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = SessionStore.__proto__ || Object.getPrototypeOf(SessionStore)).call.apply(_ref, [this].concat(args))), _this), _this.session = undefined, _temp), _possibleConstructorReturn(_this, _ret);
 	  }
 
 	  _createClass(SessionStore, [{
@@ -3864,25 +3879,40 @@ return /******/ (function(modules) { // webpackBootstrap
 	var cachedSetTimeout;
 	var cachedClearTimeout;
 
+	function defaultSetTimout() {
+	    throw new Error('setTimeout has not been defined');
+	}
+	function defaultClearTimeout () {
+	    throw new Error('clearTimeout has not been defined');
+	}
 	(function () {
 	    try {
-	        cachedSetTimeout = setTimeout;
-	    } catch (e) {
-	        cachedSetTimeout = function () {
-	            throw new Error('setTimeout is not defined');
+	        if (typeof setTimeout === 'function') {
+	            cachedSetTimeout = setTimeout;
+	        } else {
+	            cachedSetTimeout = defaultSetTimout;
 	        }
+	    } catch (e) {
+	        cachedSetTimeout = defaultSetTimout;
 	    }
 	    try {
-	        cachedClearTimeout = clearTimeout;
-	    } catch (e) {
-	        cachedClearTimeout = function () {
-	            throw new Error('clearTimeout is not defined');
+	        if (typeof clearTimeout === 'function') {
+	            cachedClearTimeout = clearTimeout;
+	        } else {
+	            cachedClearTimeout = defaultClearTimeout;
 	        }
+	    } catch (e) {
+	        cachedClearTimeout = defaultClearTimeout;
 	    }
 	} ())
 	function runTimeout(fun) {
 	    if (cachedSetTimeout === setTimeout) {
 	        //normal enviroments in sane situations
+	        return setTimeout(fun, 0);
+	    }
+	    // if setTimeout wasn't available but was latter defined
+	    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+	        cachedSetTimeout = setTimeout;
 	        return setTimeout(fun, 0);
 	    }
 	    try {
@@ -3903,6 +3933,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	function runClearTimeout(marker) {
 	    if (cachedClearTimeout === clearTimeout) {
 	        //normal enviroments in sane situations
+	        return clearTimeout(marker);
+	    }
+	    // if clearTimeout wasn't available but was latter defined
+	    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+	        cachedClearTimeout = clearTimeout;
 	        return clearTimeout(marker);
 	    }
 	    try {
@@ -4173,7 +4208,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function Router() {
 	    _classCallCheck(this, Router);
 
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Router).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, (Router.__proto__ || Object.getPrototypeOf(Router)).apply(this, arguments));
 
 	    _this.state = {
 	      authenticated: false,
@@ -4280,7 +4315,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {
-	      _get(Object.getPrototypeOf(Router.prototype), 'componentWillUnmount', this).call(this);
+	      _get(Router.prototype.__proto__ || Object.getPrototypeOf(Router.prototype), 'componentWillUnmount', this).call(this);
 	      _context2.default.sessionStore.removeListener('changed', this.sessionChangeListener);
 	    }
 	  }, {
@@ -4297,7 +4332,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}(_reactRouter.Router), _class.childContextTypes = {
 	  authenticated: _react2.default.PropTypes.bool,
 	  user: _react2.default.PropTypes.object
-	}, _temp);
+	}, _class.defaultProps = _reactRouter.Router.defaultProps, _temp);
 	exports.default = Router;
 
 /***/ },
@@ -6913,8 +6948,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _routerWarning2 = _interopRequireDefault(_routerWarning);
 
-	var _Actions = __webpack_require__(44);
-
 	var _computeChangedRoutes2 = __webpack_require__(62);
 
 	var _computeChangedRoutes3 = _interopRequireDefault(_computeChangedRoutes2);
@@ -6961,10 +6994,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    return (0, _isActive3.default)(location, indexOnly, state.location, state.routes, state.params);
-	  }
-
-	  function createLocationFromRedirectInfo(location) {
-	    return history.createLocation(location, _Actions.REPLACE);
 	  }
 
 	  var partialNextState = void 0;
@@ -7024,7 +7053,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    function handleErrorOrRedirect(error, redirectInfo) {
-	      if (error) callback(error);else callback(null, createLocationFromRedirectInfo(redirectInfo));
+	      if (error) callback(error);else callback(null, redirectInfo);
 	    }
 	  }
 
@@ -7187,7 +7216,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          if (error) {
 	            listener(error);
 	          } else if (redirectLocation) {
-	            history.transitionTo(redirectLocation);
+	            history.replace(redirectLocation);
 	          } else if (nextState) {
 	            listener(null, nextState);
 	          } else {
@@ -8355,7 +8384,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  propTypes: {
-	    to: oneOfType([string, object]).isRequired,
+	    to: oneOfType([string, object]),
 	    query: object,
 	    hash: string,
 	    state: object,
@@ -8416,6 +8445,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	    if (router) {
+	      // If user does not specify a `to` prop, return an empty anchor tag.
+	      if (to == null) {
+	        return _react2.default.createElement('a', props);
+	      }
+
 	      var location = createLocationDescriptor(to, { query: query, hash: hash, state: state });
 	      props.href = router.createHref(location);
 
@@ -8479,13 +8513,17 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 74 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
 	exports.__esModule = true;
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 	exports.default = withRouter;
+
+	var _invariant = __webpack_require__(40);
+
+	var _invariant2 = _interopRequireDefault(_invariant);
 
 	var _react = __webpack_require__(12);
 
@@ -8503,13 +8541,33 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return WrappedComponent.displayName || WrappedComponent.name || 'Component';
 	}
 
-	function withRouter(WrappedComponent) {
+	function withRouter(WrappedComponent, options) {
+	  var withRef = options && options.withRef;
+
 	  var WithRouter = _react2.default.createClass({
 	    displayName: 'WithRouter',
 
 	    contextTypes: { router: _PropTypes.routerShape },
+	    propTypes: { router: _PropTypes.routerShape },
+
+	    getWrappedInstance: function getWrappedInstance() {
+	      !withRef ? process.env.NODE_ENV !== 'production' ? (0, _invariant2.default)(false, 'To access the wrapped instance, you need to specify ' + '`{ withRef: true }` as the second argument of the withRouter() call.') : (0, _invariant2.default)(false) : void 0;
+
+	      return this.wrappedInstance;
+	    },
 	    render: function render() {
-	      return _react2.default.createElement(WrappedComponent, _extends({}, this.props, { router: this.context.router }));
+	      var _this = this;
+
+	      var router = this.props.router || this.context.router;
+	      var props = _extends({}, this.props, { router: router });
+
+	      if (withRef) {
+	        props.ref = function (c) {
+	          _this.wrappedInstance = c;
+	        };
+	      }
+
+	      return _react2.default.createElement(WrappedComponent, props);
 	    }
 	  });
 
@@ -8519,6 +8577,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return (0, _hoistNonReactStatics2.default)(WithRouter, WrappedComponent);
 	}
 	module.exports = exports['default'];
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(28)))
 
 /***/ },
 /* 75 */
@@ -9145,6 +9204,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+	var _Actions = __webpack_require__(44);
+
 	var _invariant = __webpack_require__(40);
 
 	var _invariant2 = _interopRequireDefault(_invariant);
@@ -9203,7 +9264,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  history = (0, _RouterUtils.createRoutingHistory)(history, transitionManager);
 
 	  transitionManager.match(location, function (error, redirectLocation, nextState) {
-	    callback(error, redirectLocation, nextState && _extends({}, nextState, {
+	    callback(error, redirectLocation && router.createLocation(redirectLocation, _Actions.REPLACE), nextState && _extends({}, nextState, {
 	      history: history,
 	      router: router,
 	      matchContext: { history: history, transitionManager: transitionManager, router: router }
@@ -9615,7 +9676,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 90 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
 	exports.__esModule = true;
 
@@ -9629,6 +9690,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _RouterContext2 = _interopRequireDefault(_RouterContext);
 
+	var _routerWarning = __webpack_require__(36);
+
+	var _routerWarning2 = _interopRequireDefault(_routerWarning);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = function () {
@@ -9636,16 +9701,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	    middlewares[_key] = arguments[_key];
 	  }
 
-	  var withContext = middlewares.map(function (m) {
-	    return m.renderRouterContext;
-	  }).filter(function (f) {
-	    return f;
-	  });
-	  var withComponent = middlewares.map(function (m) {
-	    return m.renderRouteComponent;
-	  }).filter(function (f) {
-	    return f;
-	  });
+	  if (process.env.NODE_ENV !== 'production') {
+	    middlewares.forEach(function (middleware, index) {
+	      process.env.NODE_ENV !== 'production' ? (0, _routerWarning2.default)(middleware.renderRouterContext || middleware.renderRouteComponent, 'The middleware specified at index ' + index + ' does not appear to be ' + 'a valid React Router middleware.') : void 0;
+	    });
+	  }
+
+	  var withContext = middlewares.map(function (middleware) {
+	    return middleware.renderRouterContext;
+	  }).filter(Boolean);
+	  var withComponent = middlewares.map(function (middleware) {
+	    return middleware.renderRouteComponent;
+	  }).filter(Boolean);
+
 	  var makeCreateElement = function makeCreateElement() {
 	    var baseCreateElement = arguments.length <= 0 || arguments[0] === undefined ? _react.createElement : arguments[0];
 	    return function (Component, props) {
@@ -9665,6 +9733,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	module.exports = exports['default'];
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(28)))
 
 /***/ },
 /* 91 */
@@ -9943,7 +10012,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function HomeRoute() {
 	    _classCallCheck(this, HomeRoute);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(HomeRoute).apply(this, arguments));
+	    return _possibleConstructorReturn(this, (HomeRoute.__proto__ || Object.getPrototypeOf(HomeRoute)).apply(this, arguments));
 	  }
 
 	  return HomeRoute;
@@ -9984,7 +10053,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function LoginRoute() {
 	    _classCallCheck(this, LoginRoute);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(LoginRoute).apply(this, arguments));
+	    return _possibleConstructorReturn(this, (LoginRoute.__proto__ || Object.getPrototypeOf(LoginRoute)).apply(this, arguments));
 	  }
 
 	  return LoginRoute;
@@ -10048,7 +10117,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function LogoutRoute() {
 	    _classCallCheck(this, LogoutRoute);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(LogoutRoute).apply(this, arguments));
+	    return _possibleConstructorReturn(this, (LogoutRoute.__proto__ || Object.getPrototypeOf(LogoutRoute)).apply(this, arguments));
 	  }
 
 	  return LogoutRoute;
@@ -10103,7 +10172,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function AuthenticatedRoute() {
 	    _classCallCheck(this, AuthenticatedRoute);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(AuthenticatedRoute).apply(this, arguments));
+	    return _possibleConstructorReturn(this, (AuthenticatedRoute.__proto__ || Object.getPrototypeOf(AuthenticatedRoute)).apply(this, arguments));
 	  }
 
 	  return AuthenticatedRoute;
@@ -10163,7 +10232,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function Authenticated() {
 	    _classCallCheck(this, Authenticated);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Authenticated).apply(this, arguments));
+	    return _possibleConstructorReturn(this, (Authenticated.__proto__ || Object.getPrototypeOf(Authenticated)).apply(this, arguments));
 	  }
 
 	  _createClass(Authenticated, [{
@@ -10229,7 +10298,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function NotAuthenticated() {
 	    _classCallCheck(this, NotAuthenticated);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(NotAuthenticated).apply(this, arguments));
+	    return _possibleConstructorReturn(this, (NotAuthenticated.__proto__ || Object.getPrototypeOf(NotAuthenticated)).apply(this, arguments));
 	  }
 
 	  _createClass(NotAuthenticated, [{
@@ -10305,7 +10374,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function LoginLink() {
 	    _classCallCheck(this, LoginLink);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(LoginLink).apply(this, arguments));
+	    return _possibleConstructorReturn(this, (LoginLink.__proto__ || Object.getPrototypeOf(LoginLink)).apply(this, arguments));
 	  }
 
 	  _createClass(LoginLink, [{
@@ -10374,7 +10443,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _inherits(LogoutLink, _React$Component);
 
 	  function LogoutLink() {
-	    var _Object$getPrototypeO;
+	    var _ref;
 
 	    var _temp, _this, _ret;
 
@@ -10384,7 +10453,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      args[_key] = arguments[_key];
 	    }
 
-	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(LogoutLink)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.state = {
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = LogoutLink.__proto__ || Object.getPrototypeOf(LogoutLink)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
 	      disabled: false
 	    }, _temp), _possibleConstructorReturn(_this, _ret);
 	  }
@@ -10490,7 +10559,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _inherits(DefaultLoginForm, _React$Component);
 
 	  function DefaultLoginForm() {
-	    var _Object$getPrototypeO;
+	    var _ref;
 
 	    var _temp, _this, _ret;
 
@@ -10500,7 +10569,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      args[_key] = arguments[_key];
 	    }
 
-	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(DefaultLoginForm)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.state = {
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DefaultLoginForm.__proto__ || Object.getPrototypeOf(DefaultLoginForm)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
 	      fields: null,
 	      socialProviders: null
 	    }, _temp), _possibleConstructorReturn(_this, _ret);
@@ -10669,7 +10738,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _inherits(LoginForm, _React$Component2);
 
 	  function LoginForm() {
-	    var _Object$getPrototypeO2;
+	    var _ref2;
 
 	    var _temp2, _this3, _ret2;
 
@@ -10679,7 +10748,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      args[_key2] = arguments[_key2];
 	    }
 
-	    return _ret2 = (_temp2 = (_this3 = _possibleConstructorReturn(this, (_Object$getPrototypeO2 = Object.getPrototypeOf(LoginForm)).call.apply(_Object$getPrototypeO2, [this].concat(args))), _this3), _this3.state = {
+	    return _ret2 = (_temp2 = (_this3 = _possibleConstructorReturn(this, (_ref2 = LoginForm.__proto__ || Object.getPrototypeOf(LoginForm)).call.apply(_ref2, [this].concat(args))), _this3), _this3.state = {
 	      fields: {
 	        username: '',
 	        password: ''
@@ -10776,17 +10845,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: '_mapFormFieldHandler',
 	    value: function _mapFormFieldHandler(element, tryMapField) {
-	      if (element.type === 'input' || element.type === 'textarea') {
+	      var tryMapFormField = function tryMapFormField(name) {
+	        switch (element.props.name) {
+	          case 'login':
+	          case 'username':
+	            tryMapField('username');
+	            break;
+	          case 'password':
+	            tryMapField('password');
+	            break;
+	        }
+	      };
+
+	      if (typeof element.type === 'function' && _utils2.default.containsWord(element.type.name, ['input', 'field', 'text'])) {
+	        if (element.props && element.props.name) {
+	          tryMapFormField(element.props.name);
+	        }
+	      } else if (['input', 'textarea'].indexOf(element.type) > -1) {
 	        if (element.props.type !== 'submit') {
-	          switch (element.props.name) {
-	            case 'login':
-	            case 'username':
-	              tryMapField('username');
-	              break;
-	            case 'password':
-	              tryMapField('password');
-	              break;
-	          }
+	          tryMapFormField(element.props.name);
 	        }
 	      }
 	    }
@@ -10878,7 +10955,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _inherits(LoadingText, _React$Component);
 
 	  function LoadingText() {
-	    var _Object$getPrototypeO;
+	    var _ref;
 
 	    var _temp, _this, _ret;
 
@@ -10888,7 +10965,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      args[_key] = arguments[_key];
 	    }
 
-	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(LoadingText)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.waitTimeout = null, _this.state = {
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = LoadingText.__proto__ || Object.getPrototypeOf(LoadingText)).call.apply(_ref, [this].concat(args))), _this), _this.waitTimeout = null, _this.state = {
 	      text: null
 	    }, _temp), _possibleConstructorReturn(_this, _ret);
 	  }
@@ -10970,7 +11047,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function SocialLoginButton() {
 	    _classCallCheck(this, SocialLoginButton);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(SocialLoginButton).apply(this, arguments));
+	    return _possibleConstructorReturn(this, (SocialLoginButton.__proto__ || Object.getPrototypeOf(SocialLoginButton)).apply(this, arguments));
 	  }
 
 	  _createClass(SocialLoginButton, [{
@@ -11039,7 +11116,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _inherits(SocialLoginLink, _React$Component);
 
 	  function SocialLoginLink() {
-	    var _Object$getPrototypeO;
+	    var _ref;
 
 	    var _temp, _this, _ret;
 
@@ -11049,7 +11126,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      args[_key] = arguments[_key];
 	    }
 
-	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(SocialLoginLink)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.availableProps = {
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = SocialLoginLink.__proto__ || Object.getPrototypeOf(SocialLoginLink)).call.apply(_ref, [this].concat(args))), _this), _this.availableProps = {
 	      providerId: null
 	    }, _this.state = {
 	      disabled: false
@@ -11198,7 +11275,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _inherits(DefaultUserProfileForm, _React$Component);
 
 	  function DefaultUserProfileForm() {
-	    var _Object$getPrototypeO;
+	    var _ref;
 
 	    var _temp, _this, _ret;
 
@@ -11208,7 +11285,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      args[_key] = arguments[_key];
 	    }
 
-	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(DefaultUserProfileForm)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.state = {
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DefaultUserProfileForm.__proto__ || Object.getPrototypeOf(DefaultUserProfileForm)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
 	      showPasswordVerification: false
 	    }, _temp), _possibleConstructorReturn(_this, _ret);
 	  }
@@ -11359,7 +11436,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _inherits(UserProfileForm, _React$Component2);
 
 	  function UserProfileForm() {
-	    var _Object$getPrototypeO2;
+	    var _ref2;
 
 	    var _temp2, _this2, _ret2;
 
@@ -11369,7 +11446,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      args[_key2] = arguments[_key2];
 	    }
 
-	    return _ret2 = (_temp2 = (_this2 = _possibleConstructorReturn(this, (_Object$getPrototypeO2 = Object.getPrototypeOf(UserProfileForm)).call.apply(_Object$getPrototypeO2, [this].concat(args))), _this2), _this2.state = {
+	    return _ret2 = (_temp2 = (_this2 = _possibleConstructorReturn(this, (_ref2 = UserProfileForm.__proto__ || Object.getPrototypeOf(UserProfileForm)).call.apply(_ref2, [this].concat(args))), _this2), _this2.state = {
 	      fields: {},
 	      defaultFields: _this2.context.user,
 	      errorMessage: null,
@@ -11456,8 +11533,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function _mapFormFieldHandler(element, tryMapField) {
 	      var defaultValue = element.props.name ? _utils2.default.getFieldValue(this.state.defaultFields, element.props.name) : undefined;
 
-	      // Only support input fields, to begin with.
-	      if (element.type === 'input') {
+	      if (typeof element.type === 'function' && _utils2.default.containsWord(element.type.name, ['input', 'field', 'text'])) {
+	        if (element.props && element.props.name) {
+	          tryMapField(element.props.name, defaultValue);
+	        }
+	      } else if (element.type === 'input') {
 	        if (element.props.type === 'submit') {
 	          return;
 	        }
@@ -11584,7 +11664,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _inherits(DefaultRegistrationForm, _React$Component);
 
 	  function DefaultRegistrationForm() {
-	    var _Object$getPrototypeO;
+	    var _ref;
 
 	    var _temp, _this, _ret;
 
@@ -11594,7 +11674,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      args[_key] = arguments[_key];
 	    }
 
-	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(DefaultRegistrationForm)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.state = {
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DefaultRegistrationForm.__proto__ || Object.getPrototypeOf(DefaultRegistrationForm)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
 	      fields: null,
 	      socialProviders: null
 	    }, _temp), _possibleConstructorReturn(_this, _ret);
@@ -11807,7 +11887,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _inherits(RegistrationForm, _React$Component2);
 
 	  function RegistrationForm() {
-	    var _Object$getPrototypeO2;
+	    var _ref2;
 
 	    var _temp2, _this3, _ret2;
 
@@ -11817,7 +11897,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      args[_key2] = arguments[_key2];
 	    }
 
-	    return _ret2 = (_temp2 = (_this3 = _possibleConstructorReturn(this, (_Object$getPrototypeO2 = Object.getPrototypeOf(RegistrationForm)).call.apply(_Object$getPrototypeO2, [this].concat(args))), _this3), _this3.state = {
+	    return _ret2 = (_temp2 = (_this3 = _possibleConstructorReturn(this, (_ref2 = RegistrationForm.__proto__ || Object.getPrototypeOf(RegistrationForm)).call.apply(_ref2, [this].concat(args))), _this3), _this3.state = {
 	      fields: {
 	        givenName: '',
 	        surname: '',
@@ -11951,35 +12031,41 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: '_mapFormFieldHandler',
 	    value: function _mapFormFieldHandler(element, tryMapField) {
-	      if (['input', 'textarea'].indexOf(element.type) > -1) {
+	      var tryMapFormField = function tryMapFormField(name) {
+	        if (name.indexOf('customData.') === 0) {
+	          tryMapField(name);
+	          return;
+	        }
+
+	        switch (name) {
+	          case 'email':
+	            tryMapField('email');
+	            break;
+	          case 'login':
+	          case 'username':
+	            tryMapField('username');
+	            break;
+	          case 'givenName':
+	          case 'firstName':
+	            tryMapField('givenName');
+	            break;
+	          case 'surname':
+	          case 'lastName':
+	            tryMapField('surname');
+	            break;
+	          case 'password':
+	            tryMapField('password');
+	            break;
+	        }
+	      };
+
+	      if (typeof element.type === 'function' && _utils2.default.containsWord(element.type.name, ['input', 'field', 'text'])) {
+	        if (element.props && element.props.name) {
+	          tryMapFormField(element.props.name);
+	        }
+	      } else if (['input', 'textarea'].indexOf(element.type) > -1) {
 	        if (element.props.type !== 'submit') {
-	          var name = element.props.name;
-
-	          if (name.indexOf('customData.') === 0) {
-	            tryMapField(name);
-	            return;
-	          }
-
-	          switch (name) {
-	            case 'email':
-	              tryMapField('email');
-	              break;
-	            case 'login':
-	            case 'username':
-	              tryMapField('username');
-	              break;
-	            case 'givenName':
-	            case 'firstName':
-	              tryMapField('givenName');
-	              break;
-	            case 'surname':
-	            case 'lastName':
-	              tryMapField('surname');
-	              break;
-	            case 'password':
-	              tryMapField('password');
-	              break;
-	          }
+	          tryMapFormField(element.props.name);
 	        }
 	      }
 	    }
@@ -12093,7 +12179,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function DefaultResetPasswordForm() {
 	    _classCallCheck(this, DefaultResetPasswordForm);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(DefaultResetPasswordForm).apply(this, arguments));
+	    return _possibleConstructorReturn(this, (DefaultResetPasswordForm.__proto__ || Object.getPrototypeOf(DefaultResetPasswordForm)).apply(this, arguments));
 	  }
 
 	  _createClass(DefaultResetPasswordForm, [{
@@ -12179,7 +12265,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _inherits(ResetPasswordForm, _React$Component2);
 
 	  function ResetPasswordForm() {
-	    var _Object$getPrototypeO;
+	    var _ref;
 
 	    var _temp, _this2, _ret;
 
@@ -12189,7 +12275,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      args[_key] = arguments[_key];
 	    }
 
-	    return _ret = (_temp = (_this2 = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(ResetPasswordForm)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this2), _this2.state = {
+	    return _ret = (_temp = (_this2 = _possibleConstructorReturn(this, (_ref = ResetPasswordForm.__proto__ || Object.getPrototypeOf(ResetPasswordForm)).call.apply(_ref, [this].concat(args))), _this2), _this2.state = {
 	      fields: {
 	        email: ''
 	      },
@@ -12249,13 +12335,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: '_mapFormFieldHandler',
 	    value: function _mapFormFieldHandler(element, tryMapField) {
-	      if (element.type === 'input' || element.type === 'textarea') {
+	      var tryMapFormField = function tryMapFormField(name) {
+	        switch (name) {
+	          case 'email':
+	            tryMapField('email');
+	            break;
+	        }
+	      };
+
+	      if (typeof element.type === 'function' && _utils2.default.containsWord(element.type.name, ['input', 'field', 'text'])) {
+	        if (element.props && element.props.name) {
+	          tryMapFormField(element.props.name);
+	        }
+	      } else if (['input', 'textarea'].indexOf(element.type) > -1) {
 	        if (element.props.type !== 'submit') {
-	          switch (element.props.name) {
-	            case 'email':
-	              tryMapField('email');
-	              break;
-	          }
+	          tryMapFormField(element.props.name);
 	        }
 	      }
 	    }
@@ -12369,7 +12463,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function DefaultChangePasswordForm() {
 	    _classCallCheck(this, DefaultChangePasswordForm);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(DefaultChangePasswordForm).apply(this, arguments));
+	    return _possibleConstructorReturn(this, (DefaultChangePasswordForm.__proto__ || Object.getPrototypeOf(DefaultChangePasswordForm)).apply(this, arguments));
 	  }
 
 	  _createClass(DefaultChangePasswordForm, [{
@@ -12471,7 +12565,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _inherits(ChangePasswordForm, _React$Component2);
 
 	  function ChangePasswordForm() {
-	    var _Object$getPrototypeO;
+	    var _ref;
 
 	    _classCallCheck(this, ChangePasswordForm);
 
@@ -12479,7 +12573,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      args[_key] = arguments[_key];
 	    }
 
-	    var _this2 = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(ChangePasswordForm)).call.apply(_Object$getPrototypeO, [this].concat(args)));
+	    var _this2 = _possibleConstructorReturn(this, (_ref = ChangePasswordForm.__proto__ || Object.getPrototypeOf(ChangePasswordForm)).call.apply(_ref, [this].concat(args)));
 
 	    _this2.state = {
 	      spToken: null,
@@ -12568,16 +12662,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: '_mapFormFieldHandler',
 	    value: function _mapFormFieldHandler(element, tryMapField) {
-	      if (element.type === 'input' || element.type === 'textarea') {
+	      var tryMapFormField = function tryMapFormField(name) {
+	        switch (name) {
+	          case 'password':
+	            tryMapField('password');
+	            break;
+	          case 'confirmPassword':
+	            tryMapField('confirmPassword');
+	            break;
+	        }
+	      };
+
+	      if (typeof element.type === 'function' && _utils2.default.containsWord(element.type.name, ['input', 'field', 'text'])) {
+	        if (element.props && element.props.name) {
+	          tryMapFormField(element.props.name);
+	        }
+	      } else if (element.type === 'input' || element.type === 'textarea') {
 	        if (element.props.type !== 'submit') {
-	          switch (element.props.name) {
-	            case 'password':
-	              tryMapField('password');
-	              break;
-	            case 'confirmPassword':
-	              tryMapField('confirmPassword');
-	              break;
-	          }
+	          tryMapFormField(element.props.name);
 	        }
 	      }
 	    }
@@ -12683,7 +12785,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _inherits(VerifyEmailView, _React$Component);
 
 	  function VerifyEmailView() {
-	    var _Object$getPrototypeO;
+	    var _ref;
 
 	    var _temp, _this, _ret;
 
@@ -12693,7 +12795,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      args[_key] = arguments[_key];
 	    }
 
-	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(VerifyEmailView)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.state = {
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = VerifyEmailView.__proto__ || Object.getPrototypeOf(VerifyEmailView)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
 	      status: 'VERIFYING'
 	    }, _temp), _possibleConstructorReturn(_this, _ret);
 	  }
@@ -12799,7 +12901,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function UserField() {
 	    _classCallCheck(this, UserField);
 
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(UserField).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, (UserField.__proto__ || Object.getPrototypeOf(UserField)).apply(this, arguments));
 
 	    _utils2.default.logWarning('The UserField component has been deprecated. Please use the user context instead. See: https://github.com/stormpath/stormpath-sdk-react/blob/master/docs/api.md#contexts');
 	    return _this;
@@ -12889,7 +12991,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function UserComponent() {
 	    _classCallCheck(this, UserComponent);
 
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(UserComponent).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, (UserComponent.__proto__ || Object.getPrototypeOf(UserComponent)).apply(this, arguments));
 
 	    _this.onChangeListener = null;
 	    _this.state = {
