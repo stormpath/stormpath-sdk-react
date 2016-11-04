@@ -1,3 +1,9 @@
+## 1.3.2 (November 4, 2016)
+
+Fixes:
+
+  - Fix: Router props inheritance not working in IE <= 10.
+
 ## 1.3.1 (August 22, 2016)
 
 Features:
