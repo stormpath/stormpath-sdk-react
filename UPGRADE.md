@@ -1,3 +1,13 @@
+## 1.3.2 to 1.3.3 (November 4, 2016)
+
+Important:
+
+  - If you are seeing the error "Uncaught Invariant Violation: You have provided a history object created with
+    history v3.x. This version of React Router is not compatible with v3 history objects. Please use history
+    v2.x instead." you need to double-check your dependencies and if you are using the `history` module,
+    you need to set that to use version `2.1.2`. This is because ReactRouter is incompatible with `history`
+    versions >= `3.x.x` and `2.1.2` is the latest `2.x.x` release.
+
 ## 1.3.1 to 1.3.2 (November 4, 2016)
 
 Nothing to do.
