@@ -4,6 +4,7 @@ class Context {
   constructor() {
     this.router = null;
     this.dispatcher = null;
+    this.tokenStore = null;
     this.sessionStore = null;
     this.userStore = null;
   }
@@ -22,6 +23,10 @@ class Context {
 
   getDispatcher() {
     return this.dispatcher;
+  }
+
+  setTokenStore(tokenStore) {
+    this.tokenStore = tokenStore;
   }
 
   setSessionStore(sessionStore) {

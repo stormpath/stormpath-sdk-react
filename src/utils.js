@@ -1,6 +1,8 @@
 import url from 'url';
 import React from 'react';
 
+let jwtExpression = /^[a-zA-Z0-9+/\-_=]+\.[a-zA-Z0-9+/\-_=]+\.[a-zA-Z0-9+/\-_=]+$/;
+
 class Utils {
   nopElement = <span />;
 
@@ -322,6 +324,35 @@ class Utils {
     return obj3;
   }
 
+  base64Decode(value) {
+    return new Buffer(value, 'base64').toString('utf8');
+  }
+
+  parseJwt(value) {
+    if (!value) {
+      return false;
+    }
+
+    value = value.trim();
+
+    if (value.match(jwtExpression) === null) {
+      return false;
+    }
+
+    let [header, body, signature] = value.split('.');
+
+    try {
+      return {
+        header: JSON.parse(this.base64Decode(header)),
+        body: JSON.parse(this.base64Decode(body)),
+        signature: signature,
+        raw: value
+      };
+    } catch (err) {
+      return false;
+    }
+  }
+
   isRelativeUri(uri) {
     return uri && uri[0] === '/';
   }
@@ -340,6 +371,10 @@ class Utils {
     }
 
     return urlA.host === urlB.host;
+  }
+
+  getEpochTime() {
+    return Math.round((new Date).getTime() / 1000);
   }
 
   logWarning(group, message) {
@@ -456,6 +491,18 @@ class Utils {
     }
 
     return newObject;
+  }
+
+  serializeFormObject(value) {
+    var items = [];
+
+    for(var key in value) {
+      if (value.hasOwnProperty(key)) {
+        items.push(encodeURIComponent(key) + '=' + encodeURIComponent(value[key]));
+      }
+    }
+
+    return items.join('&');
   }
 }
 
