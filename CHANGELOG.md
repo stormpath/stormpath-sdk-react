@@ -1,3 +1,13 @@
+## 1.3.3 (November 10, 2016)
+
+Chores:
+
+  - Upgraded packages to their latest versions.
+
+Fixes:
+
+  - Downgraded the `history` module to version `2.1.2` due to React Router incompatibility.
+
 ## 1.3.2 (November 4, 2016)
 
 Fixes:
