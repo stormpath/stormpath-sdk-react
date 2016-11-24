@@ -89,12 +89,14 @@ class App extends EventEmitter {
           userService.setToken(payload.options.type, payload.options.token);
 
           if (payload.options.token !== null) {
-            tokenStore.set(payload.options.type, payload.options.token);
+            tokenStore
+              .set(payload.options.type, payload.options.token)
+              .then(() => payload.callback && payload.callback());
           } else {
-            tokenStore.reset(payload.options.type);
+            tokenStore
+              .reset(payload.options.type)
+              .then(() => payload.callback && payload.callback());
           }
-
-          payload.callback && payload.callback();
           break;
         case TokenConstants.TOKEN_REFRESH:
           userService.refreshToken(payload.options.token, payload.callback);

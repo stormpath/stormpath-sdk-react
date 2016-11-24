@@ -318,12 +318,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	            userService.setToken(payload.options.type, payload.options.token);
 
 	            if (payload.options.token !== null) {
-	              tokenStore.set(payload.options.type, payload.options.token);
+	              tokenStore.set(payload.options.type, payload.options.token).then(function () {
+	                return payload.callback && payload.callback();
+	              });
 	            } else {
-	              tokenStore.reset(payload.options.type);
+	              tokenStore.reset(payload.options.type).then(function () {
+	                return payload.callback && payload.callback();
+	              });
 	            }
-
-	            payload.callback && payload.callback();
 	            break;
 	          case _constants.TokenConstants.TOKEN_REFRESH:
 	            userService.refreshToken(payload.options.token, payload.callback);
@@ -703,17 +705,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _createClass(LocalStorage, [{
 	    key: 'get',
 	    value: function get(key) {
-	      return this.storage.getItem(key);
+	      try {
+	        return Promise.resolve(this.storage.getItem(key));
+	      } catch (err) {
+	        return Promise.reject(err);
+	      }
 	    }
 	  }, {
 	    key: 'set',
 	    value: function set(key, value) {
-	      this.storage.setItem(key, value);
+	      try {
+	        return Promise.resolve(this.storage.setItem(key, value));
+	      } catch (err) {
+	        return Promise.reject(err);
+	      }
 	    }
 	  }, {
 	    key: 'remove',
 	    value: function remove(key) {
-	      return this.storage.removeItem(key);
+	      try {
+	        return Promise.resolve(this.storage.removeItem(key));
+	      } catch (err) {
+	        return Promise.reject(err);
+	      }
 	    }
 	  }]);
 
@@ -3317,7 +3331,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _createClass(ClientApiUserService, [{
 	    key: 'setToken',
 	    value: function setToken(type, token) {
-	      this.tokens[type] = token;
+	      this.tokens[type] = Promise.resolve(token);
+	    }
+	  }, {
+	    key: 'getToken',
+	    value: function getToken(type) {
+	      return this.tokens[type] || Promise.resolve();
 	    }
 	  }, {
 	    key: '_setFormContentTypeHeader',
@@ -3327,9 +3346,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: '_setAuthorizationHeader',
 	    value: function _setAuthorizationHeader(headers) {
-	      if (this.tokens.access_token) {
-	        headers['Authorization'] = 'Bearer ' + this.tokens.access_token;
-	      }
+	      return this.getToken('access_token').then(function (accessToken) {
+	        if (accessToken) {
+	          headers['Authorization'] = 'Bearer ' + accessToken;
+	        }
+	      });
 	    }
 	  }, {
 	    key: '_makeFormRequest',
@@ -3355,20 +3376,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'me',
 	    value: function me(callback) {
-	      if (!this.tokens.access_token) {
-	        return callback(new Error('The \'me\' endpoint requires an access token to be present.'));
-	      }
+	      var _this2 = this;
 
-	      _get(ClientApiUserService.prototype.__proto__ || Object.getPrototypeOf(ClientApiUserService.prototype), 'me', this).call(this, function (err, result) {
-	        if (err) {
-	          if (err.type === 'invalid_client' && err.status === 400) {
-	            _TokenActions2.default.set('access_token', null);
-	            _TokenActions2.default.set('refresh_token', null);
-	          }
-	          return callback(err);
+	      this.getToken('access_token').then(function (accessToken) {
+	        if (!accessToken) {
+	          return callback(new Error('The \'me\' endpoint requires an access token to be present.'));
 	        }
 
-	        callback(null, result);
+	        _get(ClientApiUserService.prototype.__proto__ || Object.getPrototypeOf(ClientApiUserService.prototype), 'me', _this2).call(_this2, function (err, result) {
+	          if (err) {
+	            if (err.type === 'invalid_client' && err.status === 400) {
+	              _TokenActions2.default.set('access_token', null);
+	              _TokenActions2.default.set('refresh_token', null);
+	            }
+	            return callback(err);
+	          }
+
+	          callback(null, result);
+	        });
 	      });
 	    }
 	  }, {
@@ -3435,20 +3460,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'logout',
 	    value: function logout(callback) {
-	      var options = {
-	        token: this.tokens.refresh_token,
-	        token_type_hint: 'refresh_token'
-	      };
+	      var _this3 = this;
 
-	      this._makeFormRequest('post', this.endpoints.oauthRevoke, options, null, function (err, result) {
-	        if (err) {
-	          return callback(err);
-	        }
+	      this.getToken('refresh_token').then(function (token) {
+	        var options = {
+	          token: token,
+	          token_type_hint: 'refresh_token'
+	        };
 
-	        _TokenActions2.default.set('access_token', null);
-	        _TokenActions2.default.set('refresh_token', null);
+	        _this3._makeFormRequest('post', _this3.endpoints.oauthRevoke, options, null, function (err, result) {
+	          if (err) {
+	            return callback(err);
+	          }
 
-	        callback(null, result);
+	          _TokenActions2.default.set('access_token', null);
+	          _TokenActions2.default.set('refresh_token', null);
+
+	          callback(null, result);
+	        });
 	      });
 	    }
 	  }]);
@@ -4279,34 +4308,40 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: '_expireToken',
 	    value: function _expireToken(type) {
+	      var _this2 = this;
+
 	      delete this.expirationTimerIds[type];
 
-	      this.storage.remove(this._getKey(type));
+	      return this.storage.remove(this._getKey(type)).then(function () {
+	        return _this2.storage.get(_this2._getKey('refresh_token'));
+	      }).then(function (refreshToken) {
+	        if (refreshToken) {
+	          return new Promise(function (resolve, reject) {
+	            _TokenActions2.default.refresh(refreshToken, function (err, result) {
+	              if (err) {
+	                reject(err);
+	              }
 
-	      var refreshToken = this.storage.get(this._getKey('refresh_token'));
+	              _TokenActions2.default.set('access_token', result.access_token);
+	              _TokenActions2.default.set('refresh_token', result.refresh_token);
 
-	      if (refreshToken) {
-	        _TokenActions2.default.refresh(refreshToken, function (err, result) {
-	          if (err) {
-	            return;
-	          }
-
-	          _TokenActions2.default.set('access_token', result.access_token);
-	          _TokenActions2.default.set('refresh_token', result.refresh_token);
-	        });
-	      }
+	              return result;
+	            });
+	          });
+	        }
+	      });
 	    }
 	  }, {
 	    key: '_manageTokenExpiration',
 	    value: function _manageTokenExpiration(type, token) {
 	      if (type !== 'access_token') {
-	        return;
+	        return Promise.resolve(token);
 	      }
 
 	      var parsedToken = _utils2.default.parseJwt(token);
 
 	      if (!parsedToken) {
-	        return false;
+	        return Promise.reject(new Error('Invalid token'));
 	      }
 
 	      if (this.expirationTimerIds[type]) {
@@ -4318,59 +4353,76 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var expireInSeconds = parsedToken.body.exp - _utils2.default.getEpochTime();
 
 	        if (expireInSeconds <= 0) {
-	          return this._expireToken(type);
+	          return this._expireToken(type).then(function (tokens) {
+	            return tokens[type];
+	          });
 	        }
 
 	        this.expirationTimerIds[type] = setTimeout(this._expireToken.bind(this, type), expireInSeconds * 1000);
 	      }
+
+	      return Promise.resolve(token);
 	    }
 	  }, {
 	    key: 'get',
 	    value: function get(type) {
-	      var token = this.storage.get(this._getKey(type));
+	      var _this3 = this;
 
-	      if (token && !(type in this.expirationTimerIds)) {
-	        this._manageTokenExpiration(type, token);
-	      }
+	      return this.storage.get(this._getKey(type)).then(function (token) {
+	        if (token && !(type in _this3.expirationTimerIds)) {
+	          return _this3._manageTokenExpiration(type, token);
+	        }
 
-	      return token;
+	        return token;
+	      });
 	    }
 	  }, {
 	    key: 'set',
 	    value: function set(type, token) {
-	      if (this.get(type) !== token) {
-	        this._manageTokenExpiration(type, token);
+	      var _this4 = this;
 
-	        this.storage.set(this._getKey(type), token);
-
-	        this.emitChange({
-	          type: type,
-	          action: 'set',
-	          value: token
-	        });
-	      }
+	      return this.get(type).then(function (storedToken) {
+	        if (storedToken !== token) {
+	          _this4._manageTokenExpiration(type, token).then(function (token) {
+	            return _this4.storage.set(_this4._getKey(type), token);
+	          }).then(function () {
+	            _this4.emitChange({
+	              type: type,
+	              action: 'set',
+	              value: token
+	            });
+	          });
+	        }
+	      });
 	    }
 	  }, {
 	    key: 'empty',
 	    value: function empty(type) {
-	      return this.get(type) === undefined;
+	      return this.get(type).then(function (token) {
+	        return token === undefined;
+	      });
 	    }
 	  }, {
 	    key: 'reset',
 	    value: function reset(type) {
-	      if (!this.empty(type)) {
-	        if (this.expirationTimerIds[type]) {
-	          clearTimeout(this.expirationTimerIds[type]);
-	          delete this.expirationTimerIds[type];
-	        }
+	      var _this5 = this;
 
-	        this.storage.remove(this._getKey(type));
-	        this.emitChange({
-	          type: type,
-	          action: 'reset',
-	          value: undefined
-	        });
-	      }
+	      return this.empty(type).then(function (isEmpty) {
+	        if (!isEmpty) {
+	          if (_this5.expirationTimerIds[type]) {
+	            clearTimeout(_this5.expirationTimerIds[type]);
+	            delete _this5.expirationTimerIds[type];
+	          }
+
+	          return _this5.storage.remove(_this5._getKey(type)).then(function () {
+	            _this5.emitChange({
+	              type: type,
+	              action: 'reset',
+	              value: undefined
+	            });
+	          });
+	        }
+	      });
 	    }
 	  }]);
 

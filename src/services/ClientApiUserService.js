@@ -19,7 +19,11 @@ export default class ClientApiUserService extends UserService {
   }
 
   setToken(type, token) {
-    this.tokens[type] = token;
+    this.tokens[type] = Promise.resolve(token);
+  }
+
+  getToken(type) {
+    return this.tokens[type] || Promise.resolve();
   }
 
   _setFormContentTypeHeader(headers) {
@@ -27,9 +31,13 @@ export default class ClientApiUserService extends UserService {
   }
 
   _setAuthorizationHeader(headers) {
-    if (this.tokens.access_token){
-      headers['Authorization'] = 'Bearer ' + this.tokens.access_token;
-    }
+    return this
+      .getToken('access_token')
+      .then((accessToken) => {
+        if (accessToken) {
+          headers['Authorization'] = 'Bearer ' + accessToken;
+        }
+      });
   }
 
   _makeFormRequest(method, path, body, headers, callback) {
@@ -52,20 +60,22 @@ export default class ClientApiUserService extends UserService {
   }
 
   me(callback) {
-    if (!this.tokens.access_token) {
-      return callback(new Error('The \'me\' endpoint requires an access token to be present.'));
-    }
-
-    super.me((err, result) => {
-      if (err) {
-        if (err.type === 'invalid_client' && err.status === 400) {
-          TokenActions.set('access_token', null);
-          TokenActions.set('refresh_token', null);
-        }
-        return callback(err);
+    this.getToken('access_token').then((accessToken) => {
+      if (!accessToken) {
+        return callback(new Error('The \'me\' endpoint requires an access token to be present.'));
       }
 
-      callback(null, result);
+      super.me((err, result) => {
+        if (err) {
+          if (err.type === 'invalid_client' && err.status === 400) {
+            TokenActions.set('access_token', null);
+            TokenActions.set('refresh_token', null);
+          }
+          return callback(err);
+        }
+
+        callback(null, result);
+      });
     });
   }
 
@@ -128,20 +138,22 @@ export default class ClientApiUserService extends UserService {
   }
 
   logout(callback) {
-    let options = {
-      token: this.tokens.refresh_token,
-      token_type_hint: 'refresh_token'
-    };
+    this.getToken('refresh_token').then((token) => {
+      let options = {
+        token: token,
+        token_type_hint: 'refresh_token'
+      };
 
-    this._makeFormRequest('post', this.endpoints.oauthRevoke, options, null, (err, result) => {
-      if (err) {
-        return callback(err);
-      }
+      this._makeFormRequest('post', this.endpoints.oauthRevoke, options, null, (err, result) => {
+        if (err) {
+          return callback(err);
+        }
 
-      TokenActions.set('access_token', null);
-      TokenActions.set('refresh_token', null);
+        TokenActions.set('access_token', null);
+        TokenActions.set('refresh_token', null);
 
-      callback(null, result);
+        callback(null, result);
+      });
     });
   }
 }

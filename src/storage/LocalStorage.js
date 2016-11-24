@@ -4,14 +4,26 @@ export default class LocalStorage {
   }
 
   get(key) {
-    return this.storage.getItem(key);
+    try {
+      return Promise.resolve(this.storage.getItem(key));
+    } catch (err) {
+      return Promise.reject(err);
+    }
   }
 
   set(key, value) {
-    this.storage.setItem(key, value);
+    try {
+      return Promise.resolve(this.storage.setItem(key, value));
+    } catch (err) {
+      return Promise.reject(err);
+    }
   }
 
   remove(key) {
-    return this.storage.removeItem(key);
+    try {
+      return Promise.resolve(this.storage.removeItem(key));
+    } catch (err) {
+      return Promise.reject(err);
+    }
   }
 }

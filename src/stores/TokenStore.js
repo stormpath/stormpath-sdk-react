@@ -17,31 +17,35 @@ export default class TokenStore extends BaseStore {
   _expireToken(type) {
     delete this.expirationTimerIds[type];
 
-    this.storage.remove(this._getKey(type));
+    return this.storage.remove(this._getKey(type))
+      .then(() => this.storage.get(this._getKey('refresh_token')))
+      .then((refreshToken) => {
+        if (refreshToken) {
+          return new Promise((resolve, reject) => {
+            TokenActions.refresh(refreshToken, (err, result) => {
+              if (err) {
+                reject(err);
+              }
 
-    let refreshToken = this.storage.get(this._getKey('refresh_token'));
+              TokenActions.set('access_token', result.access_token);
+              TokenActions.set('refresh_token', result.refresh_token);
 
-    if (refreshToken) {
-      TokenActions.refresh(refreshToken, (err, result) => {
-        if (err) {
-          return;
+              return result;
+            });
+          });
         }
-
-        TokenActions.set('access_token', result.access_token);
-        TokenActions.set('refresh_token', result.refresh_token);
       });
-    }
   }
 
   _manageTokenExpiration(type, token) {
     if (type !== 'access_token') {
-      return;
+      return Promise.resolve(token);
     }
 
     let parsedToken = utils.parseJwt(token);
 
     if (!parsedToken) {
-      return false;
+      return Promise.reject(new Error('Invalid token'));
     }
 
     if (this.expirationTimerIds[type]) {
@@ -53,7 +57,7 @@ export default class TokenStore extends BaseStore {
       let expireInSeconds = parsedToken.body.exp - utils.getEpochTime();
 
       if (expireInSeconds <= 0) {
-        return this._expireToken(type);
+        return this._expireToken(type).then((tokens) => tokens[type]);
       }
 
       this.expirationTimerIds[type] = setTimeout(
@@ -61,49 +65,59 @@ export default class TokenStore extends BaseStore {
         expireInSeconds * 1000
       );
     }
+
+    return Promise.resolve(token);
   }
 
   get(type) {
-    let token = this.storage.get(this._getKey(type));
+    return this.storage.get(this._getKey(type)).then((token) => {
+      if (token && !(type in this.expirationTimerIds)) {
+        return this._manageTokenExpiration(type, token);
+      }
 
-    if (token && !(type in this.expirationTimerIds)) {
-      this._manageTokenExpiration(type, token);
-    }
+      return token;
+    });
 
-    return token;
   }
 
   set(type, token) {
-    if (this.get(type) !== token) {
-      this._manageTokenExpiration(type, token);
-
-      this.storage.set(this._getKey(type), token);
-
-      this.emitChange({
-        type: type,
-        action: 'set',
-        value: token
-      });
-    }
+    return this.get(type).then((storedToken) => {
+      if (storedToken !== token) {
+        this._manageTokenExpiration(type, token).then((token) => (
+          this.storage.set(this._getKey(type), token)
+        )).then(() => {
+          this.emitChange({
+            type: type,
+            action: 'set',
+            value: token
+          });
+        });
+      }
+    });
   }
 
   empty(type) {
-    return this.get(type) === undefined;
+    return this.get(type).then((token) => token === undefined);
   }
 
   reset(type) {
-    if (!this.empty(type)) {
-      if (this.expirationTimerIds[type]) {
-        clearTimeout(this.expirationTimerIds[type]);
-        delete this.expirationTimerIds[type];
-      }
+    return this.empty(type).then((isEmpty) => {
+      if (!isEmpty) {
+        if (this.expirationTimerIds[type]) {
+          clearTimeout(this.expirationTimerIds[type]);
+          delete this.expirationTimerIds[type];
+        }
 
-      this.storage.remove(this._getKey(type));
-      this.emitChange({
-        type: type,
-        action: 'reset',
-        value: undefined
-      });
-    }
+        return this.storage
+          .remove(this._getKey(type))
+          .then(() => {
+            this.emitChange({
+              type: type,
+              action: 'reset',
+              value: undefined
+            });
+          });
+      }
+    });
   }
 }
