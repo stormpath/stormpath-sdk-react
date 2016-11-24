@@ -93,6 +93,11 @@ export default class TokenStore extends BaseStore {
 
   reset(type) {
     if (!this.empty(type)) {
+      if (this.expirationTimerIds[type]) {
+        clearTimeout(this.expirationTimerIds[type]);
+        delete this.expirationTimerIds[type];
+      }
+
       this.storage.remove(this._getKey(type));
       this.emitChange({
         type: type,
