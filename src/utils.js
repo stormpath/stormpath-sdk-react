@@ -1,7 +1,7 @@
 import url from 'url';
 import React from 'react';
 
-let jwtExpression = /^[a-zA-Z0-9+/\-_=]+\.[a-zA-Z0-9+/\-_=]+\.[a-zA-Z0-9+/\-_=]+$/;
+let jwtExpression = /^[a-zA-Z0-9+/_=-]+\.[a-zA-Z0-9+/_=-]+\.[a-zA-Z0-9+/_=-]+$/;
 
 class Utils {
   nopElement = <span />;
