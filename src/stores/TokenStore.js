@@ -27,10 +27,9 @@ export default class TokenStore extends BaseStore {
                 reject(err);
               }
 
-              TokenActions.set('access_token', result.access_token);
-              TokenActions.set('refresh_token', result.refresh_token);
-
-              return result;
+              TokenActions.set('access_token', result.access_token, () => {
+                TokenActions.set('refresh_token', result.refresh_token, resolve.bind(result));
+              });
             });
           });
         }
@@ -57,7 +56,9 @@ export default class TokenStore extends BaseStore {
       let expireInSeconds = parsedToken.body.exp - utils.getEpochTime();
 
       if (expireInSeconds <= 0) {
-        return this._expireToken(type).then((tokens) => tokens[type]);
+        return this._expireToken(type).then((tokens) => (
+          tokens ? tokens[type] : token
+        ));
       }
 
       this.expirationTimerIds[type] = setTimeout(

@@ -4322,10 +4322,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                reject(err);
 	              }
 
-	              _TokenActions2.default.set('access_token', result.access_token);
-	              _TokenActions2.default.set('refresh_token', result.refresh_token);
-
-	              return result;
+	              _TokenActions2.default.set('access_token', result.access_token, function () {
+	                _TokenActions2.default.set('refresh_token', result.refresh_token, resolve.bind(result));
+	              });
 	            });
 	          });
 	        }
@@ -4354,7 +4353,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        if (expireInSeconds <= 0) {
 	          return this._expireToken(type).then(function (tokens) {
-	            return tokens[type];
+	            return tokens ? tokens[type] : token;
 	          });
 	        }
 
