@@ -73,7 +73,7 @@ export default class TokenStore extends BaseStore {
     return token;
   }
 
-  set(type, token, ttl) {
+  set(type, token) {
     if (this.get(type) !== token) {
       this._manageTokenExpiration(type, token);
 
