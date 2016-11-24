@@ -1,6 +1,7 @@
 import utils from '../utils';
 import UserService from './UserService';
 import TokenActions from '../actions/TokenActions';
+import context from '../context';
 
 export default class ClientApiUserService extends UserService {
   tokens = {
@@ -14,7 +15,7 @@ export default class ClientApiUserService extends UserService {
       oauthRevoke: '/oauth/revoke'
     };
 
-    super(utils.mergeObjects(defaultEndpoints, endpoints || {})); //, true);
+    super(utils.mergeObjects(defaultEndpoints, endpoints || {}));
   }
 
   setToken(type, token) {
@@ -41,8 +42,11 @@ export default class ClientApiUserService extends UserService {
 
   _makeRequest(method, path, body, headers, callback) {
     headers = headers || {};
+    const blacklist = context.getUrlBlacklist();
 
-    this._setAuthorizationHeader(headers);
+    if (!utils.includesMatching(blacklist, path)) {
+      this._setAuthorizationHeader(headers);
+    }
 
     return super._makeRequest(method, path, body, headers, callback);
   }

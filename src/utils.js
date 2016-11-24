@@ -504,6 +504,12 @@ class Utils {
 
     return items.join('&');
   }
+
+  includesMatching(array, string) {
+    return array.findIndex((pattern) => {
+      return new RegExp(pattern).test(string);
+    }) !== -1;
+  }
 }
 
 export default new Utils()

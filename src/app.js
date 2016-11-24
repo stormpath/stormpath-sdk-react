@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 import { LocalStorage } from './storage';
 import { UserService, ClientApiUserService} from './services';
-import { UserConstants, TokenConstants } from './constants';
+import { UserConstants, TokenConstants, DefaultUrlBlacklist } from './constants';
 import { UserStore, SessionStore, TokenStore } from './stores';
 import { FluxDispatcher, ReduxDispatcher } from './dispatchers';
 
@@ -30,6 +30,7 @@ class App extends EventEmitter {
     let tokenStore = null;
     let userService = null;
     let sessionStore = new SessionStore();
+    let urlBlacklist = DefaultUrlBlacklist.concat(options.urlBlacklist || []);
 
     if (!options.endpoints) {
       options.endpoints = {};
@@ -56,6 +57,7 @@ class App extends EventEmitter {
     context.setTokenStore(tokenStore);
     context.setSessionStore(sessionStore);
     context.setUserStore(userStore);
+    context.setUrlBlacklist(urlBlacklist);
 
     // If there's no specified dispatcher, then default to flux.
     let dispatcher = options.dispatcher || { type: 'flux' };
