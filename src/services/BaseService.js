@@ -31,18 +31,12 @@ function makeHttpRequest(method, uri, body, headers, callback) {
       responseJSON: null
     };
 
-    let thrownError;
-
     try {
       if (request.responseText) {
         result.responseJSON = JSON.parse(request.responseText);
       }
-    } catch(err) {
-      thrownError = err;
-    }
-
-    if (thrownError) {
-      return callback(thrownError);
+    } catch(e) {
+      return callback(e);
     }
 
     callback(null, result);
