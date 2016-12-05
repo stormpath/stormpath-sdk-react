@@ -26,7 +26,7 @@ function makeHttpRequest(method, uri, body, headers, callback) {
       return;
     }
 
-    var result = {
+    let result = {
       status: request.status,
       responseJSON: null
     };
@@ -35,10 +35,11 @@ function makeHttpRequest(method, uri, body, headers, callback) {
       if (request.responseText) {
         result.responseJSON = JSON.parse(request.responseText);
       }
-      callback(null, result);
     } catch(e) {
-      callback(e);
+      return callback(e);
     }
+
+    callback(null, result);
   };
 
   if (body && typeof body === 'object') {
