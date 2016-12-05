@@ -66,11 +66,16 @@ export default class SocialLoginLink extends React.Component {
 
   _onClick(e) {
     e.preventDefault();
+    e.persist();
 
     if (!this.state.disabled) {
       this.setState({ disabled: true });
 
       var providerId = this.props.providerId;
+
+      if (this.props.onClick) {
+        this.props.onClick(e);
+      }
 
       context.userStore.getLoginViewData((err, result) => {
         if (err) {
