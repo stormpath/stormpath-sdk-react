@@ -15,7 +15,7 @@ export default class ClientApiUserService extends UserService {
       oauthRevoke: '/oauth/revoke'
     };
 
-    super(utils.mergeObjects(defaultEndpoints, endpoints || {}));
+    super(utils.mergeObjects(defaultEndpoints, endpoints || {}), true);
   }
 
   setToken(type, token) {
@@ -50,6 +50,7 @@ export default class ClientApiUserService extends UserService {
 
   _makeRequest(method, path, body, headers, callback) {
     headers = headers || {};
+
     const blacklist = context.getUrlBlacklist();
 
     if (!utils.includesMatching(blacklist, path)) {
