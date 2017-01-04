@@ -69,7 +69,7 @@ export default class ResetPasswordForm extends React.Component {
       // then simply default to what we have in state.
       data = data || this.state.fields;
 
-      UserActions.forgotPassword(this.state.fields, (err) => {
+      UserActions.forgotPassword(data, (err) => {
         if (err) {
           this.setState({
             isFormProcessing: false,
