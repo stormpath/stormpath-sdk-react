@@ -51,13 +51,15 @@ export default class ClientApiUserService extends UserService {
   _makeRequest(method, path, body, headers, callback) {
     headers = headers || {};
 
-    const blacklist = context.getUrlBlacklist();
+    let waitFor = Promise.resolve();
 
-    if (!utils.includesMatching(blacklist, path)) {
-      this._setAuthorizationHeader(headers);
+    if (path === '/me') {
+      waitFor = this._setAuthorizationHeader(headers);
     }
 
-    return super._makeRequest(method, path, body, headers, callback);
+    waitFor.then(() => {
+      super._makeRequest(method, path, body, headers, callback);
+    });
   }
 
   me(callback) {

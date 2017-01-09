@@ -7,7 +7,6 @@ class Context {
     this.tokenStore = null;
     this.sessionStore = null;
     this.userStore = null;
-    this.urlBlacklist = [];
   }
 
   setRouter(router) {
@@ -44,14 +43,6 @@ class Context {
 
   getUserStore() {
     return this.userStore;
-  }
-
-  setUrlBlacklist(urlBlacklist) {
-    this.urlBlacklist = urlBlacklist;
-  }
-
-  getUrlBlacklist() {
-    return this.urlBlacklist;
   }
 }
 
