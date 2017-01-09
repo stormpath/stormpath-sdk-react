@@ -1,3 +1,17 @@
+## 1.3.4 (January 9, 2017)
+
+Fixes:
+
+  - Fix file system issue with files being referenced inconsistently.
+  - Fix onClick handler not being triggered on SocialLoginLink click.
+  - Fix issue with http requests erroring on valid request statuses.
+  - Fix so that Content-Type is set on all requests.
+  - Fix route component swallows errors.
+
+Docs:
+
+  - Improved RegistrationForm field docs.
+
 ## 1.3.3 (November 10, 2016)
 
 Chores:
