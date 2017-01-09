@@ -2863,6 +2863,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function _makeRequest(method, path, body, callback) {
 	      var uri = this._buildEndpoint(path);
 	      var headers = {
+	        'Content-Type': 'application/json;charset=UTF-8',
 	        'Accept': 'application/json'
 	      };
 
