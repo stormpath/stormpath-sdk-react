@@ -11707,7 +11707,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // then simply default to what we have in state.
 	        data = data || _this3.state.fields;
 
-	        _UserActions2.default.forgotPassword(_this3.state.fields, function (err) {
+	        _UserActions2.default.forgotPassword(data, function (err) {
 	          if (err) {
 	            _this3.setState({
 	              isFormProcessing: false,
