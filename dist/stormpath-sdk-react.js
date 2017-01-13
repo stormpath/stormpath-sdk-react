@@ -2719,10 +2719,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> revert dist changes
 /* 12 */
 /***/ function(module, exports) {
 
@@ -2862,12 +2858,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 14 */
-<<<<<<< HEAD
-=======
-/* 15 */
->>>>>>> Build changes
-=======
->>>>>>> revert dist changes
 /***/ function(module, exports) {
 
 	"use strict";
