@@ -1,5 +1,5 @@
 import React from 'react';
-
+import xtend from 'xtend';
 import utils from '../utils';
 import context from './../context';
 
@@ -19,34 +19,28 @@ export default class SocialLoginLink extends React.Component {
     disabled: false
   };
 
-  _buildRedirectUri(provider) {
-    return location.protocol + '//' + location.host + '/callbacks/' + provider.providerId;
-  }
+  _buildAuthorizationUri(accountStore, scope, redirectUri) {
 
-  _createStateCookie() {
-    var stateId = utils.uuid();
+    // The authorizeUri includes the basic set of query parameters, but
+    // we need to be able to override them with values that the developer
+    // may supply via this library
 
-    document.cookie = 'oauthStateToken=' + stateId;
+    var authorizationUri = accountStore.authorizeUri;
 
-    return stateId;
-  }
+    var authorizationUriBaseEndpoint = authorizationUri.split('?')[0];
 
-  _buildAuthorizationUri(provider, scope, redirectUri) {
-    var authorizationUri = providerAuthorizationUris[provider.providerId];
+    var defaultQueryString = authorizationUri.split('?')[1];
 
-    if (!authorizationUri) {
-      return false;
-    }
+    var provider = accountStore.provider;
 
-    var queryString = {
+    var queryString = utils.parseQueryString(defaultQueryString);
+
+    return authorizationUriBaseEndpoint + '?' + utils.encodeQueryString(xtend(queryString, {
       client_id: provider.clientId,
       scope: scope || provider.scope,
-      redirect_uri: redirectUri || this._buildRedirectUri(provider),
-      state: this._createStateCookie(),
-      response_type: 'code'
-    };
-
-    return authorizationUri + '?' + utils.encodeQueryString(queryString);
+      redirect_uri: redirectUri || utils.getCurrentHost(),
+      response_type: 'stormpath_token'
+    }));
   }
 
   _findProvider(accountStores, providerId) {
@@ -82,13 +76,13 @@ export default class SocialLoginLink extends React.Component {
           return console.error('Error: Unable to retrieve login view data.');
         }
 
-        var provider = this._findProvider(result.accountStores, providerId);
+        var accountStore = result.accountStores.filter((accountStore) => accountStore.provider.providerId === providerId)[0];
 
-        if (!provider) {
+        if (!accountStore) {
           return console.error('Error: Unable to login. Social provider ' + utils.translateProviderIdToName(providerId) + ' not configured.');
         }
 
-        window.location.href = this._buildAuthorizationUri(provider, this.props.scope, this.props.redirectUri);
+        window.location.href = this._buildAuthorizationUri(accountStore, this.props.scope, this.props.redirectUri);
       });
     }
   }

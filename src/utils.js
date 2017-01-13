@@ -1,6 +1,8 @@
 import url from 'url';
 import React from 'react';
 
+let jwtExpression = /^[a-zA-Z0-9+/_=-]+\.[a-zA-Z0-9+/_=-]+\.[a-zA-Z0-9+/_=-]+$/;
+
 class Utils {
   nopElement = <span />;
 
@@ -322,6 +324,47 @@ class Utils {
     return obj3;
   }
 
+  base64Decode(value) {
+    return new Buffer(value, 'base64').toString('utf8');
+  }
+
+  parseJwt(value) {
+    if (!value) {
+      return false;
+    }
+
+    value = value.trim();
+
+    if (value.match(jwtExpression) === null) {
+      return false;
+    }
+
+    let [header, body, signature] = value.split('.');
+
+    try {
+      return {
+        header: JSON.parse(this.base64Decode(header)),
+        body: JSON.parse(this.base64Decode(body)),
+        signature: signature,
+        raw: value
+      };
+    } catch (err) {
+      return false;
+    }
+  }
+
+  parseQueryString(qstr) {
+    var query = {};
+    var a = (qstr[0] === '?' ? qstr.substr(1) : qstr).split(/&|#/);
+    for (var i = 0; i < a.length; i++) {
+      var b = a[i].split('=');
+      if (b.length === 2) {
+        query[decodeURIComponent(b[0])] = decodeURIComponent(b[1] || '');
+      }
+    }
+    return query;
+  }
+
   isRelativeUri(uri) {
     return uri && uri[0] === '/';
   }
@@ -342,6 +385,10 @@ class Utils {
     return urlA.host === urlB.host;
   }
 
+  getEpochTime() {
+    return Math.round((new Date).getTime() / 1000);
+  }
+
   logWarning(group, message) {
     if (message === undefined) {
       message = group;
@@ -357,6 +404,12 @@ class Utils {
     result += ': ' + message;
 
     console.warn(result);
+  }
+
+  getCurrentHost() {
+    return window.location.protocol
+      + '//'
+      + window.location.host;
   }
 
   getEnabledGroups(groups) {
@@ -456,6 +509,24 @@ class Utils {
     }
 
     return newObject;
+  }
+
+  serializeFormObject(value) {
+    var items = [];
+
+    for(var key in value) {
+      if (value.hasOwnProperty(key)) {
+        items.push(encodeURIComponent(key) + '=' + encodeURIComponent(value[key]));
+      }
+    }
+
+    return items.join('&');
+  }
+
+  includesMatching(array, string) {
+    return array.findIndex((pattern) => {
+      return new RegExp(pattern).test(string);
+    }) !== -1;
   }
 }
 

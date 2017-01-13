@@ -25,6 +25,14 @@ Dispatched when a user requests to change their password.
 
 Dispatched when a user requests to verify their email.
 
+#### TOKEN_SET
+
+Dispatched when a token is set.
+
+#### TOKEN_REFRESH
+
+Dispatched when tokens are refreshed.
+
 #### USER_LOGOUT
 
 Dispatched when a user requests to logout.

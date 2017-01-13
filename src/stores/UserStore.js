@@ -32,6 +32,20 @@ export default class UserStore extends BaseStore {
     });
   }
 
+  getAccessToken() {
+    if (!this.service.getToken) {
+      return Promise.reject(new Error('Unable to retrieve access token for current auth strategy.'));
+    }
+
+    return this.service.getToken('access_token').then((accessToken) => {
+      if (!accessToken) {
+        return Promise.reject('No access token available.');
+      }
+
+      return Promise.resolve(accessToken);
+    });
+  }
+
   getLoginViewData(callback) {
     this.service.getLoginViewData(callback);
   }

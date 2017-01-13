@@ -3,8 +3,8 @@ import BaseService from './BaseService';
 import RequestPool from './RequestPool';
 
 export default class UserService extends BaseService {
-  constructor(endpoints) {
-    var defaultEndpoints = {
+  constructor(endpoints, forceAgentHeader) {
+    let defaultEndpoints = {
       me: '/me',
       login: '/login',
       register: '/register',
@@ -14,7 +14,7 @@ export default class UserService extends BaseService {
       logout: '/logout'
     };
 
-    super(utils.mergeObjects(defaultEndpoints, endpoints));
+    super(utils.mergeObjects(defaultEndpoints, endpoints), forceAgentHeader);
 
     this.meRequestPool = new RequestPool();
   }
@@ -31,43 +31,43 @@ export default class UserService extends BaseService {
 
 	me(callback) {
     this.meRequestPool.request((resultCallback) => {
-      this._makeRequest('get', this.endpoints.me, null, this._unwrapAccountResult(resultCallback));
+      this._makeRequest('get', this.endpoints.me, null, null, this._unwrapAccountResult(resultCallback));
     }, callback);
 	}
 
   updateProfile(data, callback) {
-    this._makeRequest('post', this.endpoints.me, data, callback);
+    this._makeRequest('post', this.endpoints.me, data, null, callback);
   }
 
   getLoginViewData(callback) {
-    this._makeRequest('get', this.endpoints.login, null, callback);
+    this._makeRequest('get', this.endpoints.login, null, null, callback);
   }
 
 	login(options, callback) {
-    this._makeRequest('post', this.endpoints.login, options, this._unwrapAccountResult(callback));
+    this._makeRequest('post', this.endpoints.login, options, null, this._unwrapAccountResult(callback));
 	}
 
   register(options, callback) {
-    this._makeRequest('post', this.endpoints.register, options, this._unwrapAccountResult(callback));
+    this._makeRequest('post', this.endpoints.register, options, null, this._unwrapAccountResult(callback));
   }
 
   getRegisterViewData(callback) {
-    this._makeRequest('get', this.endpoints.register, null, callback);
+    this._makeRequest('get', this.endpoints.register, null, null, callback);
   }
 
   verifyEmail(spToken, callback) {
-    this._makeRequest('get', this.endpoints.verifyEmail + '?sptoken=' + encodeURIComponent(spToken), null, callback);
+    this._makeRequest('get', this.endpoints.verifyEmail + '?sptoken=' + encodeURIComponent(spToken), null, null, callback);
   }
 
   forgotPassword(options, callback) {
-    this._makeRequest('post', this.endpoints.forgotPassword, options, callback);
+    this._makeRequest('post', this.endpoints.forgotPassword, options, null, callback);
   }
 
   changePassword(options, callback) {
-    this._makeRequest('post', this.endpoints.changePassword, options, callback);
+    this._makeRequest('post', this.endpoints.changePassword, options, null, callback);
   }
 
 	logout(callback) {
-    this._makeRequest('post', this.endpoints.logout, null, callback);
+    this._makeRequest('post', this.endpoints.logout, null, null, callback);
 	}
 }

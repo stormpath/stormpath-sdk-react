@@ -77,5 +77,8 @@
     "user-management",
     "stormpath",
     "sdk"
-  ]
+  ],
+  "dependencies": {
+    "xtend": "^4.0.1"
+  }
 }
