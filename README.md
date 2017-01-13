@@ -21,50 +21,33 @@ Follow these steps to add Stormpath user authentication to your React app.
 *Don't have an app? Use our [example app][] as a boilerplate - it has
 Stormpath already integrated!*
 
-1. **Configure Stormpath**
-
-  In your application directory, create a file named `stormpath.yml` with the contents below:
-
-  ```yaml
-  client:
-    apiKey:
-      id: YOUR_API_KEY_ID
-      secret: YOUR_API_KEY_SECRET
-    application:
-      href: https://api.stormpath.com/v1/applications/XXXX <-- YOUR APP HREF
-```
-
-2. **Install React Router**
+1. **Install React Router**
 
   The Stormpath module is only compatible with [React Router][], so ensure that your application is using it.
   
-3. **Integrate Your Back-End**
 
-  This module requires Stormpath on your back-end to work properly. At the moment we
-  have a fully-featured integration for **Express.js**, [express-stormpath][].
+2. **Install the SDK**
 
-  For a **quick setup**, use our [Stormpath SPA Development Server][].
+  If you are using Bower or NPM, you can install this module with the respective command:
 
-4. **Install the SDK**
+  ```term
+  npm install react-stormpath --save
+  ```
+  
+  ```term
+  bower install react-stormpath --save
+  ```
 
-  Download and include [stormpath-sdk-react.min.js][] in your *index.html* file.
+  If you are not using a package manager, you can download the latest source from our Github CDN by using this link:
+
+  * [stormpath-sdk-react.min.js][]
+
+  Then include the script in your *index.html* file:
   
   ```html
   <script src="stormpath-sdk-react.min.js"></script>
   ```
-
-  Or install with bower:
-  
-  ```term
-  $ bower install react-stormpath --save
-  ```
-  
-  Or install with npm:
-  
-  ```term
-  $ npm install react-stormpath --save
-  ```
-  
+   
   Then depending on how you load the library, access it as shown below:
 
   ```javascript
@@ -83,17 +66,19 @@ Stormpath already integrated!*
   var LoginLink = ReactStormpath.LoginLink;
   ```
 
-5. **Initialize the SDK**
-
-  Before calling `React.render()` be sure to call [`ReactStormpath.init()`][].  This sets up the SDK so that it's ready to be used.
+3. **Initialize the SDK**
+  
+  The React SDK leverages the [Stormpath Client API][] for its authentication needs. Login to your Stormpath Tenant, and find your Client API domain (inside your application's policy section).  Add your Client API domain as the `endpoints.baseUri` setting when initializing `ReactStormpath`:
   
   ```javascript
   ReactStormpath.init({
-    // See the API docs for available configuration options.
+    endpoints: {
+      baseUri: 'https://{{clientApiDomainName}}'
+    }
   });
   ```
 
-6. **Configure the Router**
+4. **Configure the Router**
 
   In the file where you setup your [React Router][] routes, change your [`ReactRouter.Router`][] to [`ReactStormpath.Router`][] as shown below:
   
@@ -109,7 +94,7 @@ Stormpath already integrated!*
   );
   ```
 
-7. **Setup your Routes**
+5. **Setup your Routes**
 
   Start by adding a route that people can go to in order to sign up. This will just be a regular [`ReactRouter.Route`][]. Then once you've done this, create a view for your route called `RegistrationPage` and add the [`RegistrationForm`][] component to it. This will render a registration form and allow people to sign up.
   
@@ -143,7 +128,7 @@ Stormpath already integrated!*
   </AuthenticatedRoute>
   ```
 
-8. **Add Login and Logout Links**
+6. **Add Login and Logout Links**
 
   Use the [`LoginLink`][] component to create a link that will navigate your users to the [`LoginRoute`][] route:
 
@@ -157,7 +142,7 @@ Stormpath already integrated!*
   <LogoutLink>Logout</LogoutLink>
   ```
 
-9. **Show Elements When Logged In**
+7. **Show Elements When Logged In**
 
   Use the [`Authenticated`][] component:
 
@@ -167,7 +152,7 @@ Stormpath already integrated!*
   </Authenticated>
   ```
 
-10. **Hide Elements When Logged Out**
+8. **Hide Elements When Logged Out**
 
   Use the [`NotAuthenticated`][] component:
 
@@ -177,7 +162,7 @@ Stormpath already integrated!*
   </NotAuthenticated>
   ```
   
-11. **User State in Components**
+9. **User State in Components**
 
   Access user state in your components by requesting the [authenticated][] and [user][] context types:
 
@@ -206,9 +191,59 @@ Stormpath already integrated!*
   }
 ```
 
-12. **That's It!**
+10. **That's It!**
 
-  You just added user authentication to your app with Stormpath. See the [API Documentation][] for further information on how Stormpath can be used with your React app.
+  You just added user authentication to your React app with Stormpath, you should now be able to register and login! See the [API Documentation][] for further information on how Stormpath can be used with your React app.  Once you have been able to successfully log in, the next section will discuss integrating with your own server.
+
+11. **Making Authenticated Requests**
+  
+  Once you are able to successfully authenticate (log in) from your application, you will want to authorize access to API endpoints on your server.  The React SDK provides methods for getting the current authenticated access token, and using it to authenticate requests.
+
+  Imagine you have an API on your server, such as `http://localhost:3000/api/subscription`, and you want to authorize requests to this endpoint and know who the user is.
+
+  If you want to manually construct a request, using the `fetch` library, you can use our access token getter to add the access token to the request:
+
+  ```javascript
+  ReactStormpath.getAccessToken()
+    .then((accessToken) => {
+      fetch('http://localhost:3000/api/subscription', {
+        method: 'get',
+        headers: {
+          'Authorization': 'Bearer ' + accessToken
+        }
+      });
+    }).catch(() => {
+      // Could not get access token, user is not logged in
+    });
+  ```
+
+12. **Authorizing Requests Server-Side**
+
+  Once your app has made the request with the access token, your server will need to read the token and make an authorization decision.  We provide SDKs for your backend server that make this easy.  Please follow one of the following links for a language-specific or framework-specific guide:
+
+  **Java**
+
+  Spring Boot developers should make use of our Spring Boot plugin, and see the [Token Management Documentation](https://docs.stormpath.com/java/spring-boot-web/tutorial.html#token-management).
+
+  **.NET**
+  
+  ASP.NET developers can leverage our [ASP.NET](https://docs.stormpath.com/dotnet/aspnet/latest/) and [ASP.NET Core](https://docs.stormpath.com/dotnet/aspnetcore/latest/) libraries to achieve authorization in their applications, please see the Authorization section of each guide.
+          
+  **Node.js**
+  
+  Express developers can use our [Express-Stormpath](https://docs.stormpath.com/nodejs/express/latest/) library to easily authenticate requests with access tokens and make authorization decisions, please see the [Token Authentication](https://docs.stormpath.com/nodejs/express/latest/authentication.html#token-authentication) documentation.
+  
+  Node applications can generically use the [Stormpath Node SDK](https://docs.stormpath.com/nodejs/jsdoc/) to validate tokens, using the [JwtAuthenticator](https://docs.stormpath.com/nodejs/jsdoc/JwtAuthenticator.html).
+
+  **PHP**
+
+  Laravel developers can use our <a href="https://docs.stormpath.com/php/laravel/latest/index.html">Stormpath-Laravel</a> or [Stormpath-Lumen](https://docs.stormpath.com/php/lumen/latest/index.html) libraries and their respective `stormpath.auth` middleware to authenticate requests, please see the User Data section of the documentation for each library.
+
+  **Other**
+          
+  Don't see your environment listed?  Not a problem!  Our access tokens are simple JWTs, that can be validated with most generic JWT validation libraries.  Our product guide can walk you through the process, [Validating an Access Token](https://docs.stormpath.com/rest/product-guide/latest/auth_n.html#validating-an-access-token").
+
+  Need more assistance? Feel free to contact our support channel, details are below.
 
 ## Documentation
 

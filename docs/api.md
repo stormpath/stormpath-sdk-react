@@ -41,6 +41,25 @@ ReactStormpath.init({
 });
 ```
 
+## Authorization
+
+Once the user is logged in, you can make authenticated requests to back-end APIs by getting the access token and attaching it to your request:
+
+```javascript
+ReactStormpath.getAccessToken()
+  .then((accessToken) => {
+    fetch('http://localhost:3000/api/subscription', {
+      method: 'get',
+      headers: {
+        'Authorization': 'Bearer ' + accessToken
+      }
+    });
+  }).catch(() => {
+    // Could not get access token, user is not logged in
+  });
+```
+
+
 ## Routing
 
 #### Router
