@@ -302,3 +302,4 @@ Apache 2.0, see [LICENSE](LICENSE).
 [Stormpath SPA Development Server]: https://github.com/stormpath/stormpath-spa-dev-server
 [stormpath-sdk-react.min.js]: https://raw.githubusercontent.com/stormpath/stormpath-sdk-react/master/dist/stormpath-sdk-react.min.js
 [support center]: https://support.stormpath.com
+[Stormpath Client API]: https://docs.stormpath.com/client-api/product-guide/latest/index.html

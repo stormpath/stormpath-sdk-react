@@ -1,3 +1,9 @@
+## 2.0.0 (January 13, 2017)
+
+This release adds support for the [Stormpath Client API][], which allows you to authenticate the user directly with Stormpath (authentication does not require extra software in your server).  The user receives an access token, which can be used to authorize requests on your server.  If you need to authorize requests on your server, you will sill want to use one of our SDKs to make that process simpler.
+
+Please see the Readme for the new instructions for using the Client API.
+
 ## 1.3.4 (January 9, 2017)
 
 Fixes:
@@ -100,3 +106,5 @@ Features:
   - Add support for the login view model ([#38](https://github.com/stormpath/stormpath-sdk-react/pull/38))
   - Add support for new error structure ([#35](https://github.com/stormpath/stormpath-sdk-react/pull/35))
   - Add X-Stormpath-Agent header to requests ([#31](https://github.com/stormpath/stormpath-sdk-react/pull/31))
+
+[Stormpath Client API]: https://docs.stormpath.com/client-api/product-guide/latest/index.html
