@@ -53,6 +53,22 @@ class App extends EventEmitter {
 
     let userStore = new UserStore(userService, sessionStore);
 
+    // If there is a jwtResponse in the URL, it's from a social login callback
+    // from the Client API, so if we have a configured baseUrl, we need to authenticate
+    // with this JWT, using the Client API.
+
+    if (baseUri && window.location.href.match(/jwtResponse/)) {
+      userService.authenticate({
+        grant_type: 'stormpath_token',
+        token: utils.parseQueryString(window.location.href.split('?')[1]).jwtResponse
+      }, (err) => {
+        if (err) {
+          return console.error(err);
+        }
+        window.location.replace(window.location.href.replace(/jwtResponse=[^&]+/,''));
+      });
+    }
+
     context.setTokenStore(tokenStore);
     context.setSessionStore(sessionStore);
     context.setUserStore(userStore);

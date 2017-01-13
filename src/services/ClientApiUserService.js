@@ -98,22 +98,9 @@ export default class ClientApiUserService extends UserService {
     };
   }
 
-  login(options, callback) {
-    let newOptions = {
-      grant_type: 'password',
-      username: options.login,
-      password: options.password
-    };
-
-    this._makeFormRequest('post', this.endpoints.oauthToken, newOptions, null, (err, result) => {
+  authenticate(oauthGrantBody, callback) {
+    this._makeFormRequest('post', this.endpoints.oauthToken, oauthGrantBody, null, (err, result) => {
       if (err) {
-        // This endpoint will return 'invalid_request' when it's unable to
-        // generate an access token for the supplied username/password credentials.
-        // Simply override this error and provide something that is more user-friendly.
-        if (err.type === 'invalid_request') {
-          return callback(new Error('Invalid username or password.'));
-        }
-
         return callback(err);
       }
 
@@ -122,7 +109,17 @@ export default class ClientApiUserService extends UserService {
           callback(null, result);
         });
       });
-    });
+    })
+  }
+
+  login(options, callback) {
+    let oauthGrantBody = {
+      grant_type: 'password',
+      username: options.login,
+      password: options.password
+    };
+
+    this.authenticate(oauthGrantBody, callback);
   }
 
   refreshToken(token, callback) {

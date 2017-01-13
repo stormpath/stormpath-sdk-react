@@ -65,6 +65,10 @@ class DefaultRegistrationForm extends React.Component {
               return;
             }
 
+            if (!accountStore.authorizeUri) {
+              return;
+            }
+
             if (socialProviders === null) {
               socialProviders = [];
             }

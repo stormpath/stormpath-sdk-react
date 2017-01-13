@@ -353,6 +353,18 @@ class Utils {
     }
   }
 
+  parseQueryString(qstr) {
+    var query = {};
+    var a = (qstr[0] === '?' ? qstr.substr(1) : qstr).split(/&|#/);
+    for (var i = 0; i < a.length; i++) {
+      var b = a[i].split('=');
+      if (b.length === 2) {
+        query[decodeURIComponent(b[0])] = decodeURIComponent(b[1] || '');
+      }
+    }
+    return query;
+  }
+
   isRelativeUri(uri) {
     return uri && uri[0] === '/';
   }
@@ -392,6 +404,12 @@ class Utils {
     result += ': ' + message;
 
     console.warn(result);
+  }
+
+  getCurrentHost() {
+    return window.location.protocol
+      + '//'
+      + window.location.host;
   }
 
   getEnabledGroups(groups) {

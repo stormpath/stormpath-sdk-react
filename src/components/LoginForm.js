@@ -49,6 +49,10 @@ class DefaultLoginForm extends React.Component {
               return;
             }
 
+            if (!accountStore.authorizeUri) {
+              return;
+            }
+
             if (socialProviders === null) {
               socialProviders = [];
             }
