@@ -45,7 +45,11 @@ function makeHttpRequest(method, uri, body, headers, callback) {
   };
 
   if (body && typeof body === 'object') {
-    request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+    // Avoid setting if the content type if it is explicitly specified in the headers
+    if (typeof headers['ContentType'] === undefined) {
+      request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+    }
+
     request.send(JSON.stringify(body));
   } else {
     request.send();
