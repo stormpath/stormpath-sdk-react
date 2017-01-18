@@ -2795,10 +2795,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  if (body && (typeof body === 'undefined' ? 'undefined' : _typeof(body)) === 'object') {
-	    if (_typeof(headers['ContentType']) === undefined) {
-	      request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-	    }
-
+	    request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
 	    request.send(JSON.stringify(body));
 	  } else {
 	    request.send();
