@@ -3,6 +3,30 @@ import utils from '../utils';
 
 const validHttpStatuses = [200, 201, 202, 204]
 
+var jsonContentEncoder = {
+  contentType: 'application/json; charset=utf-8',
+  encode: function (body) {
+    return JSON.stringify(body);
+  }
+};
+
+var formContentEncoder = {
+  contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+  encode: function (body) {
+    return utils.serializeFormObject(body);
+  }
+};
+
+function getContentEncoder(contentType) {
+  var encoder = jsonContentEncoder;
+
+  if (contentType && contentType.indexOf('application/x-www-form-urlencoded') === 0) {
+    encoder = formContentEncoder;
+  }
+
+  return encoder;
+}
+
 function makeHttpRequest(method, uri, body, headers, callback) {
   var request = new XMLHttpRequest();
 
@@ -10,6 +34,12 @@ function makeHttpRequest(method, uri, body, headers, callback) {
 
   if (headers) {
     for (var name in headers) {
+      // Skip the Content-Type header.
+      // This will be set later if we provided a body.
+      if (name === 'Content-Type') {
+        continue;
+      }
+
       var value = headers[name];
       request.setRequestHeader(name, value);
     }
@@ -45,12 +75,9 @@ function makeHttpRequest(method, uri, body, headers, callback) {
   };
 
   if (body && typeof body === 'object') {
-    // Avoid setting if the content type if it is explicitly specified in the headers
-    if (typeof headers['ContentType'] === undefined) {
-      request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-    }
-
-    request.send(JSON.stringify(body));
+    var contentEncoder = getContentEncoder(headers['Content-Type']);
+    request.setRequestHeader('Content-Type', contentEncoder.contentType);
+    request.send(contentEncoder.encode(body));
   } else {
     request.send();
   }
