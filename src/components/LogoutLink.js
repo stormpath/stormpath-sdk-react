@@ -30,6 +30,10 @@ export default class LogoutLink extends React.Component {
     if (!this.state.disabled) {
       this.setState({ disabled: true });
 
+      if (this.props.onClick) {
+        this.props.onClick(e);
+      }
+
       UserActions.logout(() => {
         this._performRedirect(primaryRedirectTo);
       });
