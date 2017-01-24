@@ -23,6 +23,10 @@ export default class SocialLoginLink extends React.Component {
     return location.protocol + '//' + location.host + '/callbacks/' + provider.providerId;
   }
 
+  _storeNextUri(uri) {
+    document.cookie = 'oauthRedirectUri=' + uri;
+  }
+
   _createStateCookie() {
     var stateId = utils.uuid();
 
@@ -88,6 +92,10 @@ export default class SocialLoginLink extends React.Component {
           return console.error('Error: Unable to login. Social provider ' + utils.translateProviderIdToName(providerId) + ' not configured.');
         }
 
+        if (this.props.nextUri) {
+          this._storeNextUri(this.props.nextUri);
+        }
+
         window.location.href = this._buildAuthorizationUri(provider, this.props.scope, this.props.redirectUri);
       });
     }
@@ -95,7 +103,7 @@ export default class SocialLoginLink extends React.Component {
 
   render() {
     var providerId = this.props.providerId;
-    var selectedProps = utils.excludeProps(['providerId', 'scope', 'redirectUri', 'children', 'disabled', 'onClick', 'href'], this.props);
+    var selectedProps = utils.excludeProps(['providerId', 'scope', 'redirectUri', 'nextUri', 'children', 'disabled', 'onClick', 'href'], this.props);
 
     return (
       <a {...selectedProps} href='#' onClick={this._onClick.bind(this)} disabled={this.state.disabled}>
