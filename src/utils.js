@@ -13,6 +13,10 @@ class Utils {
   }
 
   containsWord(testWord, words) {
+    if (typeof testWord !== 'string') {
+      return false;
+    }
+
     testWord = testWord.toLowerCase();
 
     for (let i = 0; i < words.length; i++) {
