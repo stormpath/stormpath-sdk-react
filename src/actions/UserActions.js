@@ -55,7 +55,7 @@ class UserActions {
     });
   }
 
-  updateProfile(data, callback) {
+  updateProfile(data, settings, callback) {
     dispatch({
       type: UserConstants.USER_UPDATE_PROFILE,
       options: {

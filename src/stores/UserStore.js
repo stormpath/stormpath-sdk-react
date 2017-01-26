@@ -50,10 +50,10 @@ export default class UserStore extends BaseStore {
     this.service.getLoginViewData(callback);
   }
 
-  login(options, callback) {
+  login(options, settings, callback) {
     this.reset();
 
-    this.service.login(options, (err) => {
+    this.service.login(options, settings, (err) => {
       if (err) {
         return callback(err);
       }
@@ -62,32 +62,32 @@ export default class UserStore extends BaseStore {
     });
   }
 
-  register(options, callback) {
-    this.service.register(options, callback);
+  register(options, settings, callback) {
+    this.service.register(options, settings, callback);
   }
 
   getRegisterViewData(callback) {
     this.service.getRegisterViewData(callback);
   }
 
-  forgotPassword(options, callback) {
-    this.service.forgotPassword(options, callback);
+  forgotPassword(options, settings, callback) {
+    this.service.forgotPassword(options, settings, callback);
   }
 
-  changePassword(options, callback) {
-    this.service.changePassword(options, callback);
+  changePassword(options, settings, callback) {
+    this.service.changePassword(options, settings, callback);
   }
 
-  updateProfile(data, callback) {
-    this.service.updateProfile(data, callback);
+  updateProfile(data, settings, callback) {
+    this.service.updateProfile(data, settings, callback);
   }
 
-  verifyEmail(spToken, callback) {
-    this.service.verifyEmail(spToken, callback);
+  verifyEmail(spToken, settings, callback) {
+    this.service.verifyEmail(spToken, settings, callback);
   }
 
-  logout(callback) {
-    this.service.logout((err) => {
+  logout(settings, callback) {
+    this.service.logout(settings, (err) => {
       if (err) {
         return callback(err);
       }

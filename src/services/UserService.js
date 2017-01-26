@@ -37,7 +37,6 @@ export default class UserService extends BaseService {
 
   updateProfile(data, settings, callback) {
     const endpoint = settings.endpoint || this.endpoints.me;
-
     this._makeRequest('post', endpoint, data, settings.headers, callback);
   }
 

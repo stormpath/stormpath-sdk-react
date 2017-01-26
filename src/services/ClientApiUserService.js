@@ -98,8 +98,9 @@ export default class ClientApiUserService extends UserService {
     };
   }
 
-  authenticate(oauthGrantBody, callback) {
-    this._makeFormRequest('post', this.endpoints.oauthToken, oauthGrantBody, null, (err, result) => {
+  authenticate(oauthGrantBody, settings, callback) {
+    const endpoint = settings.endpoint || this.endpoints.oauthToken;
+    this._makeFormRequest('post', endpoint, oauthGrantBody, settings.headers, (err, result) => {
       if (err) {
         return callback(err);
       }
@@ -112,14 +113,14 @@ export default class ClientApiUserService extends UserService {
     })
   }
 
-  login(options, callback) {
+  login(options, settings, callback) {
     let oauthGrantBody = {
       grant_type: 'password',
       username: options.login,
       password: options.password
     };
 
-    this.authenticate(oauthGrantBody, callback);
+    this.authenticate(oauthGrantBody, settings, callback);
   }
 
   refreshToken(token, callback) {
@@ -137,14 +138,15 @@ export default class ClientApiUserService extends UserService {
     });
   }
 
-  logout(callback) {
+  logout(settings, callback) {
     this.getToken('refresh_token').then((token) => {
       let options = {
         token: token,
         token_type_hint: 'refresh_token'
       };
 
-      this._makeFormRequest('post', this.endpoints.oauthRevoke, options, null, (err, result) => {
+      const endpoint = settings.endpoint || this.endpoints.oauthRevoke;
+      this._makeFormRequest('post', endpoint, options, settings.headers, (err, result) => {
         if (err) {
           return callback(err);
         }

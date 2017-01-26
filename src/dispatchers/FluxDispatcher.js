@@ -21,6 +21,7 @@ export default class FluxDispatcher {
     this.dispatcher.dispatch({
       actionType: event.type,
       options: event.options,
+      settings: event.settings,
       callback: event.callback
     });
   }

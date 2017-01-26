@@ -136,7 +136,7 @@ export default class UserProfileForm extends React.Component {
       // then simply default to what we have in state.
       data = data || this.state.fields;
       const settings = {
-        endpoint: PropTypes.string,
+        endpoint: this.props.endpoint,
         headers: headers
       };
 

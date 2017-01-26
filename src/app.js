@@ -82,7 +82,7 @@ class App extends EventEmitter {
           userStore.login(payload.options, payload.settings, payload.callback);
           break;
         case UserConstants.USER_LOGOUT:
-          userStore.logout(payload.settings,payload.callback);
+          userStore.logout(payload.settings, payload.callback);
           break;
         case UserConstants.USER_REGISTER:
           userStore.register(payload.options, payload.settings, payload.callback);
