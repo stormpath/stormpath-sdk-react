@@ -1,3 +1,9 @@
+## 1.3.5 (January 26, 2017)
+
+Fixes:
+
+  - The `Content-Type` header of JSON POST requests was malformed (the content type was listed twice).
+
 ## 1.3.4 (January 9, 2017)
 
 Fixes:
