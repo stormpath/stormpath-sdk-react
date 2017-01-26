@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
 import utils from '../utils';
@@ -171,7 +171,11 @@ class DefaultRegistrationForm extends React.Component {
 
 export default class RegistrationForm extends React.Component {
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    router: PropTypes.object.isRequired
+  };
+
+  static propTypes = {
+    endpoint: PropTypes.string
   };
 
   state = {
@@ -203,7 +207,7 @@ export default class RegistrationForm extends React.Component {
       });
     };
 
-    let next = (err, data) => {
+    let next = (err, data, headers = {}) => {
       if (err) {
         if (onSubmitError) {
           return onSubmitError({
@@ -218,8 +222,12 @@ export default class RegistrationForm extends React.Component {
       // If the user didn't specify any data,
       // then simply default to what we have in state.
       data = data || this.state.fields;
+      const settings = {
+        endpoint: this.props.endpoint,
+        headers: headers
+      };
 
-      UserActions.register(data, (err, result) => {
+      UserActions.register(data, settings, (err, result) => {
         if (err) {
           if (onSubmitError) {
             return onSubmitError({

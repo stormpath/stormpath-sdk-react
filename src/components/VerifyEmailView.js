@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 import utils from '../utils';
 import LoginLink from '../components/LoginLink';
 import UserActions from '../actions/UserActions';
 
 export default class VerifyEmailView extends React.Component {
+  static propTypes = {
+    endpoint: PropTypes.string
+  };
+
   state = {
     status: 'VERIFYING'
   };
@@ -12,7 +16,7 @@ export default class VerifyEmailView extends React.Component {
   componentDidMount() {
     var spToken = this.props.spToken;
 
-    UserActions.verifyEmail(spToken, (err) => {
+    UserActions.verifyEmail(spToken, { endpoint: this.props.endpoint }, (err) => {
       if (err) {
         this.setState({
           status: 'ERROR'

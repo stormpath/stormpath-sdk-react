@@ -35,39 +35,54 @@ export default class UserService extends BaseService {
     }, callback);
 	}
 
-  updateProfile(data, callback) {
-    this._makeRequest('post', this.endpoints.me, data, null, callback);
+  updateProfile(data, settings, callback) {
+    const endpoint = settings.endpoint || this.endpoints.me;
+
+    this._makeRequest('post', endpoint, data, settings.headers, callback);
   }
 
   getLoginViewData(callback) {
     this._makeRequest('get', this.endpoints.login, null, null, callback);
   }
 
-	login(options, callback) {
-    this._makeRequest('post', this.endpoints.login, options, null, this._unwrapAccountResult(callback));
+	login(options, settings, callback) {
+    const endpoint = settings.endpoint || this.endpoints.login;
+
+    this._makeRequest('post', endpoint, options, settings.headers, this._unwrapAccountResult(callback));
 	}
 
-  register(options, callback) {
-    this._makeRequest('post', this.endpoints.register, options, null, this._unwrapAccountResult(callback));
+  register(options, settings, callback) {
+    const endpoint = settings.endpoint || this.endpoints.register;
+
+    this._makeRequest('post', endpoint, options, settings.headers, this._unwrapAccountResult(callback));
   }
 
   getRegisterViewData(callback) {
     this._makeRequest('get', this.endpoints.register, null, null, callback);
   }
 
-  verifyEmail(spToken, callback) {
-    this._makeRequest('get', this.endpoints.verifyEmail + '?sptoken=' + encodeURIComponent(spToken), null, null, callback);
+  verifyEmail(spToken, settings, callback) {
+    const endpoint = (settings.endpoint || this.endpoints.verifyEmail)
+      + '?sptoken=' + encodeURIComponent(spToken);
+
+    this._makeRequest('get', endpoint, null, settings.headers, callback);
   }
 
-  forgotPassword(options, callback) {
-    this._makeRequest('post', this.endpoints.forgotPassword, options, null, callback);
+  forgotPassword(options, settings, callback) {
+    const endpoint = settings.endpoint || this.endpoints.forgotPassword;
+
+    this._makeRequest('post', endpoint, options, settings.headers, callback);
   }
 
-  changePassword(options, callback) {
-    this._makeRequest('post', this.endpoints.changePassword, options, null, callback);
+  changePassword(options, settings, callback) {
+    const endpoint = settings.endpoint || this.endpoints.forgotPassword;
+
+    this._makeRequest('post', endpoint, options, settings.headers, callback);
   }
 
-	logout(callback) {
-    this._makeRequest('post', this.endpoints.logout, null, null, callback);
+	logout(settings, callback) {
+    const endpoint = settings.endpoint || this.endpoints.logout;
+
+    this._makeRequest('post', endpoint, null, settings.headers, callback);
 	}
 }

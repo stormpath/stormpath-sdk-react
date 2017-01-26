@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
 import utils from '../utils';
@@ -44,6 +44,10 @@ class DefaultResetPasswordForm extends React.Component {
 }
 
 export default class ResetPasswordForm extends React.Component {
+  static propTypes = {
+    endpoint: PropTypes.string
+  };
+
   state = {
     fields: {
       email: ''
@@ -57,7 +61,7 @@ export default class ResetPasswordForm extends React.Component {
     e.preventDefault();
     e.persist();
 
-    var next = (err, data) => {
+    var next = (err, data, headers = {}) => {
       if (err) {
         return this.setState({
           isFormProcessing: false,
@@ -68,8 +72,12 @@ export default class ResetPasswordForm extends React.Component {
       // If the user didn't specify any data,
       // then simply default to what we have in state.
       data = data || this.state.fields;
+      const settings = {
+        endpoint: this.props.endpoint,
+        headers: headers
+      };
 
-      UserActions.forgotPassword(data, (err) => {
+      UserActions.forgotPassword(data, settings, (err) => {
         if (err) {
           this.setState({
             isFormProcessing: false,

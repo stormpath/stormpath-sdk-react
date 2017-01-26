@@ -79,25 +79,25 @@ class App extends EventEmitter {
     let appReducer = (payload) => {
       switch(payload.type) {
         case UserConstants.USER_LOGIN:
-          userStore.login(payload.options, payload.callback);
+          userStore.login(payload.options, payload.settings, payload.callback);
           break;
         case UserConstants.USER_LOGOUT:
-          userStore.logout(payload.callback);
+          userStore.logout(payload.settings,payload.callback);
           break;
         case UserConstants.USER_REGISTER:
-          userStore.register(payload.options, payload.callback);
+          userStore.register(payload.options, payload.settings, payload.callback);
           break;
         case UserConstants.USER_FORGOT_PASSWORD:
-          userStore.forgotPassword(payload.options, payload.callback);
+          userStore.forgotPassword(payload.options, payload.settings, payload.callback);
           break;
         case UserConstants.USER_CHANGE_PASSWORD:
-          userStore.changePassword(payload.options, payload.callback);
+          userStore.changePassword(payload.options, payload.settings, payload.callback);
           break;
         case UserConstants.USER_UPDATE_PROFILE:
-          userStore.updateProfile(payload.options.data, payload.callback);
+          userStore.updateProfile(payload.options.data, payload.settings, payload.callback);
           break;
         case UserConstants.USER_VERIFY_EMAIL:
-          userStore.verifyEmail(payload.options.spToken, payload.callback);
+          userStore.verifyEmail(payload.options.spToken, payload.settings, payload.callback);
           break;
         case TokenConstants.TOKEN_SET:
           userService.setToken(payload.options.type, payload.options.token);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 import utils from './../utils';
 import context from './../context';
@@ -6,7 +6,11 @@ import UserActions from './../actions/UserActions';
 
 export default class LogoutLink extends React.Component {
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    router: PropTypes.object.isRequired
+  };
+
+  static propTypes = {
+    endpoint: PropTypes.string
   };
 
   state = {
@@ -30,7 +34,7 @@ export default class LogoutLink extends React.Component {
     if (!this.state.disabled) {
       this.setState({ disabled: true });
 
-      UserActions.logout(() => {
+      UserActions.logout({ endpoint: this.props.endpoint }, () => {
         this._performRedirect(primaryRedirectTo);
       });
     }

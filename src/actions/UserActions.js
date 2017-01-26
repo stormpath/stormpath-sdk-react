@@ -8,44 +8,49 @@ function dispatch(event) {
 }
 
 class UserActions {
-  login(options, callback) {
+  login(options, settings, callback) {
     dispatch({
       type: UserConstants.USER_LOGIN,
       options: options,
+      settings: settings,
       callback: callback
     });
   }
 
-  register(options, callback) {
+  register(options, settings, callback) {
     dispatch({
       type: UserConstants.USER_REGISTER,
       options: options,
+      settings: settings,
       callback: callback
     });
   }
 
-  forgotPassword(options, callback) {
+  forgotPassword(options, settings, callback) {
     dispatch({
       type: UserConstants.USER_FORGOT_PASSWORD,
       options: options,
+      settings: settings,
       callback: callback
     });
   }
 
-  verifyEmail(spToken, callback) {
+  verifyEmail(spToken, settings, callback) {
     dispatch({
       type: UserConstants.USER_VERIFY_EMAIL,
       options: {
         spToken: spToken
       },
+      settings: settings,
       callback: callback
     });
   }
 
-  changePassword(options, callback) {
+  changePassword(options, settings, callback) {
     dispatch({
       type: UserConstants.USER_CHANGE_PASSWORD,
       options: options,
+      settings: settings,
       callback: callback
     });
   }
@@ -56,6 +61,7 @@ class UserActions {
       options: {
         data: data
       },
+      settings: settings,
       callback: callback
     });
   }
@@ -69,10 +75,11 @@ class UserActions {
     });
   }
 
-  logout(callback) {
+  logout(settings, callback) {
     dispatch({
       type: UserConstants.USER_LOGOUT,
-      callback: callback
+      callback: callback,
+      settings: settings
     });
   }
 }

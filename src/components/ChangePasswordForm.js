@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
 import utils from '../utils';
@@ -48,6 +48,10 @@ class DefaultChangePasswordForm extends React.Component {
 }
 
 export default class ChangePasswordForm extends React.Component {
+  static propTypes = {
+    endpoint: PropTypes.string
+  };
+
   state = {
     spToken: null,
     fields: {
@@ -72,7 +76,7 @@ export default class ChangePasswordForm extends React.Component {
     e.preventDefault();
     e.persist();
 
-    var next = (err, data) => {
+    var next = (err, data, headers = {}) => {
       if (err) {
         return this.setState({
           isFormProcessing: false,
@@ -91,7 +95,12 @@ export default class ChangePasswordForm extends React.Component {
         });
       }
 
-      UserActions.changePassword(data, (err) => {
+      const settings = {
+        endpoint: this.props.endpoint,
+        headers: headers
+      };
+
+      UserActions.changePassword(data, settings, (err) => {
         if (err) {
           if (err.status === 404) {
             err.message = 'The reset password token is not valid. Please try resetting your password again.';

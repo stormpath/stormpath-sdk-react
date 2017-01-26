@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
 import utils from '../utils';
@@ -80,7 +80,11 @@ class DefaultUserProfileForm extends React.Component {
 
 export default class UserProfileForm extends React.Component {
   static contextTypes = {
-    user: React.PropTypes.object
+    user: PropTypes.object
+  };
+
+  static propTypes = {
+    endpoint: PropTypes.string
   };
 
   state = {
@@ -119,7 +123,7 @@ export default class UserProfileForm extends React.Component {
     e.preventDefault();
     e.persist();
 
-    var next = (err, data) => {
+    var next = (err, data, headers = {}) => {
       if (err) {
         return this.setState({
           isFormProcessing: false,
@@ -131,8 +135,12 @@ export default class UserProfileForm extends React.Component {
       // If the user didn't specify any data,
       // then simply default to what we have in state.
       data = data || this.state.fields;
+      const settings = {
+        endpoint: PropTypes.string,
+        headers: headers
+      };
 
-      UserActions.updateProfile(data, (err) => {
+      UserActions.updateProfile(data, settings, (err) => {
         if (err) {
           return this.setState({
             isFormProcessing: false,

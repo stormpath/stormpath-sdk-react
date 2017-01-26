@@ -7,7 +7,7 @@ import UserActions from './../actions/UserActions';
 export default class LogoutRoute extends Route {
   static defaultProps = {
     onEnter(nextState, replace, callback) {
-      UserActions.logout(() => {
+      UserActions.logout({ endpoint: this.props.endpoint }, () => {
         var router = context.getRouter();
         var homeRoute = router.getHomeRoute();
         var loginRoute = router.getLoginRoute();
