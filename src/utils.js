@@ -143,6 +143,18 @@ class Utils {
     return React.cloneElement(newElement, newOptions, newChildren);
   }
 
+  mapFormField(element, mappingFn, defaultValue) {
+    if (this.isInputLikeComponent(element)) {
+      if (element.props && element.props.name) {
+        mappingFn(element.props.name, defaultValue);
+      }
+    } else if (['input', 'textarea'].indexOf(element.type) > -1) {
+      if (element.props.type !== 'submit') {
+        mappingFn(element.props.name, defaultValue);
+      }
+    }
+  }
+
   getFormFieldMap(root, handler) {
     var fields = {};
 

@@ -106,15 +106,7 @@ export default class ResetPasswordForm extends React.Component {
       }
     };
 
-    if (utils.isInputLikeComponent(element)) {
-      if (element.props && element.props.name) {
-        tryMapFormField(element.props.name);
-      }
-    } else if (['input', 'textarea'].indexOf(element.type) > -1) {
-      if (element.props.type !== 'submit') {
-        tryMapFormField(element.props.name);
-      }
-    }
+    utils.mapFormField(element, tryMapFormField);
   }
 
   _spIfHandler(action, element) {

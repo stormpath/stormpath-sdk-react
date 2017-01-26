@@ -142,15 +142,7 @@ export default class ChangePasswordForm extends React.Component {
       }
     };
 
-    if (utils.isInputLikeComponent(element)) {
-      if (element.props && element.props.name) {
-        tryMapFormField(element.props.name);
-      }
-    } else if (element.type === 'input' || element.type === 'textarea') {
-      if (element.props.type !== 'submit') {
-        tryMapFormField(element.props.name);
-      }
-    }
+    utils.mapFormField(element, tryMapFormField);
   }
 
   _spIfHandler(action, element) {
