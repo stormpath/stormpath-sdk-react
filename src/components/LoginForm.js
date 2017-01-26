@@ -297,7 +297,7 @@ export default class LoginForm extends React.Component {
 
   render() {
     if (this.props.children) {
-      let selectedProps = utils.excludeProps(['redirectTo', 'hideSocial', 'onSubmit', 'onSubmitError', 'onSubmitSuccess', 'children'], this.props);
+      let selectedProps = utils.excludeProps(['redirectTo', 'hideSocial', 'onSubmit', 'onSubmitError', 'onSubmitSuccess', 'children', 'endpoint'], this.props);
 
       return (
         <form onSubmit={this.onFormSubmit.bind(this)} {...selectedProps}>

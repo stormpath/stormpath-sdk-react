@@ -384,7 +384,7 @@ export default class RegistrationForm extends React.Component {
 
   render() {
     if (this.props.children) {
-      var selectedProps = utils.excludeProps(['redirectTo', 'hideSocial', 'onSubmit', 'onSubmitError', 'onSubmitSuccess', 'children'], this.props);
+      var selectedProps = utils.excludeProps(['redirectTo', 'hideSocial', 'onSubmit', 'onSubmitError', 'onSubmitSuccess', 'children', 'endpoint'], this.props);
 
       return (
         <form onSubmit={this.onFormSubmit.bind(this)} {...selectedProps}>

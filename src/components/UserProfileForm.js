@@ -222,7 +222,7 @@ export default class UserProfileForm extends React.Component {
 
   render() {
     if (this.props.children) {
-      let selectedProps = utils.excludeProps(['onSubmit', 'children'], this.props);
+      let selectedProps = utils.excludeProps(['onSubmit', 'children', 'endpoint'], this.props);
 
       return (
         <form onSubmit={this._onFormSubmit.bind(this)} {...selectedProps}>

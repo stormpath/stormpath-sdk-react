@@ -158,7 +158,7 @@ export default class ResetPasswordForm extends React.Component {
 
   render() {
     if (this.props.children) {
-      var selectedProps = utils.excludeProps(['onSubmit', 'children'], this.props);
+      var selectedProps = utils.excludeProps(['onSubmit', 'children', 'endpoint'], this.props);
 
       return (
         <form onSubmit={this.onFormSubmit.bind(this)} {...selectedProps}>

@@ -41,7 +41,7 @@ export default class LogoutLink extends React.Component {
   }
 
   render() {
-    var selectedProps = utils.excludeProps(['redirectTo', 'href', 'onClick', 'disabled', 'children'], this.props);
+    var selectedProps = utils.excludeProps(['redirectTo', 'href', 'onClick', 'disabled', 'children', 'endpoint'], this.props);
 
   	return (
       <a href='#' onClick={this.onClick.bind(this)} disabled={this.state.disabled} {...selectedProps}>
