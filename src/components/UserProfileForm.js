@@ -168,7 +168,7 @@ export default class UserProfileForm extends React.Component {
       utils.getFieldValue(this.state.defaultFields, element.props.name) :
       undefined;
 
-    if (typeof element.type === 'function' && utils.containsWord(element.type.name, ['input', 'field', 'text'])) {
+    if (utils.isInputLikeComponent(element)) {
       if (element.props && element.props.name) {
         tryMapField(element.props.name, defaultValue);
       }

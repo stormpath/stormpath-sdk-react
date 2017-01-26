@@ -12,6 +12,24 @@ class Utils {
       s4() + '-' + s4() + s4() + s4();
   }
 
+  functionName(f) {
+    if (typeof f !== 'function') {
+      return '';
+    }
+
+    if (f.name) {
+      return f.name;
+    }
+
+    const parts = f.toString().match(/^function\s*([^\s(]+)/);
+
+    if (parts) {
+      return parts[1];
+    }
+
+    return '';
+  }
+
   containsWord(testWord, words) {
     if (typeof testWord !== 'string') {
       return false;
@@ -27,6 +45,11 @@ class Utils {
     }
 
     return false;
+  }
+
+  isInputLikeComponent(element, inputNames = ['input', 'field', 'text']) {
+    return typeof element.type === 'function'
+      && this.containsWord(this.functionName(element.type), inputNames);
   }
 
   takeProp(source, ...fields) {
