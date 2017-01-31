@@ -53,16 +53,29 @@ export default class ResetPasswordForm extends React.Component {
     isFormSent: false
   };
 
+  _setErrorState(err) {
+    this.setState({
+      isFormProcessing: false,
+      errorMessage: err.message
+    });
+  }
+
   onFormSubmit(e) {
     e.preventDefault();
     e.persist();
 
+    const {onSubmitError, onSubmitSuccess} = this.props;
+
     var next = (err, data) => {
       if (err) {
-        return this.setState({
-          isFormProcessing: false,
-          errorMessage: err.message
-        });
+        if (onSubmitError) {
+          return onSubmitError({
+            data: data,
+            error: err
+          }, this._setErrorState.bind(this, err));
+        }
+
+        return this._setErrorState(err);
       }
 
       // If the user didn't specify any data,
@@ -71,17 +84,29 @@ export default class ResetPasswordForm extends React.Component {
 
       UserActions.forgotPassword(data, (err) => {
         if (err) {
-          this.setState({
-            isFormProcessing: false,
-            errorMessage: err.message
-          });
-        } else {
-          this.setState({
-            isFormSent: true,
-            isFormProcessing: false,
-            errorMessage: null
-          });
+          if (onSubmitError) {
+            return onSubmitError({
+              data: data,
+              error: err
+            }, this._setErrorState.bind(this, err));
+          }
+
+          return this._setErrorState(err);
         }
+
+        const done = this.setState.bind(this, {
+          isFormSent: true,
+          isFormProcessing: false,
+          errorMessage: null
+        });
+
+        if (onSubmitSuccess) {
+          return onSubmitSuccess({
+            data: data
+          }, done);
+        }
+
+        done();
       });
     };
 
