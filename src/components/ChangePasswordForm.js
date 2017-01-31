@@ -68,16 +68,29 @@ export default class ChangePasswordForm extends React.Component {
     this.state.spToken = this.props.spToken;
   }
 
+  _setErrorState(err) {
+    this.setState({
+      isFormProcessing: false,
+      errorMessage: err.message
+    });
+  }
+
   onFormSubmit(e) {
     e.preventDefault();
     e.persist();
 
+    const {onSubmitError, onSubmitSuccess} = this.props;
+
     var next = (err, data) => {
       if (err) {
-        return this.setState({
-          isFormProcessing: false,
-          errorMessage: err.message
-        });
+        if (onSubmitError) {
+          return onSubmitError({
+            data: data,
+            error: err
+          }, this._setErrorState.bind(this, err));
+        }
+
+        return this._setErrorState(err);
       }
 
       // If the user didn't specify any data,
@@ -97,16 +110,28 @@ export default class ChangePasswordForm extends React.Component {
             err.message = 'The reset password token is not valid. Please try resetting your password again.';
           }
 
-          return this.setState({
-            isFormProcessing: false,
-            errorMessage: err.message
-          });
+          if (onSubmitError) {
+            return onSubmitError({
+              data: data,
+              error: err
+            }, this._setErrorState.bind(this, err));
+          }
+
+          return this._setErrorState(err);
         }
 
-        this.setState({
+        const done = () => (this.setState({
           isFormProcessing: false,
           isFormSent: true
-        });
+        }));
+
+        if (onSubmitSuccess) {
+          return onSubmitSuccess({
+            data: data
+          }, done);
+        }
+
+        done();
       });
     };
 
