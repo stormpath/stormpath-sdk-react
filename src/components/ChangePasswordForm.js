@@ -120,10 +120,10 @@ export default class ChangePasswordForm extends React.Component {
           return this._setErrorState(err);
         }
 
-        const done = () => (this.setState({
+        const done = this.setState.bind(this, {
           isFormProcessing: false,
           isFormSent: true
-        }));
+        });
 
         if (onSubmitSuccess) {
           return onSubmitSuccess({
