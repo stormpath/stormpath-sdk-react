@@ -115,17 +115,29 @@ export default class UserProfileForm extends React.Component {
     }
   };
 
+  _setErrorState(err) {
+    this.setState({
+      isFormProcessing: false,
+      isFormSuccessful: false,
+      errorMessage: err.message
+    });
+  }
+
   _onFormSubmit(e) {
     e.preventDefault();
     e.persist();
 
+    const {onSubmitError, onSubmitSuccess} = this.props;
+
     var next = (err, data) => {
       if (err) {
-        return this.setState({
-          isFormProcessing: false,
-          isFormSuccessful: false,
-          errorMessage: err.message
-        });
+        if (onSubmitError) {
+          return onSubmitError({
+            data: data,
+            error: err
+          }, this._setErrorState.bind(this, err));
+        }
+        return this._setErrorState(err);
       }
 
       // If the user didn't specify any data,
@@ -134,19 +146,28 @@ export default class UserProfileForm extends React.Component {
 
       UserActions.updateProfile(data, (err) => {
         if (err) {
-          return this.setState({
-            isFormProcessing: false,
-            isFormSuccessful: false,
-            errorMessage: err.message
-          });
+          if (onSubmitError) {
+            return onSubmitError({
+              data: data,
+              error: err
+            }, this._setErrorState.bind(this, err));
+          }
+
+          return this._setErrorState(err);
         }
 
         this._updateSessionData(data, () => {
-          this.setState({
+          const done = this.setState.bind(this, {
             isFormProcessing: false,
             isFormSuccessful: true,
             errorMessage: null
           });
+
+          if (onSubmitSuccess) {
+            return onSubmitSuccess({
+              data: data
+            }, done);
+          }
         });
       });
     };
