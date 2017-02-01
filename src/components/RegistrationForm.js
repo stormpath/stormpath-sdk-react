@@ -242,7 +242,7 @@ export default class RegistrationForm extends React.Component {
           UserActions.login({
             login: data.email || data.username,
             password: data.password
-          }, (err) => {
+          }, settings, (err) => {
             if (err) {
               if (onSubmitError) {
                 return onSubmitError({
