@@ -7,8 +7,22 @@ function dispatch(event) {
   }, 0);
 }
 
+function resolveActionParams(options, settings, callback) {
+  if (typeof options === 'function') {
+    return [{}, {}, callback];
+  }
+
+  if (typeof settings === 'function' && typeof callback === 'undefined') {
+    return [options, {}, callback];
+  }
+
+  return [options, settings, callback];
+}
+
 class UserActions {
   login(options, settings, callback) {
+    [options, settings, callback] = resolveActionParams(options, settings, callback);
+
     dispatch({
       type: UserConstants.USER_LOGIN,
       options: options,
@@ -18,6 +32,8 @@ class UserActions {
   }
 
   register(options, settings, callback) {
+    [options, settings, callback] = resolveActionParams(options, settings, callback);
+
     dispatch({
       type: UserConstants.USER_REGISTER,
       options: options,
@@ -27,6 +43,8 @@ class UserActions {
   }
 
   forgotPassword(options, settings, callback) {
+    [options, settings, callback] = resolveActionParams(options, settings, callback);
+
     dispatch({
       type: UserConstants.USER_FORGOT_PASSWORD,
       options: options,
@@ -36,6 +54,8 @@ class UserActions {
   }
 
   verifyEmail(spToken, settings, callback) {
+    [options, settings, callback] = resolveActionParams(options, settings, callback);
+
     dispatch({
       type: UserConstants.USER_VERIFY_EMAIL,
       options: {
@@ -47,6 +67,8 @@ class UserActions {
   }
 
   changePassword(options, settings, callback) {
+    [options, settings, callback] = resolveActionParams(options, settings, callback);
+
     dispatch({
       type: UserConstants.USER_CHANGE_PASSWORD,
       options: options,
@@ -56,6 +78,8 @@ class UserActions {
   }
 
   updateProfile(data, settings, callback) {
+    [options, settings, callback] = resolveActionParams(options, settings, callback);
+
     dispatch({
       type: UserConstants.USER_UPDATE_PROFILE,
       options: {
@@ -76,6 +100,11 @@ class UserActions {
   }
 
   logout(settings, callback) {
+    if (typeof settings === 'function' && typeof callback === 'undefined') {
+      callback = settings;
+      settings = {};
+    }
+
     dispatch({
       type: UserConstants.USER_LOGOUT,
       callback: callback,
