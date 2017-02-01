@@ -209,7 +209,7 @@ export default class RegistrationForm extends React.Component {
           return onSubmitError({
             data: data,
             error: err
-          }, setErrorState.bind(this, err));
+          }, (userError) => setErrorState(userError || err));
         }
 
         return setErrorState(err);
@@ -226,7 +226,7 @@ export default class RegistrationForm extends React.Component {
               data: data,
               result: result,
               error: err
-            }, setErrorState.bind(this, err));
+            }, (userError) => setErrorState(userError || err));
           }
 
           setErrorState(err);
@@ -241,7 +241,7 @@ export default class RegistrationForm extends React.Component {
                   data: data,
                   result: result,
                   error: err
-                }, setErrorState.bind(this, err));
+                }, (userError) => setErrorState(userError || err));
               }
 
               return setErrorState(err);

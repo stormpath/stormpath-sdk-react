@@ -87,7 +87,7 @@ export default class ChangePasswordForm extends React.Component {
           return onSubmitError({
             data: data,
             error: err
-          }, this._setErrorState.bind(this, err));
+          }, (userError) => this._setErrorState(userError || err));
         }
 
         return this._setErrorState(err);
@@ -114,7 +114,7 @@ export default class ChangePasswordForm extends React.Component {
             return onSubmitError({
               data: data,
               error: err
-            }, this._setErrorState.bind(this, err));
+            }, (userError) => this._setErrorState(userError || err));
           }
 
           return this._setErrorState(err);

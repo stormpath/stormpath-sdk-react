@@ -176,7 +176,7 @@ export default class LoginForm extends React.Component {
           return onSubmitError({
             data: data,
             error: err
-          }, setErrorState.bind(this, err));
+          }, (userError) => setErrorState(userError || err));
         }
 
         return setErrorState(err);
@@ -195,7 +195,7 @@ export default class LoginForm extends React.Component {
             return onSubmitError({
               data: data,
               error: err
-            }, setErrorState.bind(this, err));
+            }, (userError) => setErrorState.bind(userError || err));
           }
 
           return setErrorState(err);
