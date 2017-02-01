@@ -1,3 +1,20 @@
+## 1.x/2.x to 3.0.0 (TBD)
+
+This version adds support for the [Stormpath Client API][], which is specifically designed for front-end and mobile applications.  We suggest converting your React application to using this API for authenticating your users.  While the Client API is an easier way to authenticate users and get access tokens, your server is still responsible for authorizing requests with those tokens.  Our framework integrations such as [Express-Stormpath][] can still be used for this purpose.
+
+**If you are going to use the Client API:**
+
+- Please see the current [README][] for an example of how to find your Client API domain and pass it to this library.
+- If you are using [Express-Stormpath][], you should upgrade to 3.2.0 or later, and change any usage of `stormpath.loginRequired` to `stormpath.authenticationRequired`
+
+**If you do not wish to use the Client API:**
+
+If you already have a React application that is integrated with one of our server framework integrations, or you simply don't want to use the Client API and prefer to use our standard cookie approach, you can tell the React SDK to use your server with the cookie token strategy.  Please see the updated [Stormpath React SDK API Documentation][] for an example.
+
+## 2.0.0 (January 13, 2017)
+
+*Deprecated*. This version has been deprecated, please upgrade 3.0.0 instead.  This version introduced Client API support, but made it difficult to still use our traditional cookie solution for cookie storage.
+
 ## 1.3.3 to 1.3.4 (January 9, 2017)
 
 Nothing to do.
@@ -73,3 +90,8 @@ Notice:
   This has changed. The `LogoutRoute` is in fact no longer needed. So instead of
   redirecting to the `LogoutRoute` path, the `LogoutLink` will take care of doing
   the logout itself.
+
+[Express-Stormpath]: https://github.com/stormpath/express-stormpath
+[README]: https://github.com/stormpath/stormpath-sdk-react#stormpath-react-sdk
+[Stormpath Client API]: https://docs.stormpath.com/client-api/product-guide/latest/index.html
+[Stormpath React SDK API Documentation]: https://github.com/stormpath/stormpath-sdk-react/blob/master/docs/api.md

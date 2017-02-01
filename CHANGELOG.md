@@ -1,8 +1,23 @@
+## 3.0.0 (TBD)
+
+This release simplifies the [Stormpath Client API][] behaviour that was introduced in 2.0.0, the SDK now works in the following way:
+
+- By default, it will use the OAuth Token strategy, which means that:
+  - Login attemps are posted to `/oauth/token`
+  - Local storage is used to store the token. 
+  - Use `ReactStormpath.getAccesToken()` to get the access token and attach it to requests, as needed.
+  - This strategy with the Client API and with servers that are running our framework integrations, such as [Express-Stormpath][].
+
+- We still provide a cookie strategy, allowing you to use cookies to store and send the access token to your server. 
+
+For both cases, please see the [README][] and the [Upgrade Guide][] for specific examples of how to use this new version.
+
+
 ## 2.0.0 (January 13, 2017)
 
-This release adds support for the [Stormpath Client API][], which allows you to authenticate the user directly with Stormpath (authentication does not require extra software in your server).  The user receives an access token, which can be used to authorize requests on your server.  If you need to authorize requests on your server, you will sill want to use one of our SDKs to make that process simpler.
+*Deprecated* Please use 3.0.0 insetad.
 
-Please see the Readme for the new instructions for using the Client API.
+This release adds support for the [Stormpath Client API][], which allows you to authenticate the user directly with Stormpath (authentication does not require extra software in your server).  The user receives an access token, which can be used to authorize requests on your server.  If you need to authorize requests on your server, you will sill want to use one of our SDKs to make that process simpler.
 
 ## 1.3.4 (January 9, 2017)
 
@@ -107,4 +122,7 @@ Features:
   - Add support for new error structure ([#35](https://github.com/stormpath/stormpath-sdk-react/pull/35))
   - Add X-Stormpath-Agent header to requests ([#31](https://github.com/stormpath/stormpath-sdk-react/pull/31))
 
+[Express-Stormpath]: https://github.com/stormpath/express-stormpath
+[README]: https://github.com/stormpath/stormpath-sdk-react#stormpath-react-sdk
 [Stormpath Client API]: https://docs.stormpath.com/client-api/product-guide/latest/index.html
+[Upgrade Guide]: https://github.com/stormpath/stormpath-sdk-react/blob/master/UPGRADE.md

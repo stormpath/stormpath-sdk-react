@@ -2,7 +2,7 @@ import utils from '../utils';
 import BaseService from './BaseService';
 import RequestPool from './RequestPool';
 
-export default class UserService extends BaseService {
+export default class StormpathCookieUserService extends BaseService {
   constructor(endpoints, forceAgentHeader) {
     let defaultEndpoints = {
       me: '/me',

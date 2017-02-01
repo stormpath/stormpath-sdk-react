@@ -1,15 +1,44 @@
-API Documentation
------------------
+Stormpath React SDK API Documentation
+-------------------------------------
 
 ## Initialization
 
-Before calling `React.render()` be sure to initialize/configure the SDK.
+Before calling `React.render()` be sure to initialize & configure the SDK, by providing the location of the authentication API.  We recommend you use the [Stormpath Client API][], and provide the domain for the Client API for your Stormpath application:
 
 ```javascript
-ReactStormpath.init();
+ReactStormpath.init({
+  endpoints: {
+    baseUri: 'https://YOUR_CLIENT_API_DOMAIN.apps.stormpath.io'
+  }
+});
 ```
 
-If you want to configure it, simply pass an object with the configuration you want to use.
+Optionally, you can use one of our framework integrations, such as [Express-Stormpath][] to add the Stormpath authentication API to your own server, and then point the SDK at your server:
+
+```javascript
+ReactStormpath.init({
+  endpoints: {
+    baseUri: '/'  // The location of your server
+  }
+});
+```
+
+In both cases, when the user logs in they will have their access token stored in local storage and you can use `ReactStormpath.getAccessToken()` (read on for more detail).
+
+If you want to use our cookie strategy for storing the tokens (requires one of our framework integrations to assist) you would use this configuration:
+
+```javascript
+ReactStormpath.init({
+  endpoints: {
+    baseUri: '/',  // The location of your server
+  },
+  tokenStrategy: 'cookie'
+});
+```
+
+## Configuration Reference
+
+The following configuration options are also available:
 
 ```javascript
 ReactStormpath.init({
@@ -24,12 +53,10 @@ ReactStormpath.init({
     store: yourReduxStore
   },
 
-  // Optional: If your are running our framework integration
-  // (e.g. express-stormpath) on a different domain, or you have
-  // changed the default endpoints in the framework integration.
-  // Values shown are the defaults.
+  // These are the default endpoints that the SDK will use when communicating 
+  // with Stormpath, and can be changed if needed.
   endpoints: {
-    baseUri: null, // E.g. https://api.example.com
+    baseUri: null, // e.g. 'https://YOUR_CLIENT_API_DOMAIN.apps.stormpath.io'
     me: '/me',
     login: '/login',
     register: '/register',
@@ -37,11 +64,13 @@ ReactStormpath.init({
     forgotPassword: '/forgot',
     changePassword: '/change',
     logout: '/logout'
-  }
+  },
+
+  tokenStrategy: null // Local storage will be used it not set to `cookie`
 });
 ```
 
-## Authorization
+## Request Authentication
 
 Once the user is logged in, you can make authenticated requests to back-end APIs by getting the access token and attaching it to your request:
 
@@ -810,3 +839,6 @@ Note: If a group name contains a space, then that space should be replaced with 
 ```javascript
 super_administrator || engineer
 ```
+
+[Express-Stormpath]: https://github.com/stormpath/express-stormpath
+[Stormpath Client API]: https://docs.stormpath.com/client-api/product-guide/latest/index.html

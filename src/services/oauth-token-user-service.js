@@ -1,9 +1,9 @@
 import utils from '../utils';
-import UserService from './UserService';
+import StormpathCookieUserService from './stormpath-cookie-user-service';
 import TokenActions from '../actions/TokenActions';
 import context from '../context';
 
-export default class ClientApiUserService extends UserService {
+export default class OAuthTokenUserService extends StormpathCookieUserService {
   tokens = {
     access_token: null,
     refresh_token: null

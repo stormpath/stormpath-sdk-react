@@ -68,15 +68,17 @@ Stormpath already integrated!*
 
 3. **Initialize the SDK**
   
-  The React SDK leverages the [Stormpath Client API][] for its authentication needs. Login to your Stormpath Tenant, and find your Client API domain (inside your application's policy section).  Add your Client API domain as the `endpoints.baseUri` setting when initializing `ReactStormpath`:
+  The React SDK uses the [Stormpath Client API][] for its authentication needs. Login to your Stormpath Tenant, and find your Client API domain (inside your application's policy section).  Add your Client API domain as the `endpoints.baseUri` setting when initializing `ReactStormpath`:
   
   ```javascript
   ReactStormpath.init({
     endpoints: {
-      baseUri: 'https://{{clientApiDomainName}}'
+      baseUri: 'https://YOUR_CLIENT_API_DOMAIN.apps.stormpath.io'
     }
   });
   ```
+
+  Some alternate configurations available, e.g. if you want to use cookies (rather then the default local storage) for access token storage.  Please see the [Stormpath React SDK API Documentation][] for details.
 
 4. **Configure the Router**
 
@@ -193,7 +195,7 @@ Stormpath already integrated!*
 
 10. **That's It!**
 
-  You just added user authentication to your React app with Stormpath, you should now be able to register and login! See the [API Documentation][] for further information on how Stormpath can be used with your React app.  Once you have been able to successfully log in, the next section will discuss integrating with your own server.
+  You just added user authentication to your React app with Stormpath, you should now be able to register and login! See the [Stormpath React SDK API Documentation][] for further information on how Stormpath can be used with your React app.  Once you have been able to successfully log in, the next section will discuss integrating with your own server.
 
 11. **Making Authenticated Requests**
   
@@ -247,7 +249,7 @@ Stormpath already integrated!*
 
 ## Documentation
 
-For all available routes and components, see the [API Documentation][].
+For all available routes and components, see the [Stormpath React SDK API Documentation] Documentation][].
 
 ## Example
 
@@ -295,7 +297,7 @@ Apache 2.0, see [LICENSE](LICENSE).
 [`ReactStormpath.init()`]: https://github.com/stormpath/stormpath-sdk-react/blob/master/docs/api.md#initialization
 [`ReactStormpath.Router`]: https://github.com/stormpath/stormpath-sdk-react/blob/master/docs/api.md#router
 [`RegistrationForm`]: https://github.com/stormpath/stormpath-sdk-react/blob/master/docs/api.md#registrationform
-[API Documentation]: https://github.com/stormpath/stormpath-sdk-react/blob/master/docs/api.md
+[Stormpath React SDK API Documentation]: https://github.com/stormpath/stormpath-sdk-react/blob/master/docs/api.md
 [example app]: https://github.com/stormpath/stormpath-express-react-example
 [express-stormpath]: https://github.com/stormpath/express-stormpath
 [React Router]: https://github.com/rackt/react-router

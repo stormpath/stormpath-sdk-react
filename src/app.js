@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 import { LocalStorage } from './storage';
-import { UserService, ClientApiUserService} from './services';
+import { StormpathCookieUserService, OAuthTokenUserService} from './services';
 import { UserConstants, TokenConstants } from './constants';
 import { UserStore, SessionStore, TokenStore } from './stores';
 import { FluxDispatcher, ReduxDispatcher } from './dispatchers';
@@ -41,14 +41,14 @@ class App extends EventEmitter {
 
     let baseUri = options.endpoints.baseUri;
 
-    if (baseUri && !utils.isSameHost(baseUri, window.location.href)) {
+    if (options.tokenStrategy === 'cookie') {
+      userService = new StormpathCookieUserService(options.endpoints);
+    } else {
       tokenStore = new TokenStore(options.storage, 'stormpath:token');
-      userService = new ClientApiUserService(options.endpoints);
+      userService = new OAuthTokenUserService(options.endpoints);
 
       userService.setToken('access_token', tokenStore.get('access_token'));
       userService.setToken('refresh_token', tokenStore.get('refresh_token'));
-    } else {
-      userService = new UserService(options.endpoints);
     }
 
     let userStore = new UserStore(userService, sessionStore);
