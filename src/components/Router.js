@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router as ReactRouter } from 'react-router';
+import { Router as ReactRouter, Route } from 'react-router';
 
 import utils from './../utils';
 import context from './../context';
@@ -14,6 +14,8 @@ export default class Router extends ReactRouter {
     authenticated: React.PropTypes.bool,
     user: React.PropTypes.object
   };
+
+  static propTypes = ReactRouter.propTypes;
 
   static defaultProps = ReactRouter.defaultProps;
 
@@ -46,8 +48,10 @@ export default class Router extends ReactRouter {
     super(...arguments);
 
     if (this.props.routes) {
-      // The reason we wrap in a div is because we just need to have a root element.
-      this._mapMarkedRoutes(<div>{this.props.routes}</div>);
+      this._isPlainRoute(this.props.routes)
+        ? this._mapMarkedPlainRoutes(this.props.routes)
+        // The reason we wrap in a div is because we just need to have a root element.
+        : this._mapMarkedRoutes(<div>{this.props.routes}</div>);
     } else {
       this._mapMarkedRoutes(this);
     }
@@ -55,6 +59,21 @@ export default class Router extends ReactRouter {
     this.sessionChangeListener = this._setSessionState.bind(this);
 
     context.setRouter(this);
+  }
+
+  _isPlainRoute(routeData) {
+    return (routeData.component)
+      || (routeData.length && routeData[0] && routeData[0].component);
+  }
+
+  _mapMarkedPlainRoutes(routeData, index) {
+    if (routeData.length) {
+      return (<div>{routeData.map(this._mapMarkedPlainRoutes)}</div>);
+    }
+
+    return (
+      <Route key={index} {...routeData} />
+    );
   }
 
   _mapMarkedRoutes(routes) {
