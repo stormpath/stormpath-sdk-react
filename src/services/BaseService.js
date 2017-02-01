@@ -71,13 +71,7 @@ function makeHttpRequest(method, uri, body, headers, callback) {
         result.responseJSON = JSON.parse(request.responseText);
       }
     } catch(e) {
-      caughtError = e;
-    }
-
-    if (caughtError) {
-      callback(caughtError);
-    } else {
-      callback(null, result);
+      return callback(e);
     }
 
     callback(null, result);
