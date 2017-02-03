@@ -245,7 +245,8 @@ Customize the form by providing your own markup.
 ```
 
 **Important:** To use a custom field component the name of the component must contain one of these three words: `text`, `input` or `field`.
-Alternatively, the component can have arbitrary name if it has the `spInputLike` (or `data-spInputLike`) property set.
+Alternatively, the component can have arbitrary name if it has the `spInputLike` (or `data-spInputLike`) property set. If you minify your code,
+prefer using this property to relying on the component name, as the latter may be mangled by the minifier.
 The component must also support the properties `name` and `onChange`. The property `name` should represent the name of the field, and the
 `onChange` property a handler for the field's `onChange` event.
 
