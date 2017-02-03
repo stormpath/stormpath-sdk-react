@@ -167,7 +167,7 @@ class Utils {
         name = elements.props.fieldName;
       }
 
-      if (!('name' in fields)) {
+      if (!(name in fields)) {
         fields[name] = {
           element: field,
           defaultValue: defaultValue
