@@ -193,7 +193,7 @@ class Utils {
     for (var key in fields) {
       var field = fields[key];
       var element = field.element;
-      var elementType = typeof element.type === 'function' ? functionName(element.type) : element.type;
+      var elementType = typeof element.type === 'function' ? this.functionName(element.type) : element.type;
 
       if (!(elementType in inverseMap)) {
         inverseMap[elementType] = {};
