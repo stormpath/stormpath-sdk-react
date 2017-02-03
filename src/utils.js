@@ -48,8 +48,12 @@ class Utils {
   }
 
   isInputLikeComponent(element, inputNames = ['input', 'field', 'text']) {
-    return typeof element.type === 'function'
-      && this.containsWord(this.functionName(element.type), inputNames);
+    if (typeof element.type === 'function') {
+      const hasInputLikeName = this.containsWord(this.functionName(element.type), inputNames);
+      const spInputLike = this.takeProp(element.props, 'spInputLike', 'data-spInputLike');
+
+      return spInputLike || hasInputLikeName;
+    }
   }
 
   takeProp(source, ...fields) {
