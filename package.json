@@ -26,7 +26,7 @@
     "build-umd": "NODE_ENV=production webpack src/index.js umd/stormpath-sdk-react.js",
     "build-min": "NODE_ENV=production webpack -p src/index.js umd/stormpath-sdk-react.min.js",
     "build-dist": "NODE_ENV=production webpack src/index.js dist/stormpath-sdk-react.js && NODE_ENV=production webpack -p src/index.js dist/stormpath-sdk-react.min.js",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build && npm run build-dist"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",
