@@ -6,6 +6,10 @@ let jwtExpression = /^[a-zA-Z0-9+/_=-]+\.[a-zA-Z0-9+/_=-]+\.[a-zA-Z0-9+/_=-]+$/;
 class Utils {
   nopElement = <span />;
 
+  noop(arg) {
+    return arg;
+  }
+
   uuid() {
     var s4 = () => Math.floor((1 + Math.random()) * 0x10000)
       .toString(16).substring(1);
@@ -115,6 +119,7 @@ class Utils {
       );
     }
 
+    console.log(newElement.props, newOptions, newChildren);
     return React.cloneElement(newElement, newOptions, newChildren);
   }
 
@@ -215,17 +220,9 @@ class Utils {
     }
   }
 
-  makeForm(source, fieldMapFn, spIfFn, spBindFn) {
-    var root = React.cloneElement(<div />, {}, source.props.children);
-    var fieldMap = this.getFormFieldMap(root, fieldMapFn);
+  makeElementFactory(spIfFn, spBindFn) {
 
-    source.state.fields = source.state.fields || {};
-
-    for (var key in fieldMap.defaultValues) {
-      this.setFieldValue(source.state.fields, key, fieldMap.defaultValues[key]);
-    }
-
-    var elementFactory = (element, parent) => {
+    return (element, parent) => {
       if (element.props) {
         var spIf = this.takeProp(element.props, 'spIf', 'data-spIf');
 
@@ -260,8 +257,30 @@ class Utils {
           }
         }
       }
+
       return element;
     };
+  }
+
+  makeView(source, spIfFn, spBindFn = this.noop) {
+    const root = React.cloneElement(<div />, {}, source.props.children);
+    const elementFactory = this.makeElementFactory(spIfFn, spBindFn);
+    const optionsFactory = () => ({});
+
+    return this.buildElementTree(root, optionsFactory, elementFactory);
+  }
+
+  makeForm(source, fieldMapFn, spIfFn, spBindFn) {
+    var root = React.cloneElement(<div />, {}, source.props.children);
+    var fieldMap = this.getFormFieldMap(root, fieldMapFn);
+
+    source.state.fields = source.state.fields || {};
+
+    for (var key in fieldMap.defaultValues) {
+      this.setFieldValue(source.state.fields, key, fieldMap.defaultValues[key]);
+    }
+
+    const elementFactory = this.makeElementFactory(spIfFn, spBindFn);
 
     var optionsFactory = (element, parent) => {
       var options = {};
