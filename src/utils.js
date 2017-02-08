@@ -119,7 +119,6 @@ class Utils {
       );
     }
 
-    console.log(newElement.props, newOptions, newChildren);
     return React.cloneElement(newElement, newOptions, newChildren);
   }
 
@@ -258,7 +257,17 @@ class Utils {
         }
       }
 
-      return element;
+      if (typeof element === 'string') {
+        return element;
+      }
+
+      const newChildren = element.props.children || {};
+
+      return React.createElement(
+        element.type,
+        this.excludeProps(['spIf', 'data-spIf'], element.props),
+        ...newChildren
+      );
     };
   }
 
