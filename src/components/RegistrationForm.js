@@ -386,18 +386,24 @@ export default class RegistrationForm extends React.Component {
     return result;
   }
 
+  _spResetErrorsHandler(element) {
+    return React.createElement(
+      element.type,
+      {
+        ...utils.excludeProps(['spResetErrors'], element.props),
+        onClick: this.reset.bind(this)
+      },
+      element.props.children
+    );
+  }
+
   render() {
     if (this.props.children) {
-      var selectedProps = utils.excludeProps(
-        ['redirectTo', 'hideSocial', 'onSubmit', 'onSubmitError', 'onSubmitSuccess', 'children'],
-        {
-          ...this.props,
-          reset: this.reset.bind(this),
-        });
+      var selectedProps = utils.excludeProps(['redirectTo', 'hideSocial', 'onSubmit', 'onSubmitError', 'onSubmitSuccess', 'children'], this.props);
 
       return (
         <form onSubmit={this.onFormSubmit.bind(this)} {...selectedProps}>
-          {utils.makeForm(this, this._mapFormFieldHandler.bind(this), this._spIfHandler.bind(this), this._spBindHandler.bind(this))}
+          {utils.makeForm(this, this._mapFormFieldHandler.bind(this), this._spIfHandler.bind(this), this._spBindHandler.bind(this), this._spResetErrorsHandler.bind(this))}
         </form>
       );
     } else {

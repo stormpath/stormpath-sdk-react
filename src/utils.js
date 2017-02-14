@@ -215,7 +215,7 @@ class Utils {
     }
   }
 
-  makeForm(source, fieldMapFn, spIfFn, spBindFn) {
+  makeForm(source, fieldMapFn, spIfFn, spBindFn, spResetErrorsFn) {
     var root = React.cloneElement(<div />, {}, source.props.children);
     var fieldMap = this.getFormFieldMap(root, fieldMapFn);
 
@@ -257,6 +257,17 @@ class Utils {
           var newElement = spBindFn(spBind, element);
           if (newElement !== false || newElement) {
             element = newElement;
+          }
+        }
+
+        if (spResetErrorsFn) {
+          var spResetErrors = this.takeProp(element.props, 'spResetErrors', 'data-spResetErrors');
+
+          if (spResetErrors) {
+            var newElement = spResetErrorsFn(element);
+            if (newElement !== false || newElement) {
+              element = newElement;
+            }
           }
         }
       }
