@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import { Link } from 'react-router';
 
 import utils from '../utils';
@@ -174,6 +174,17 @@ export default class RegistrationForm extends React.Component {
     router: React.PropTypes.object.isRequired
   };
 
+  static propTypes = {
+    autoLogin: PropTypes.bool,
+    onSubmitSuccess: PropTypes.func,
+    onSubmitError: PropTypes.func,
+    onSubmit: PropTypes.func,
+  };
+
+  static defaultProps = {
+    autoLogin: false
+  };
+
   state = {
     fields: {
       givenName: '',
@@ -230,7 +241,7 @@ export default class RegistrationForm extends React.Component {
           }
 
           setErrorState(err);
-        } else if (result.status === 'ENABLED') {
+        } else if (result.status === 'ENABLED' && this.props.autoLogin) {
           UserActions.login({
             login: data.email || data.username,
             password: data.password
@@ -376,7 +387,7 @@ export default class RegistrationForm extends React.Component {
 
   render() {
     if (this.props.children) {
-      var selectedProps = utils.excludeProps(['redirectTo', 'hideSocial', 'onSubmit', 'onSubmitError', 'onSubmitSuccess', 'children'], this.props);
+      var selectedProps = utils.excludeProps(['autoLogin', 'redirectTo', 'hideSocial', 'onSubmit', 'onSubmitError', 'onSubmitSuccess', 'children'], this.props);
 
       return (
         <form onSubmit={this.onFormSubmit.bind(this)} {...selectedProps}>
