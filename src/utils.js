@@ -264,10 +264,24 @@ class Utils {
           var spResetErrors = this.takeProp(element.props, 'spResetErrors', 'data-spResetErrors');
 
           if (spResetErrors) {
-            var newElement = spResetErrorsFn(element);
-            if (newElement !== false || newElement) {
-              element = newElement;
-            }
+            const oldHandler = element.props.onClick
+              ? element.props.onClick
+              : null;
+
+            element = React.createElement(
+              element.type,
+              {
+                ...this.excludeProps(['spResetErrors', 'data-spResetErrors'], element.props),
+                onClick(...args) {
+                  spResetErrorsFn(...args);
+
+                  if (oldHandler) {
+                    oldHandler(...args);
+                  }
+                }
+              },
+              element.props.children
+            );
           }
         }
       }

@@ -132,6 +132,7 @@ class DefaultLoginForm extends React.Component {
             <div className="col-xs-12">
               <div className="form-horizontal">
                 { fieldMarkup ? fieldMarkup : <LoadingText /> }
+                <div className="btn btn-primary" spResetErrors>Reset</div>
               </div>
             </div>
           </div>
@@ -155,7 +156,7 @@ export default class LoginForm extends React.Component {
     isFormProcessing: false
   };
 
-  reset() {
+  _reset() {
     this.setState({
       fields: {
         username: '',
@@ -297,24 +298,13 @@ export default class LoginForm extends React.Component {
     return result;
   }
 
-  _spResetErrorsHandler(element) {
-    return React.createElement(
-      element.type,
-      {
-        ...utils.excludeProps(['spResetErrors'], element.props),
-        onClick: this.reset.bind(this)
-      },
-      element.props.children
-    );
-  }
-
   render() {
     if (this.props.children) {
       let selectedProps = utils.excludeProps(['redirectTo', 'hideSocial', 'onSubmit', 'onSubmitError', 'onSubmitSuccess', 'children'], this.props);
 
       return (
         <form onSubmit={this.onFormSubmit.bind(this)} {...selectedProps}>
-          {utils.makeForm(this, this._mapFormFieldHandler.bind(this), this._spIfHandler.bind(this), this._spBindHandler.bind(this), this._spResetErrorsHandler.bind(this))}
+          {utils.makeForm(this, this._mapFormFieldHandler.bind(this), this._spIfHandler.bind(this), this._spBindHandler.bind(this), this._reset.bind(this))}
         </form>
       );
     } else {

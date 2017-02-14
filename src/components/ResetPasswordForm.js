@@ -53,7 +53,7 @@ export default class ResetPasswordForm extends React.Component {
     isFormSent: false
   };
 
-  reset() {
+  _reset() {
     this.setState({
       fields: {
         email: '',
@@ -157,24 +157,13 @@ export default class ResetPasswordForm extends React.Component {
     return result;
   }
 
-  _spResetErrorsHandler(element) {
-    return React.createElement(
-      element.type,
-      {
-        ...utils.excludeProps(['spResetErrors'], element.props),
-        onClick: this.reset.bind(this)
-      },
-      element.props.children
-    );
-  }
-
   render() {
     if (this.props.children) {
       var selectedProps = utils.excludeProps(['onSubmit', 'children'], this.props);
 
       return (
         <form onSubmit={this.onFormSubmit.bind(this)} {...selectedProps}>
-          {utils.makeForm(this, this._mapFormFieldHandler.bind(this), this._spIfHandler.bind(this), this._spBindHandler.bind(this), this._spResetErrorsHandler.bind(this))}
+          {utils.makeForm(this, this._mapFormFieldHandler.bind(this), this._spIfHandler.bind(this), this._spBindHandler.bind(this), this._reset.bind(this))}
         </form>
       );
     } else {

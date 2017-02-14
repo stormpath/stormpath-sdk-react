@@ -91,7 +91,7 @@ export default class UserProfileForm extends React.Component {
     isFormSuccessful: false
   };
 
-  reset() {
+  _reset() {
     this.setState({
       fields: {},
       errorMessage: null,
@@ -219,24 +219,13 @@ export default class UserProfileForm extends React.Component {
     return result;
   }
 
-  _spResetErrorsHandler(element) {
-    return React.createElement(
-      element.type,
-      {
-        ...utils.excludeProps(['spResetErrors'], element.props),
-        onClick: this.reset.bind(this)
-      },
-      element.props.children
-    );
-  }
-
   render() {
     if (this.props.children) {
       let selectedProps = utils.excludeProps(['onSubmit', 'children'], this.props);
 
       return (
         <form onSubmit={this._onFormSubmit.bind(this)} {...selectedProps}>
-          {utils.makeForm(this, this._mapFormFieldHandler.bind(this), this._spIfHandler.bind(this), this._spBindHandler.bind(this), this._spResetErrorsHandler.bind(this))}
+          {utils.makeForm(this, this._mapFormFieldHandler.bind(this), this._spIfHandler.bind(this), this._spBindHandler.bind(this), this._reset.bind(this))}
         </form>
       );
     } else {
