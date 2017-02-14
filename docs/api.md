@@ -259,6 +259,7 @@ Customize the form by providing your own markup.
   </p>
   <p>
     <input type="submit" value="Login" />
+    <button type="button" spResetErrors>Reset</button>
   </p>
 </LoginForm>
 ```
@@ -349,7 +350,7 @@ Specify `hideSocial` to hide the ability to register with a social provider.
 <RegistrationForm hideSocial={true} />
 ```
 
-Customize the form by providing your own markup. 
+Customize the form by providing your own markup.
 
 By default, the registration form will render these four fields, and they will be required by the user: `givenName`, `surname`, `email`, and `password`. Express.js users who want to make `givenName` and/or `surname` optional, or to add new required fields (like `username`), can refer to [Stormpath Express Library Guide](https://docs.stormpath.com/nodejs/express/latest/registration.html).
 
@@ -381,6 +382,7 @@ By default, the registration form will render these four fields, and they will b
     </p>
     <p>
       <input type="submit" value="Register" />
+      <button type="button" spResetErrors>Reset</button>
     </p>
   </div>
 </RegistrationForm>
@@ -492,6 +494,7 @@ Customize the form by providing your own markup.
     </p>
     <p>
       <input type="submit" value="Request Password reset" />
+      <button type="button" spResetErrors>Reset</button>
     </p>
   </div>
 </ResetPasswordForm>
@@ -556,6 +559,7 @@ Customize the form by providing your own markup.
     </p>
     <p>
       <input type="submit" value="Change Password" />
+      <button type="button" spResetErrors>Reset</button>
     </p>
   </div>
 </ChangePasswordForm>
@@ -669,6 +673,7 @@ Customize the form by providing your own markup.
   </p>
   <p>
     <input type="submit" value="Update" />
+    <button type="button" spResetErrors>Reset</button>
   </p>
 </UserProfileForm>
 ```
