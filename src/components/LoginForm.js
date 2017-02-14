@@ -132,7 +132,6 @@ class DefaultLoginForm extends React.Component {
             <div className="col-xs-12">
               <div className="form-horizontal">
                 { fieldMarkup ? fieldMarkup : <LoadingText /> }
-                <div className="btn btn-primary" spResetErrors>Reset</div>
               </div>
             </div>
           </div>
