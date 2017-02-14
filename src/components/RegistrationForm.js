@@ -187,6 +187,18 @@ export default class RegistrationForm extends React.Component {
     isAccountEnabled: false
   };
 
+  reset() {
+    this.setState({
+      fields: {
+        givenName: '',
+        surname: '',
+        email: '',
+        password: ''
+      },
+      errorMessage: null,
+    });
+  }
+
   onFormSubmit(e) {
     e.preventDefault();
     e.persist();
@@ -376,7 +388,12 @@ export default class RegistrationForm extends React.Component {
 
   render() {
     if (this.props.children) {
-      var selectedProps = utils.excludeProps(['redirectTo', 'hideSocial', 'onSubmit', 'onSubmitError', 'onSubmitSuccess', 'children'], this.props);
+      var selectedProps = utils.excludeProps(
+        ['redirectTo', 'hideSocial', 'onSubmit', 'onSubmitError', 'onSubmitSuccess', 'children'],
+        {
+          ...this.props,
+          reset: this.reset.bind(this),
+        });
 
       return (
         <form onSubmit={this.onFormSubmit.bind(this)} {...selectedProps}>

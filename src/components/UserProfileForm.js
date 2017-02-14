@@ -91,6 +91,13 @@ export default class UserProfileForm extends React.Component {
     isFormSuccessful: false
   };
 
+  reset() {
+    this.setState({
+      fields: {},
+      errorMessage: null,
+    });
+  }
+
   _updateSessionData = (data, callback) => {
     var sessionStore = context.sessionStore;
 
@@ -214,7 +221,10 @@ export default class UserProfileForm extends React.Component {
 
   render() {
     if (this.props.children) {
-      let selectedProps = utils.excludeProps(['onSubmit', 'children'], this.props);
+      let selectedProps = utils.excludeProps(['onSubmit', 'children'], {
+        ...this.props,
+        reset: this.reset.bind(this),
+      });
 
       return (
         <form onSubmit={this._onFormSubmit.bind(this)} {...selectedProps}>

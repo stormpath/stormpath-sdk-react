@@ -53,6 +53,15 @@ export default class ResetPasswordForm extends React.Component {
     isFormSent: false
   };
 
+  reset() {
+    this.setState({
+      fields: {
+        email: '',
+      },
+      errorMessage: null,
+    });
+  }
+
   onFormSubmit(e) {
     e.preventDefault();
     e.persist();
@@ -150,7 +159,10 @@ export default class ResetPasswordForm extends React.Component {
 
   render() {
     if (this.props.children) {
-      var selectedProps = utils.excludeProps(['onSubmit', 'children'], this.props);
+      var selectedProps = utils.excludeProps(['onSubmit', 'children'], {
+        ...this.props,
+        reset: this.reset.bind(this)
+      });
 
       return (
         <form onSubmit={this.onFormSubmit.bind(this)} {...selectedProps}>
