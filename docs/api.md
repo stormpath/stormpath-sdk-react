@@ -349,7 +349,19 @@ Specify `hideSocial` to hide the ability to register with a social provider.
 <RegistrationForm hideSocial={true} />
 ```
 
-Customize the form by providing your own markup. 
+Specify `autoLogin` to automatically login the user after registration.
+
+```html
+<RegistrationForm autoLogin={true} />
+```
+
+or just
+
+```html
+<RegistrationForm autoLogin />
+```
+
+Customize the form by providing your own markup.
 
 By default, the registration form will render these four fields, and they will be required by the user: `givenName`, `surname`, `email`, and `password`. Express.js users who want to make `givenName` and/or `surname` optional, or to add new required fields (like `username`), can refer to [Stormpath Express Library Guide](https://docs.stormpath.com/nodejs/express/latest/registration.html).
 
