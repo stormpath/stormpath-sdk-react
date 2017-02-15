@@ -1,8 +1,11 @@
 import { Dispatcher } from 'flux';
 
+// Extracted for testability
+const defaultDispatcher = new Dispatcher();
+
 export default class FluxDispatcher {
-  constructor(reducer) {
-    this.dispatcher = new Dispatcher();
+  constructor(reducer, dispatcher = defaultDispatcher) {
+    this.dispatcher = dispatcher;
     this.register(reducer);
   }
 
