@@ -26,8 +26,16 @@
     "build-umd": "NODE_ENV=production webpack src/index.js umd/stormpath-sdk-react.js",
     "build-min": "NODE_ENV=production webpack -p src/index.js umd/stormpath-sdk-react.min.js",
     "build-dist": "NODE_ENV=production webpack src/index.js dist/stormpath-sdk-react.js && NODE_ENV=production webpack -p src/index.js dist/stormpath-sdk-react.min.js",
-    "test": "cross-env NODE_ENV=test nyc _mocha --report html -- test/helpers/browser.js test/*.spec.js test/**/*.spec.js",
+    "test": "better-npm-run test",
     "test:watch": "mocha -w test/helpers/browser.js test/*.spec.js test/**/*.spec.js"
+  },
+  "betterScripts": {
+    "test": {
+      "env": {
+        "NODE_ENV": "test"
+      },
+      "command": "nyc _mocha --report html -- test/helpers/browser.js test/*.spec.js test/**/*.spec.js"
+    }
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",
@@ -43,10 +51,10 @@
     "babel-preset-react": "^6.16.0",
     "babel-preset-stage-0": "^6.16.0",
     "babel-register": "^6.23.0",
+    "better-npm-run": "0.0.14",
     "bundle-loader": "^0.5.4",
     "chai": "^3.5.0",
     "chai-spies": "^0.7.1",
-    "cross-env": "^3.1.4",
     "css-loader": "^0.25.0",
     "enzyme": "^2.7.1",
     "eslint": "^3.9.1",
@@ -94,6 +102,10 @@
     "xtend": "^4.0.1"
   },
   "nyc": {
+    "lines": "20",
+    "statements": "20",
+    "branches": "20",
+    "functions": "20",
     "sourceMap": false,
     "instrument": false,
     "include": "src/**/*.js",
