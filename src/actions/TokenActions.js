@@ -8,8 +8,17 @@ function dispatch(event) {
 }
 
 class TokenActions {
+  constructor(dispatch) {
+    this.dispatch = dispatch;
+  }
+
+  // Allows for setting mock dispatch in tests
+  setDispatch(dispatch) {
+    this.dispatch = dispatch;
+  }
+
   set(type, token, callback) {
-    dispatch({
+    this.dispatch({
       type: TokenConstants.TOKEN_SET,
       options: {
         type: type,
@@ -20,7 +29,7 @@ class TokenActions {
   }
 
   refresh(token, callback) {
-    dispatch({
+    this.dispatch({
       type: TokenConstants.TOKEN_REFRESH,
       options: {
         token: token
@@ -30,4 +39,4 @@ class TokenActions {
   }
 }
 
-export default new TokenActions()
+export default new TokenActions(dispatch)
