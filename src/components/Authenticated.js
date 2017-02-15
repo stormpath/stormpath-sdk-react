@@ -11,6 +11,7 @@ export default class Authenticated extends React.Component {
     let authenticated = user !== undefined;
 
     if (authenticated && this.props.inGroup) {
+      /* istanbul ignore else */
       if (user.groups) {
         authenticated = utils.groupsMatchExpression(user.groups, this.props.inGroup);
       } else {

@@ -14,7 +14,7 @@ export default class StorageMock {
   }
 
   _get(name) {
-    return this._storage(name);
+    return this._storage[name];
   }
 
   _set(name, value) {

@@ -34,4 +34,21 @@ describe('TokenActions', () => {
       });
     });
   });
+
+  describe('refresh action', () => {
+    it('should dispatch a refresh action', () => {
+      const token = 'sometoken';
+
+      TokenActions.refresh(token, callback);
+
+      expect(dispatchSpy).to.have.been.calledOnce;
+      expect(dispatchSpy).to.have.been.called.with({
+        type: TokenConstants.TOKEN_REFRESH,
+        options: {
+          token,
+        },
+        callback,
+      });
+    });
+  });
 });

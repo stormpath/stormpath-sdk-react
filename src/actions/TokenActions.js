@@ -1,6 +1,7 @@
 import context from './../context';
 import TokenConstants from './../constants/TokenConstants';
 
+/* istanbul ignore next */
 function dispatch(event) {
   setTimeout(() => {
     context.getDispatcher().dispatch(event);

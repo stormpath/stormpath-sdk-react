@@ -28,4 +28,52 @@ describe('LocalStorage storage', () => {
       expect(storage.storage).not.to.equal(global.sessionStorage);
     });
   });
+
+  describe('get', () => {
+    const key = 'key';
+    const value = 'value';
+
+    it('should retrieve an item by name from local storage', (done) => {
+      const storage = new LocalStorage();
+
+      global.sessionStorage._set(key, value);
+
+      storage.get(key).then((storageValue) => {
+        expect(storageValue).to.equal(value);
+        done();
+      }).catch(done);
+    });
+  });
+
+  describe('set', () => {
+    const key = 'key';
+    const value = 123;
+
+    it('should store an item by name in local storage, stringifying it', (done) => {
+      const storage = new LocalStorage();
+
+      storage.set(key, value).then(() => {
+        expect(global.sessionStorage._get(key)).not.to.equal(value);
+        expect(global.sessionStorage._get(key)).to.equal(String(value));
+        done();
+      }).catch(done);
+    });
+  });
+
+  describe('remove', () => {
+    const key = 'key';
+    const value = 'value';
+
+    it('should remove an item by name from local storage', (done) => {
+      const storage = new LocalStorage();
+      global.sessionStorage._set(key, value);
+
+      expect(global.sessionStorage._get(key)).to.equal(value);
+
+      storage.remove(key).then(() => {
+        expect(global.sessionStorage._get(key)).not.to.be.ok;
+        done();
+      }).catch(done);
+    });
+  });
 });
