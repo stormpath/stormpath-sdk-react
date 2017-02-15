@@ -29,6 +29,10 @@ class Context {
     this.tokenStore = tokenStore;
   }
 
+  getTokenStore() {
+    return this.tokenStore;
+  }
+
   setSessionStore(sessionStore) {
     this.sessionStore = sessionStore;
   }
