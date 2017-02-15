@@ -26,7 +26,7 @@
     "build-umd": "NODE_ENV=production webpack src/index.js umd/stormpath-sdk-react.js",
     "build-min": "NODE_ENV=production webpack -p src/index.js umd/stormpath-sdk-react.min.js",
     "build-dist": "NODE_ENV=production webpack src/index.js dist/stormpath-sdk-react.js && NODE_ENV=production webpack -p src/index.js dist/stormpath-sdk-react.min.js",
-    "test": "mocha test/helpers/browser.js test/**/*.spec.js",
+    "test": "cross-env NODE_ENV=test nyc _mocha --report html -- test/helpers/browser.js test/**/*.spec.js",
     "test:watch": "mocha -w test/helpers/browser.js test/**/*.spec.js"
   },
   "devDependencies": {
@@ -35,6 +35,7 @@
     "babel-eslint": "^7.1.0",
     "babel-loader": "^6.2.7",
     "babel-plugin-dev-expression": "^0.2.1",
+    "babel-plugin-istanbul": "^4.0.0",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-plugin-transform-es2015-classes": "^6.18.0",
     "babel-plugin-transform-proto-to-assign": "^6.9.0",
@@ -44,6 +45,7 @@
     "bundle-loader": "^0.5.4",
     "chai": "^3.5.0",
     "chai-spies": "^0.7.1",
+    "cross-env": "^3.1.4",
     "css-loader": "^0.25.0",
     "enzyme": "^2.7.1",
     "eslint": "^3.9.1",
@@ -55,9 +57,11 @@
     "history": "^2.1.2",
     "invariant": "^2.2.1",
     "isparta-loader": "^2.0.0",
+    "istanbul": "^0.4.5",
     "jsdom": "^9.11.0",
     "keymirror": "^0.1.1",
     "mocha": "^3.2.0",
+    "nyc": "^10.1.2",
     "pretty-bytes": "^4.0.2",
     "qs": "^6.3.0",
     "react": "^15.3.2",
@@ -87,5 +91,25 @@
   ],
   "dependencies": {
     "xtend": "^4.0.1"
+  },
+  "nyc": {
+    "sourceMap": false,
+    "instrument": false,
+    "include": "src/**/*.js",
+    "exclude": [
+      "dist/**/*",
+      "es6/**/*",
+      "lib/**/*",
+      "test/**/*",
+      "umd/**/*"
+    ],
+    "reporter": [
+      "lcov",
+      "text-summary"
+    ],
+    "check-coverage": true,
+    "require": [
+      "./test/helpers/browser.js"
+    ]
   }
 }
