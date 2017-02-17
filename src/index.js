@@ -30,10 +30,15 @@ export SocialLoginButton from './components/SocialLoginButton';
 export UserField from './components/UserField';
 export UserComponent from './components/UserComponent';
 
-// When not using ES6, enable people to use ReactStormpath.init()
-// instead of ReactStormpath.default.init().
+// When not using ES6, enable people to use ReactStormpath.init() and
+// ReactStormpath.getAccessToken() instead of ReactStormpath.default.init()
+// and ReactStormpath.default.getAccessToken()
 export function init() {
   app.init(...arguments);
 };
+
+export function getAccessToken() {
+  return app.getAccessToken();
+}
 
 export default app;
