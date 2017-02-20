@@ -457,8 +457,19 @@ class Utils {
       return false;
     }
 
-    var scope = JSON.parse(JSON.stringify(groups));
-    var expressionFn = this.makePredicateFunction(expression);
+    if (!Array.isArray(groups) && typeof groups.items !== 'undefined') {
+      groups = groups.items.map((group) => group.name);
+    }
+
+    const scope = JSON.parse(JSON.stringify(groups));
+    let expressionFn;
+
+    try {
+      expressionFn = this.makePredicateFunction(expression);
+    } catch(err) {
+      this.logWarning('GroupExpression', `Invalid boolean group expression: "${expression}"`);
+      return false;
+    }
 
     expression.match(/(\w+)/gmi).forEach((wordMatch) => {
       if (!(wordMatch in scope)) {
