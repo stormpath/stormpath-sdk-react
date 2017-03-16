@@ -264,6 +264,8 @@ Customize the form by providing your own markup.
 ```
 
 **Important:** To use a custom field component the name of the component must contain one of these three words: `text`, `input` or `field`.
+Alternatively, the component can have arbitrary name if it has the `spInputLike` (or `data-spInputLike`) property set. If you minify your code,
+prefer using this property to relying on the component name, as the latter may be mangled by the minifier.
 The component must also support the properties `name` and `onChange`. The property `name` should represent the name of the field, and the
 `onChange` property a handler for the field's `onChange` event.
 
@@ -349,7 +351,7 @@ Specify `hideSocial` to hide the ability to register with a social provider.
 <RegistrationForm hideSocial={true} />
 ```
 
-Customize the form by providing your own markup. 
+Customize the form by providing your own markup.
 
 By default, the registration form will render these four fields, and they will be required by the user: `givenName`, `surname`, `email`, and `password`. Express.js users who want to make `givenName` and/or `surname` optional, or to add new required fields (like `username`), can refer to [Stormpath Express Library Guide](https://docs.stormpath.com/nodejs/express/latest/registration.html).
 

@@ -14,7 +14,29 @@ class Utils {
       s4() + '-' + s4() + s4() + s4();
   }
 
+  functionName(f) {
+    if (typeof f !== 'function') {
+      return '';
+    }
+
+    if (f.name) {
+      return f.name;
+    }
+
+    const parts = f.toString().match(/^function\s*([^\s(]+)/);
+
+    if (parts) {
+      return parts[1];
+    }
+
+    return '';
+  }
+
   containsWord(testWord, words) {
+    if (typeof testWord !== 'string') {
+      return false;
+    }
+
     testWord = testWord.toLowerCase();
 
     for (let i = 0; i < words.length; i++) {
@@ -25,6 +47,15 @@ class Utils {
     }
 
     return false;
+  }
+
+  isInputLikeComponent(element, inputNames = ['input', 'field', 'text']) {
+    if (typeof element.type === 'function') {
+      const hasInputLikeName = this.containsWord(this.functionName(element.type), inputNames);
+      const spInputLike = this.takeProp(element.props, 'spInputLike', 'data-spInputLike');
+
+      return spInputLike || hasInputLikeName;
+    }
   }
 
   takeProp(source, ...fields) {
@@ -118,6 +149,18 @@ class Utils {
     return React.cloneElement(newElement, newOptions, newChildren);
   }
 
+  mapFormField(element, mappingFn, defaultValue) {
+    if (this.isInputLikeComponent(element)) {
+      if (element.props && element.props.name) {
+        mappingFn(element.props.name, defaultValue);
+      }
+    } else if (['input', 'textarea'].indexOf(element.type) > -1) {
+      if (element.props.type !== 'submit') {
+        mappingFn(element.props.name, defaultValue);
+      }
+    }
+  }
+
   getFormFieldMap(root, handler) {
     var fields = {};
 
@@ -130,7 +173,7 @@ class Utils {
         name = elements.props.fieldName;
       }
 
-      if (!('name' in fields)) {
+      if (!(name in fields)) {
         fields[name] = {
           element: field,
           defaultValue: defaultValue
@@ -152,7 +195,7 @@ class Utils {
     for (var key in fields) {
       var field = fields[key];
       var element = field.element;
-      var elementType = typeof element.type === 'function' ? element.type.name : element.type;
+      var elementType = typeof element.type === 'function' ? this.functionName(element.type) : element.type;
 
       if (!(elementType in inverseMap)) {
         inverseMap[elementType] = {};
