@@ -1,6 +1,6 @@
 {
   "name": "react-stormpath",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Stormpath SDK for React.",
   "author": "Stormpath, Inc.",
   "license": "Apache-2.0",

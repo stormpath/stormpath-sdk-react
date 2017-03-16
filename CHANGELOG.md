@@ -1,3 +1,8 @@
+## 2.0.1 (March 16, 2017)
+
+Fixed several bugs with the introspection of components, fixes issues when overriding
+our default elements with custom form elements.  See PR #177.
+
 ## 2.0.0 (January 13, 2017)
 
 This release adds support for the [Stormpath Client API][], which allows you to authenticate the user directly with Stormpath (authentication does not require extra software in your server).  The user receives an access token, which can be used to authorize requests on your server.  If you need to authorize requests on your server, you will sill want to use one of our SDKs to make that process simpler.
