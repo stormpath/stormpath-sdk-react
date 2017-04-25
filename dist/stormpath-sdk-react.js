@@ -2890,7 +2890,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  if (body && (typeof body === 'undefined' ? 'undefined' : _typeof(body)) === 'object') {
-	    request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+	    // Avoid setting if the content type if it is explicitly specified in the headers
+	    if (_typeof(headers['ContentType']) === undefined) {
+	      request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+	    }
 	    request.send(JSON.stringify(body));
 	  } else {
 	    request.send();
@@ -2920,7 +2923,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      // Only set the X-Stormpath-Agent header if we're on the same domain as the requested URI.
 	      // This because we want to avoid CORS requests that require you to have to whitelist the X-Stormpath-Agent header.
 	      if (_utils2.default.isRelativeUri(uri) || _utils2.default.isSameHost(uri, window.location.href)) {
-	        headers['X-Stormpath-Agent'] = 'stormpath-sdk-react/' + ("1.3.4") + ' react/' + _react2.default.version;
+	        headers['X-Stormpath-Agent'] = 'stormpath-sdk-react/' + ("1.3.6-rc.2") + ' react/' + _react2.default.version;
 	      }
 
 	      makeHttpRequest(method, uri, body, headers, function (err, result) {
